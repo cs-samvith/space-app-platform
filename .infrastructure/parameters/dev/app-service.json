@@ -6,11 +6,11 @@
             "plan": {
                 "name": "space-dev-east-service",
                 "sku": {
-                    "name": "P1v2",
-                    "tier": "PremiumV2",
-                    "size": "P1v2",
-                    "family": "Pv2",
-                    "capacity": 2
+                    "name": "P0V3",
+                    "tier": "PremiumV0",
+                    "size": "P0v3",
+                    "family": "Pv3",
+                    "capacity": 1
                 }
             },
             "app": {
@@ -19,49 +19,6 @@
             },
             "autoscale": {
                 "name": "space-dev-east-service-autoscale",
-                "enabled": true,
-                "capacity": {
-                    "minimum": 2,
-                    "maximum": 4,
-                    "default": 2
-                },
-                "threshold": {
-                    "cpu_scale_out": 70,
-                    "cpu_scale_in": 40,
-                    "memory_scale_out": 70,
-                    "memory_scale_in": 40,
-                    "http_queue_length_scale_out": 25,
-                    "http_queue_length_scale_in": 10
-                }
-            },
-            "customdomains": [
-                {
-                    "domain": "origin-space-qa.services",
-                    "certificateresourcegroup": "kmx-qa-space",
-                    "keyvaultname": "space-qa-vault",
-                    "vaultcertificatename": "origin-space-qa-services-carmax-com"
-                }
-            ]
-        },
-        {
-            "region": "westus",
-            "regionid": "west",
-            "plan": {
-                "name": "space-dev-west-service",
-                "sku": {
-                    "name": "P1v2",
-                    "tier": "PremiumV2",
-                    "size": "P1v2",
-                    "family": "Pv2",
-                    "capacity": 2
-                }
-            },
-            "app": {
-                "name": "space-dev-west-service",
-                "slot": "staging"
-            },
-            "autoscale": {
-                "name": "space-dev-west-service-autoscale",
                 "enabled": true,
                 "capacity": {
                     "minimum": 2,

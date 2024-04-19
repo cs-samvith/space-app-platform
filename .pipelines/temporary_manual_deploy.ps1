@@ -2,7 +2,7 @@
 
 $template = "traffic-manager"
 $env = "dev"
-$resourceGroup = "kmx-dev-picsy"
+$resourceGroup = "space-dev-platform"
 
 $configuration = @{
     "deploy" = "x-deploy-$((Get-Date).ToUniversalTime().ToString('MMdd-HHmmss'))"

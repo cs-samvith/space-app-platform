@@ -3,5 +3,5 @@
     "centralLocation": "centralus",
     "eastLocation": "eastus",
     "westLocation": "westus",
-    "resourceGroup": "kmx-dev-picsy"
+    "resourceGroup": "space-dev-platform"
 }

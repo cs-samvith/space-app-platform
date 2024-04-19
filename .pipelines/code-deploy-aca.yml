@@ -1,0 +1,59 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - /src/*
+      - /.pipelines/code-deploy-aca.yml
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  imageRepository: "space-dev-platform"
+  containerRegistry: spacedevacr.azurecr.io
+  tag: "$(Build.BuildNumber)-aca"
+  service_connection: ARM_SERVICE_CONNECTION
+  containerAppName: space-dev-container-app
+  resource_group: space-dev-platform
+
+stages:
+  - stage: BuildAndDeploy
+    jobs:
+      - job: Build
+        steps:
+          - task: Docker@2
+            name: docker_build_and_push
+            displayName: docker build and push
+            inputs:
+              containerRegistry: $(containerRegistry)
+              repository: $(imageRepository)
+              command: "buildAndPush"
+              Dockerfile: "src/Dockerfile"
+              tags: |
+                latest
+                $(tag)
+
+      - job: Deploy
+        dependsOn:
+          - Build
+        steps:
+          - task: AzureContainerApps@1
+            inputs:
+              imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
+              azureSubscription: ${{variables.service_connection}}
+              containerAppName: $(containerAppName)
+              resourceGroup: $(resource_group)
+              acrUsername: $(acrusername)
+              acrPassword: $(acrpassword)
+
+
+  # imageToDeploy: '$(containerRegistry)/$(imageRepository):latest'
+  #  imageToDeploy: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
+  #TODO  - Try removing the Deploy Stage and see if the image pushed is automatically pulled by Web app ..
+  # step 1 - makes some UI text change
+  # step 2 - remove deploy stage

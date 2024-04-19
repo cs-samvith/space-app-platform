@@ -1,27 +1,27 @@
 param appServiceConfig object
 param envConfig object
-param appInsightsConfig object
-param keyVaultConfig object
-param managedIdentityConfig object
+// param appInsightsConfig object
+// param keyVaultConfig object
+// param managedIdentityConfig object
 
 var appSettings = {
-  APPINSIGHTS_INSTRUMENTATIONKEY: appInsightsResource.properties.InstrumentationKey
-  ASPNETCORE_ENVIRONMENT: envConfig.name
-  KeyVault__Uri: 'https://${keyVaultConfig.name}${environment().suffixes.keyvaultDns}'
-  KeyVault__Identity: reference(
-    resourceId(envConfig.resourceGroup, 'Microsoft.ManagedIdentity/userAssignedIdentities', managedIdentityConfig.name),
-    '2023-01-31',
-    'Full'
-  ).properties.clientId
+  // APPLICATIONINSIGHTS_CONNECTION_STRING: appInsightsResource.properties.ConnectionString
+  // AZURE_CLIENT_ID: userManagedIdentityResource.properties.clientId
+  CUSTOM_BUILD_COMMAND: (envConfig.name == 'prod') ? 'npm run build' : 'npm run build:qa'
+  // KeyVault__Uri: 'https://${keyVaultConfig.name}${az.environment().suffixes.keyvaultDns}'
+  PRE_BUILD_COMMAND: 'npm ci --production  --ignore-scripts'
+  SCM_DO_BUILD_DURING_DEPLOYMENT: false
   WEBSITE_ENABLE_SYNC_UPDATE_SITE: 'True'
   WEBSITE_LOAD_CERTIFICATES: '*'
-  WEBSITE_RUN_FROM_PACKAGE: '1'
+  WEBSITES_CONTAINER_START_TIME_LIMIT: 1000
 }
+
+var environment = (envConfig.name == 'prod') ? 'production' : 'development'
 
 var appServiceProperties = {
   serverFarmId: servicePlan.id
   enabled: true
-  reserved: false
+  reserved: true
   isXenon: false
   hyperV: false
   scmSiteAlsoStopped: false
@@ -51,18 +51,19 @@ var appServiceProperties = {
       'index.php'
       'hostingstart.html'
     ]
-    netFrameworkVersion: 'v5.0'
+    netFrameworkVersion: 'v4.0'
+    linuxFxVersion: 'NODE|20-lts'
     requestTracingEnabled: false
     remoteDebuggingEnabled: false
     httpLoggingEnabled: false
+    acrUseManagedIdentityCreds: false
     logsDirectorySizeLimit: 35
     detailedErrorLoggingEnabled: false
-    publishingUsername: null
-    azureStorageAccounts: {}
-    scmType: 'VSTSRM'
-    use32BitWorkerProcess: false
+    scmType: 'None'
+    use32BitWorkerProcess: true
     webSocketsEnabled: false
     alwaysOn: true
+    appCommandLine: 'pm2 start app.config.js --no-daemon --env ${environment}'
     managedPipelineMode: 'Integrated'
     virtualApplications: [
       {
@@ -75,7 +76,6 @@ var appServiceProperties = {
     experiments: {
       rampUpRules: []
     }
-    healthCheckPath: '/health'
     autoHealEnabled: true
     autoHealRules: {
       triggers: {
@@ -86,13 +86,18 @@ var appServiceProperties = {
           count: 30
           timeInterval: '00:05:00'
         }
+        slowRequestsWithPath: []
+        statusCodesRange: []
       }
       actions: {
         actionType: 'Recycle'
         minProcessExecutionTime: '00:02:00'
       }
     }
+    vnetRouteAllEnabled: false
+    vnetPrivatePortsCount: 0
     localMySqlEnabled: false
+    xManagedServiceIdentityId: 9896
     // DO NOT UNCOMMENT THE BELOW OR USE ipSecurityRestrictions and scmIpSecurityRestrictions as it wipes out siteshield restricions config
     // ipSecurityRestrictions: [
     //   {
@@ -115,49 +120,48 @@ var appServiceProperties = {
     scmIpSecurityRestrictionsUseMain: false
     http20Enabled: true
     minTlsVersion: '1.2'
+    scmMinTlsVersion: '1.2'
     ftpsState: 'AllAllowed'
-    minimumElasticInstanceCount: 1
-    cors: {
-      allowedOrigins: [
-        (envConfig.name == 'prod' ? 'https://www.carmax.com' : 'https://wwwqa.carmax.com')
-        (envConfig.name == 'prod' ? 'https://space.carmax.com' : 'https://space-qa.carmax.com')
-      ]
-      supportCredentials: false
-    }
+    preWarmedInstanceCount: 0
+    elasticWebAppScaleLimit: 0
+    // healthCheckPath: '/sell-my-car/api/health'
+    functionsRuntimeScaleMonitoringEnabled: false
+    minimumElasticInstanceCount: 0
+    azureStorageAccounts: {}
   }
 }
 
 resource servicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   sku: appServiceConfig.plan.sku
-  kind: 'app'
+  kind: 'app,linux'
   name: appServiceConfig.plan.name
   dependsOn: []
   location: appServiceConfig.region
   properties: {
-    reserved: false
+    reserved: true
   }
 }
 
-resource appInsightsResource 'Microsoft.Insights/components@2020-02-02' existing = {
-  name: appInsightsConfig.name
-  scope: resourceGroup(envConfig.resourceGroup)
-}
+// resource appInsightsResource 'Microsoft.Insights/components@2020-02-02' existing = {
+//   name: appInsightsConfig.name
+//   scope: resourceGroup(envConfig.resourceGroup)
+// }
 
-resource userManagedIdentityResource 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
-  name: managedIdentityConfig.name
-  scope: resourceGroup(envConfig.resourceGroup)
-}
+// resource userManagedIdentityResource 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' existing = {
+//   name: managedIdentityConfig.name
+//   scope: resourceGroup(envConfig.resourceGroup)
+// }
 
 resource appService 'Microsoft.Web/sites@2022-09-01' = {
-  kind: 'app'
+  kind: 'app,linux'
   name: appServiceConfig.app.name
   location: appServiceConfig.region
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '${userManagedIdentityResource.id}': {}
-    }
-  }
+  // identity: {
+  //   type: 'UserAssigned'
+  //   // userAssignedIdentities: {
+  //   //   '${userManagedIdentityResource.id}': {}
+  //   // }
+  // }
   properties: appServiceProperties
   resource configAppSettings 'config@2022-09-01' = {
     name: 'appsettings'
@@ -167,12 +171,12 @@ resource appService 'Microsoft.Web/sites@2022-09-01' = {
 
 resource stagingSlot 'Microsoft.Web/sites/slots@2022-09-01' = {
   location: appServiceConfig.region
-  identity: {
-    type: 'UserAssigned'
-    userAssignedIdentities: {
-      '${userManagedIdentityResource.id}': {}
-    }
-  }
+  // identity: {
+  //   type: 'UserAssigned'
+  //   // userAssignedIdentities: {
+  //   //   '${userManagedIdentityResource.id}': {}
+  //   // }
+  // }
   properties: appServiceProperties
   resource configAppSettings 'config@2022-09-01' = {
     name: 'appsettings'
@@ -182,164 +186,3 @@ resource stagingSlot 'Microsoft.Web/sites/slots@2022-09-01' = {
   parent: appService
 }
 
-resource autoScaleCapacity 'Microsoft.Insights/autoscalesettings@2022-10-01' = {
-  name: appServiceConfig.autoscale.name
-  location: appServiceConfig.region
-  properties: {
-    profiles: [
-      {
-        name: 'Auto created scale condition'
-        capacity: {
-          minimum: appServiceConfig.autoscale.capacity.minimum
-          maximum: appServiceConfig.autoscale.capacity.maximum
-          default: appServiceConfig.autoscale.capacity.default
-        }
-        rules: [
-          {
-            scaleAction: {
-              direction: 'Increase'
-              type: 'ChangeCount'
-              value: '1'
-              cooldown: 'PT5M'
-            }
-            metricTrigger: {
-              metricName: 'CpuPercentage'
-              metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: resourceId('microsoft.web/serverfarms', appServiceConfig.plan.name)
-              timeGrain: 'PT1M'
-              statistic: 'Average'
-              timeWindow: 'PT10M'
-              timeAggregation: 'Average'
-              operator: 'GreaterThan'
-              threshold: appServiceConfig.autoscale.threshold.cpu_scale_out
-              dimensions: []
-              dividePerInstance: false
-            }
-          }
-          {
-            scaleAction: {
-              direction: 'Decrease'
-              type: 'ChangeCount'
-              value: '1'
-              cooldown: 'PT5M'
-            }
-            metricTrigger: {
-              metricName: 'CpuPercentage'
-              metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: resourceId('microsoft.web/serverfarms', appServiceConfig.plan.name)
-              timeGrain: 'PT1M'
-              statistic: 'Average'
-              timeWindow: 'PT10M'
-              timeAggregation: 'Average'
-              operator: 'LessThan'
-              threshold: appServiceConfig.autoscale.threshold.cpu_scale_in
-              dimensions: []
-              dividePerInstance: false
-            }
-          }
-          {
-            scaleAction: {
-              direction: 'Increase'
-              type: 'ChangeCount'
-              value: '1'
-              cooldown: 'PT5M'
-            }
-            metricTrigger: {
-              metricName: 'MemoryPercentage'
-              metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: resourceId('microsoft.web/serverfarms', appServiceConfig.plan.name)
-              timeGrain: 'PT1M'
-              statistic: 'Average'
-              timeWindow: 'PT10M'
-              timeAggregation: 'Average'
-              operator: 'GreaterThan'
-              threshold: appServiceConfig.autoscale.threshold.memory_scale_out
-              dimensions: []
-              dividePerInstance: false
-            }
-          }
-          {
-            scaleAction: {
-              direction: 'Decrease'
-              type: 'ChangeCount'
-              value: '1'
-              cooldown: 'PT5M'
-            }
-            metricTrigger: {
-              metricName: 'MemoryPercentage'
-              metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: resourceId('microsoft.web/serverfarms', appServiceConfig.plan.name)
-              timeGrain: 'PT1M'
-              statistic: 'Average'
-              timeWindow: 'PT10M'
-              timeAggregation: 'Average'
-              operator: 'LessThan'
-              threshold: appServiceConfig.autoscale.threshold.memory_scale_in
-              dimensions: []
-              dividePerInstance: false
-            }
-          }
-          {
-            scaleAction: {
-              direction: 'Increase'
-              type: 'ChangeCount'
-              value: '1'
-              cooldown: 'PT5M'
-            }
-            metricTrigger: {
-              metricName: 'HttpQueueLength'
-              metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: resourceId('microsoft.web/serverfarms', appServiceConfig.plan.name)
-              timeGrain: 'PT1M'
-              statistic: 'Average'
-              timeWindow: 'PT10M'
-              timeAggregation: 'Average'
-              operator: 'GreaterThan'
-              threshold: appServiceConfig.autoscale.threshold.http_queue_length_scale_out
-              dimensions: []
-              dividePerInstance: false
-            }
-          }
-          {
-            scaleAction: {
-              direction: 'Decrease'
-              type: 'ChangeCount'
-              value: '1'
-              cooldown: 'PT5M'
-            }
-            metricTrigger: {
-              metricName: 'HttpQueueLength'
-              metricNamespace: 'microsoft.web/serverfarms'
-              metricResourceUri: resourceId('microsoft.web/serverfarms', appServiceConfig.plan.name)
-              timeGrain: 'PT1M'
-              statistic: 'Average'
-              timeWindow: 'PT10M'
-              timeAggregation: 'Average'
-              operator: 'LessThan'
-              threshold: appServiceConfig.autoscale.threshold.http_queue_length_scale_in
-              dimensions: []
-              dividePerInstance: false
-            }
-          }
-        ]
-      }
-    ]
-    enabled: appServiceConfig.autoscale.enabled
-    name: appServiceConfig.autoscale.name
-    targetResourceUri: servicePlan.id
-    notifications: [
-      {
-        operation: 'Scale'
-        email: {
-          sendToSubscriptionAdministrator: false
-          sendToSubscriptionCoAdministrators: false
-          customEmails: []
-        }
-        webhooks: []
-      }
-    ]
-    predictiveAutoscalePolicy: {
-      scaleMode: 'Disabled'
-    }
-  }
-}
