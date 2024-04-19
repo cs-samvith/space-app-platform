@@ -1,0 +1,9 @@
+variables:
+  - name: currentDate
+    value: $[ format('{0:yyyyMMddHHmmss}', pipeline.startTime) ]
+
+  - name: CurrentBranch
+    value: $(Build.SourceBranchName)
+
+  - name: DefaultBranch
+    value: "main"

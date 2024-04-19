@@ -1,0 +1,90 @@
+{
+    "apps": [
+        {
+            "region": "eastus",
+            "regionid": "east",
+            "plan": {
+                "name": "picsy-dev-east-service",
+                "sku": {
+                    "name": "P1v2",
+                    "tier": "PremiumV2",
+                    "size": "P1v2",
+                    "family": "Pv2",
+                    "capacity": 2
+                }
+            },
+            "app": {
+                "name": "picsy-dev-east-service",
+                "slot": "staging"
+            },
+            "autoscale": {
+                "name": "picsy-dev-east-service-autoscale",
+                "enabled": true,
+                "capacity": {
+                    "minimum": 2,
+                    "maximum": 4,
+                    "default": 2
+                },
+                "threshold": {
+                    "cpu_scale_out": 70,
+                    "cpu_scale_in": 40,
+                    "memory_scale_out": 70,
+                    "memory_scale_in": 40,
+                    "http_queue_length_scale_out": 25,
+                    "http_queue_length_scale_in": 10
+                }
+            },
+            "customdomains": [
+                {
+                    "domain": "origin-picsy-qa.services",
+                    "certificateresourcegroup": "kmx-qa-picsy",
+                    "keyvaultname": "picsy-qa-vault",
+                    "vaultcertificatename": "origin-picsy-qa-services-carmax-com"
+                }
+            ]
+        },
+        {
+            "region": "westus",
+            "regionid": "west",
+            "plan": {
+                "name": "picsy-dev-west-service",
+                "sku": {
+                    "name": "P1v2",
+                    "tier": "PremiumV2",
+                    "size": "P1v2",
+                    "family": "Pv2",
+                    "capacity": 2
+                }
+            },
+            "app": {
+                "name": "picsy-dev-west-service",
+                "slot": "staging"
+            },
+            "autoscale": {
+                "name": "picsy-dev-west-service-autoscale",
+                "enabled": true,
+                "capacity": {
+                    "minimum": 2,
+                    "maximum": 4,
+                    "default": 2
+                },
+                "threshold": {
+                    "cpu_scale_out": 70,
+                    "cpu_scale_in": 40,
+                    "memory_scale_out": 70,
+                    "memory_scale_in": 40,
+                    "http_queue_length_scale_out": 25,
+                    "http_queue_length_scale_in": 10
+                }
+            },
+            "customdomains": [
+                {
+                    "domain": "origin-picsy-qa.services",
+                    "certificateresourcegroup": "kmx-qa-picsy",
+                    "keyvaultname": "picsy-qa-vault",
+                    "vaultcertificatename": "origin-picsy-qa-services-carmax-com"
+                }
+            ]
+        }
+    ]
+}

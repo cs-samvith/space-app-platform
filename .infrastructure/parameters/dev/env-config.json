@@ -1,0 +1,7 @@
+{
+    "name": "dev",
+    "centralLocation": "centralus",
+    "eastLocation": "eastus",
+    "westLocation": "westus",
+    "resourceGroup": "kmx-dev-picsy"
+}

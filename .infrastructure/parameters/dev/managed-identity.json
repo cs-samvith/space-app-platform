@@ -1,0 +1,17 @@
+{
+    "name": "picsy-dev-msi",
+    "keyvaultaccesspermissions": {
+        "secretspermissions": [
+            "get",
+            "list"
+        ],
+        "keyspermissions": [
+            "get",
+            "list"
+        ],
+        "certificatespermissions": [
+            "get",
+            "list"
+        ]
+    }
+}

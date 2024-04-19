@@ -1,0 +1,21 @@
+parameters:
+  resource_group: ""
+  items: {}
+  service_connection: ""
+  environment: ""
+  currentDate: ""
+
+steps:
+  - ${{ each item in parameters.items }}:
+      - task: AzureCLI@2
+        displayName: "${{ item }}"
+        inputs:
+          azureSubscription: ${{ parameters.service_connection }}
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az deployment group create `
+            --name ${{ item }}-${{ parameters.currentDate }}-all `
+            --resource-group ${{ parameters.resource_group }} `
+            --template-file  ".infrastructure/modules/${{ item }}.bicep" `
+            --parameters environment=${{ parameters.environment}}

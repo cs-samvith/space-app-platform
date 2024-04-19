@@ -1,0 +1,63 @@
+{
+    "keyVault": {
+        "name": "picsy-dev-vault",
+        "sku": "Standard",
+        "accesspolicies": [
+            {
+                "objectid": "062bd80f-d2ce-46d7-bc2f-e42632529795",
+                "objectname": "Azure-App-Service",
+                "secretspermissions": [
+                    "get",
+                    "list"
+                ],
+                "keyspermissions": [
+                    "get",
+                    "list"
+                ],
+                "certificatespermissions": [
+                    "get",
+                    "list"
+                ]
+            },
+            {
+                "objectid": "14ebae57-ea91-4aa4-9fc5-9df5ae2ec672",
+                "objectname": "ICO-LimitedAccess",
+                "secretspermissions": [
+                    "get",
+                    "list"
+                ],
+                "keyspermissions": [
+                    "get",
+                    "list"
+                ],
+                "certificatespermissions": [
+                    "get",
+                    "list"
+                ]
+            },
+            {
+                "objectid": "a1e8db30-78c1-48dc-b7ac-955ddbcbd76d",
+                "objectname": "VenafiAzureCertificatePush",
+                "secretspermissions": [],
+                "keyspermissions": [],
+                "certificatespermissions": [
+                    "Get",
+                    "List",
+                    "Update",
+                    "Create",
+                    "Import",
+                    "Delete",
+                    "Recover",
+                    "Backup",
+                    "Restore",
+                    "ManageContacts",
+                    "ManageIssuers",
+                    "GetIssuers",
+                    "ListIssuers",
+                    "SetIssuers",
+                    "DeleteIssuers"
+                ]
+            }
+        ]
+    }
+}

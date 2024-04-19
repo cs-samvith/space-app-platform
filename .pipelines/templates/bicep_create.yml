@@ -1,0 +1,21 @@
+parameters:
+  display_name: ''
+  deployment_name: ''
+  resource_group: ''
+  template: ''
+  service_connection: ''
+  environment: ""
+
+steps:
+  - task: AzureCLI@2
+    displayName: ${{ parameters.display_name }}
+    inputs:
+      azureSubscription: ${{ parameters.service_connection }}
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        az deployment group create `
+        --name ${{ parameters.deployment_name }} `
+        --resource-group ${{ parameters.resource_group }} `
+        --template-file ${{ parameters.template }} `
+        --parameters environment=${{ parameters.environment}}
