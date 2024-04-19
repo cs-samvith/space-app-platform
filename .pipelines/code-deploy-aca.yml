@@ -26,6 +26,13 @@ stages:
     jobs:
       - job: Build
         steps:
+          - task: CmdLine@2
+            displayName: List and View
+            inputs:
+                script: |
+                    echo "Structure of work folder of this pipeline:"
+                    tree -a $(Build.SourcesDirectory)
+                    
           - task: Docker@2
             name: docker_build_and_push
             displayName: docker build and push
