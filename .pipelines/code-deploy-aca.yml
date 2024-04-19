@@ -18,7 +18,8 @@ variables:
   containerRegistry: spacedevacr.azurecr.io
   tag: "$(Build.BuildNumber)-aca"
   service_connection: ARM_SERVICE_CONNECTION
-  containerAppName: space-dev-container-app
+  containerAppName_east: space-dev-container-apps-east
+  containerAppName_west: space-dev-container-apps-west
   resource_group: space-dev-platform
 
 stages:
@@ -32,7 +33,7 @@ stages:
                 script: |
                     echo "Structure of work folder of this pipeline:"
                     tree -a $(Build.SourcesDirectory)
-                    
+
           - task: Docker@2
             name: docker_build_and_push
             displayName: docker build and push
@@ -53,11 +54,18 @@ stages:
             inputs:
               imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
               azureSubscription: ${{variables.service_connection}}
-              containerAppName: $(containerAppName)
+              containerAppName: $(containerAppName_east)
               resourceGroup: $(resource_group)
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)
-
+          - task: AzureContainerApps@1
+            inputs:
+              imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
+              azureSubscription: ${{variables.service_connection}}
+              containerAppName: $(containerAppName_west)
+              resourceGroup: $(resource_group)
+              acrUsername: $(acrusername)
+              acrPassword: $(acrpassword)
 
   # imageToDeploy: '$(containerRegistry)/$(imageRepository):latest'
   #  imageToDeploy: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
