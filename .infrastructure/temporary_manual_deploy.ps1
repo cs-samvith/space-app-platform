@@ -1,8 +1,8 @@
 # az account set --subscription "36a60b19-8b19-4171-a0d6-b5686ec92329"
 
-$template = "app-insights-availability-tests"
+$template = "app-service"
 $env = "dev"
-$resourceGroup = "kmx-dev-picsy"
+$resourceGroup = "space-dev-platform"
 
 $configuration = @{
     "deploy" = "x-deploy-$((Get-Date).ToUniversalTime().ToString('MMdd-HHmmss'))"

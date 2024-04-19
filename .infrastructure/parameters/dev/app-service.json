@@ -4,7 +4,7 @@
             "region": "eastus",
             "regionid": "east",
             "plan": {
-                "name": "picsy-dev-east-service",
+                "name": "space-dev-east-service",
                 "sku": {
                     "name": "P1v2",
                     "tier": "PremiumV2",
@@ -14,11 +14,11 @@
                 }
             },
             "app": {
-                "name": "picsy-dev-east-service",
+                "name": "space-dev-east-service",
                 "slot": "staging"
             },
             "autoscale": {
-                "name": "picsy-dev-east-service-autoscale",
+                "name": "space-dev-east-service-autoscale",
                 "enabled": true,
                 "capacity": {
                     "minimum": 2,
@@ -36,10 +36,10 @@
             },
             "customdomains": [
                 {
-                    "domain": "origin-picsy-qa.services",
-                    "certificateresourcegroup": "kmx-qa-picsy",
-                    "keyvaultname": "picsy-qa-vault",
-                    "vaultcertificatename": "origin-picsy-qa-services-carmax-com"
+                    "domain": "origin-space-qa.services",
+                    "certificateresourcegroup": "kmx-qa-space",
+                    "keyvaultname": "space-qa-vault",
+                    "vaultcertificatename": "origin-space-qa-services-carmax-com"
                 }
             ]
         },
@@ -47,7 +47,7 @@
             "region": "westus",
             "regionid": "west",
             "plan": {
-                "name": "picsy-dev-west-service",
+                "name": "space-dev-west-service",
                 "sku": {
                     "name": "P1v2",
                     "tier": "PremiumV2",
@@ -57,11 +57,11 @@
                 }
             },
             "app": {
-                "name": "picsy-dev-west-service",
+                "name": "space-dev-west-service",
                 "slot": "staging"
             },
             "autoscale": {
-                "name": "picsy-dev-west-service-autoscale",
+                "name": "space-dev-west-service-autoscale",
                 "enabled": true,
                 "capacity": {
                     "minimum": 2,
@@ -79,10 +79,10 @@
             },
             "customdomains": [
                 {
-                    "domain": "origin-picsy-qa.services",
-                    "certificateresourcegroup": "kmx-qa-picsy",
-                    "keyvaultname": "picsy-qa-vault",
-                    "vaultcertificatename": "origin-picsy-qa-services-carmax-com"
+                    "domain": "origin-space-qa.services",
+                    "certificateresourcegroup": "kmx-qa-space",
+                    "keyvaultname": "space-qa-vault",
+                    "vaultcertificatename": "origin-space-qa-services-carmax-com"
                 }
             ]
         }

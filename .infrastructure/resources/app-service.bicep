@@ -120,7 +120,7 @@ var appServiceProperties = {
     cors: {
       allowedOrigins: [
         (envConfig.name == 'prod' ? 'https://www.carmax.com' : 'https://wwwqa.carmax.com')
-        (envConfig.name == 'prod' ? 'https://picsy.carmax.com' : 'https://picsy-qa.carmax.com')
+        (envConfig.name == 'prod' ? 'https://space.carmax.com' : 'https://space-qa.carmax.com')
       ]
       supportCredentials: false
     }

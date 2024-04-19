@@ -1,5 +1,5 @@
 {
-    "name": "picsy-dev-msi",
+    "name": "space-dev-msi",
     "keyvaultaccesspermissions": {
         "secretspermissions": [
             "get",

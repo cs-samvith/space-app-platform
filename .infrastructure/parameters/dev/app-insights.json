@@ -1,9 +1,9 @@
 {
     "appInsight": {
-        "name": "picsy-dev-insights"
+        "name": "space-dev-insights"
     },
     "workspace": {
-        "name": "picsy-dev-analytics"
+        "name": "space-dev-analytics"
     },
     "diagnostic": {
         "event_hub_resource_group": "kmx-prod-central-instoffr-splunkeventhub",
@@ -12,12 +12,12 @@
     },
     "actionGroups": [
         {
-            "groupName": "Picsy-Alerts-Dev",
-            "groupShortName": "Picsy-Alerts",
+            "groupName": "space-Alerts-Dev",
+            "groupShortName": "space-Alerts",
             "emailReceivers": [
                 {
                     "name": "Email_PD",
-                    "emailAddress": "picsy-alerts-dev@carmax.pagerduty.com",
+                    "emailAddress": "space-alerts-dev@carmax.pagerduty.com",
                     "useCommonAlertSchema": false
                 },
                 {
@@ -30,6 +30,6 @@
         }
     ],
     "metricAlert": {
-        "actionGroup": "Picsy-Alerts-Dev"
+        "actionGroup": "space-Alerts-Dev"
     }
 }

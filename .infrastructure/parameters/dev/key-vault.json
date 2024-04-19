@@ -1,6 +1,6 @@
 {
     "keyVault": {
-        "name": "picsy-dev-vault",
+        "name": "space-dev-vault",
         "sku": "Standard",
         "accesspolicies": [
             {
