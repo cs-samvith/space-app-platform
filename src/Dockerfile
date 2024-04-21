@@ -1,9 +1,20 @@
-FROM node:18-alpine
-WORKDIR /app/
-COPY public/ /app/public
-COPY src/ /app/src
-COPY package.json /app/
+FROM node:16-alpine as ui-build
+WORKDIR /usr/app/client/
+COPY package*.json ./
 RUN npm install
-EXPOSE 3000
+COPY src/ ./src
+COPY public/ ./public
+RUN npm run build
 
-CMD ["npm", "start"]    
+FROM node:16-alpine as server-build
+WORKDIR /usr/app/
+COPY --from=ui-build /usr/app/client/build/ ./client/build
+WORKDIR /usr/app/server/
+
+COPY package*.json ./
+RUN npm install
+COPY server.js ./
+ENV NODE_ENV=production
+
+EXPOSE 5000
+CMD ["node", "server.js"]
