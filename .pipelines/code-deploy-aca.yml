@@ -58,6 +58,7 @@ stages:
               resourceGroup: $(resource_group)
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)
+              targetPort: 5000
           - task: AzureContainerApps@1
             inputs:
               imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
@@ -66,6 +67,7 @@ stages:
               resourceGroup: $(resource_group)
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)
+              targetPort: 5000
 
   # imageToDeploy: '$(containerRegistry)/$(imageRepository):latest'
   #  imageToDeploy: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
