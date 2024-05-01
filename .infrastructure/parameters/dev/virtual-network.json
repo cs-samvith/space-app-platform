@@ -1,0 +1,26 @@
+{
+    "vnets": [
+        {
+            "name": "space-platform-vnet-east",
+            "region": "eastus",
+            "addressPrefix": "11.0.0.0/16",
+            "subnets": [
+                {
+                    "name": "infra",
+                    "addressPrefix": "11.0.0.0/23"
+                }
+            ]
+        },
+        {
+            "name": "space-platform-vnet-west",
+            "region": "westus",
+            "addressPrefix": "11.0.0.0/16",
+            "subnets": [
+                {
+                    "name": "infra",
+                    "addressPrefix": "11.0.0.0/23"
+                }
+            ]
+        }
+    ]
+}

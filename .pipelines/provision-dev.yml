@@ -14,12 +14,20 @@ parameters:
     default: all
     values:
       - all
-      - app-service
+      - managed-identity
+      - workspace
+      - key-vault
+      - container-app-environment
+      - cotnainer-apps
 
   - name: all
     type: object
     default:
-      - app-service
+      - managed-identity
+      - workspace
+      - key-vault
+      - container-app-environment
+      - cotnainer-apps
 
 variables:
   - template: variables/variables.yml
@@ -46,6 +54,7 @@ jobs:
           resource_group: ${{ variables.resourceGroup }}
           template: .infrastructure/modules/${{ parameters.resource }}.bicep
           environment: ${{ variables.configuration }}
+          
   - job: provision_all
     displayName: "${{ variables.configuration }}-provision-all"
     condition: ${{ eq(parameters.resource, 'all') }}

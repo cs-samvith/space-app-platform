@@ -3,22 +3,22 @@ var parameters = {
   env: {
     dev: loadJsonContent('../parameters/dev/env-config.json')
   }
+  virtualNetwork: {
+    dev: loadJsonContent('../parameters/dev/virtual-network.json')
+  }
   appInsights: {
     dev: loadJsonContent('../parameters/dev/app-insights.json')
   }
-  managedIdentity: {
-    dev: loadJsonContent('../parameters/dev/managed-identity.json')
+  containerAppsEnv: {
+    dev: loadJsonContent('../parameters/dev/container-app-environment.json')
   }
-  appConfiguration: {
-    dev: loadJsonContent('../parameters/dev/app-configuration.json')
+  containerApps: {
+    dev: loadJsonContent('../parameters/dev/container-apps.json')
   }
   keyVault: {
     dev: loadJsonContent('../parameters/dev/key-vault.json')
   }
-  appService: {
-    dev: loadJsonContent('../parameters/dev/app-service.json')
-  }
-  trafficManagerProfile: {
-    dev: loadJsonContent('../parameters/dev/traffic-manager.json')
+  managedIdentity: {
+    dev: loadJsonContent('../parameters/dev/managed-identity.json')
   }
 }

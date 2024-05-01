@@ -1,35 +1,8 @@
 {
     "appInsight": {
-        "name": "space-dev-insights"
+        "name": "space-platform-dev-insights"
     },
     "workspace": {
-        "name": "space-dev-analytics"
-    },
-    "diagnostic": {
-        "event_hub_resource_group": "kmx-prod-central-instoffr-splunkeventhub",
-        "event_hub_namespace": "kmx-prod-instoffr-eventhub",
-        "event_hub_name": "instoffrprod-eventhub"
-    },
-    "actionGroups": [
-        {
-            "groupName": "space-Alerts-Dev",
-            "groupShortName": "space-Alerts",
-            "emailReceivers": [
-                {
-                    "name": "Email_PD",
-                    "emailAddress": "space-alerts-dev@carmax.pagerduty.com",
-                    "useCommonAlertSchema": false
-                },
-                {
-                    "name": "Email_Teams",
-                    "emailAddress": "9112cc5e.carmax.onmicrosoft.com@amer.teams.ms",
-                    "useCommonAlertSchema": false
-                }
-            ],
-            "prodOnly": false
-        }
-    ],
-    "metricAlert": {
-        "actionGroup": "space-Alerts-Dev"
+        "name": "space-platform-dev-analytics"
     }
 }

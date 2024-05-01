@@ -1,5 +1,5 @@
 {
-    "name": "space-dev-msi",
+    "name": "space-platform-dev-msi",
     "keyvaultaccesspermissions": {
         "secretspermissions": [
             "get",

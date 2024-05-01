@@ -1,0 +1,8 @@
+{
+    "envs": [
+        {
+            "name": "space-platform-env-east",
+            "region": "eastus"
+        }
+    ]
+}

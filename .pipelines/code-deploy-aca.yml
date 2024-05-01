@@ -59,6 +59,7 @@ stages:
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)
               targetPort: 5000
+              
           - task: AzureContainerApps@1
             inputs:
               imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
