@@ -73,6 +73,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>{!data ? "Loading..." : data}</p>
+        <p> version - v1.0 </p>
       </header>
     </div>
   );
