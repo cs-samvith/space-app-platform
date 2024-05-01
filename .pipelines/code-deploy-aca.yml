@@ -18,8 +18,8 @@ variables:
   containerRegistry: spacedevacr.azurecr.io
   tag: "$(Build.BuildNumber)-aca"
   service_connection: ARM_SERVICE_CONNECTION
-  containerAppName_east: space-dev-container-apps-east
-  containerAppName_west: space-dev-container-apps-west
+  containerAppName_east: space-platform-app-east
+  # containerAppName_west: space-dev-container-apps-west
   resource_group: space-dev-platform
 
 stages:
@@ -59,16 +59,16 @@ stages:
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)
               targetPort: 5000
-              
-          - task: AzureContainerApps@1
-            inputs:
-              imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
-              azureSubscription: ${{variables.service_connection}}
-              containerAppName: $(containerAppName_west)
-              resourceGroup: $(resource_group)
-              acrUsername: $(acrusername)
-              acrPassword: $(acrpassword)
-              targetPort: 5000
+
+          # - task: AzureContainerApps@1
+          #   inputs:
+          #     imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
+          #     azureSubscription: ${{variables.service_connection}}
+          #     containerAppName: $(containerAppName_west)
+          #     resourceGroup: $(resource_group)
+          #     acrUsername: $(acrusername)
+          #     acrPassword: $(acrpassword)
+          #     targetPort: 5000
 
   # imageToDeploy: '$(containerRegistry)/$(imageRepository):latest'
   #  imageToDeploy: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
