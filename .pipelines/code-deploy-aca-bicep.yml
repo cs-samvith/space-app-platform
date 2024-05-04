@@ -34,17 +34,17 @@ stages:
                     echo "Structure of work folder of this pipeline:"
                     tree -a $(Build.SourcesDirectory)
 
-          - task: Docker@2
-            name: docker_build_and_push
-            displayName: docker build and push
-            inputs:
-              containerRegistry: $(containerRegistry)
-              repository: $(imageRepository)
-              command: "buildAndPush"
-              Dockerfile: "src/Dockerfile"
-              tags: |
-                latest
-                $(tag)
+          # - task: Docker@2
+          #   name: docker_build_and_push
+          #   displayName: docker build and push
+          #   inputs:
+          #     containerRegistry: $(containerRegistry)
+          #     repository: $(imageRepository)
+          #     command: "buildAndPush"
+          #     Dockerfile: "src/Dockerfile"
+          #     tags: |
+          #       latest
+          #       $(tag)
 
       - job: Deploy
         dependsOn:
@@ -65,7 +65,7 @@ stages:
                 cat .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
-              
+
           - template: "templates/bicep_create.yml"
             parameters:
               deployment_name: 'provision-container-app-deployment'
