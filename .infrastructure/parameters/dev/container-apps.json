@@ -3,7 +3,8 @@
         {
             "name": "space-platform-app-east",
             "env": "space-platform-env-east",
-            "location": "eastus"
+            "location": "eastus",
+            "revisionName": "PLACEHOLDER"
         }
     ]
 }

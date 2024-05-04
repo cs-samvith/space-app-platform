@@ -44,12 +44,8 @@ resource containerApps 'Microsoft.App/containerapps@2023-11-02-preview' = [
           transport: 'Auto'
           traffic: [
             {
-              weight: 50
+              weight: 100
               latestRevision: true
-            }
-            {
-              weight: 50
-              revisionName: 'app-east--3c4yaf9'
             }
           ]
           allowInsecure: false

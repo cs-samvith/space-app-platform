@@ -1,0 +1,102 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - /src/*
+      - /.pipelines/code-deploy-aca.yml
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  imageRepository: "space-dev-platform"
+  containerRegistry: spacedevacr.azurecr.io
+  tag: "$(Build.BuildNumber)-aca"
+  service_connection: ARM_SERVICE_CONNECTION
+  containerAppName_east: space-platform-app-east
+  # containerAppName_west: space-dev-container-apps-west
+  resource_group: space-dev-platform
+
+stages:
+  - stage: BuildAndDeploy
+    jobs:
+      - job: Build
+        steps:
+          - task: CmdLine@2
+            displayName: List and View
+            inputs:
+                script: |
+                    echo "Structure of work folder of this pipeline:"
+                    tree -a $(Build.SourcesDirectory)
+
+          - task: Docker@2
+            name: docker_build_and_push
+            displayName: docker build and push
+            inputs:
+              containerRegistry: $(containerRegistry)
+              repository: $(imageRepository)
+              command: "buildAndPush"
+              Dockerfile: "src/Dockerfile"
+              tags: |
+                latest
+                $(tag)
+
+      - job: Deploy
+        dependsOn:
+          - Build
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: |
+                pwd 
+                sed -i 's/PLACEHOLDER/new-text/g' .infrastructure/parameters/dev/container-apps.json
+              workingDirectory: $(Build.SourcesDirectory)
+              #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
+        
+          - task: CmdLine@2
+            inputs:
+              script: |
+                pwd 
+                cat .infrastructure/parameters/dev/container-apps.json
+              workingDirectory: $(Build.SourcesDirectory)
+              #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
+              
+          - template: "templates/bicep_create.yml"
+            parameters:
+              deployment_name: 'provision-container-app-deployment'
+              service_connection: ${{variables.service_connection}}
+              display_name: 'container-app-deployment'
+              resource_group: $(resource_group)
+              template: .infrastructure/modules/cotnainer-apps.bicep
+              environment: 'dev'
+
+          # - task: AzureContainerApps@1
+          #   inputs:
+          #     imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
+          #     azureSubscription: ${{variables.service_connection}}
+          #     containerAppName: $(containerAppName_east)
+          #     resourceGroup: $(resource_group)
+          #     acrUsername: $(acrusername)
+          #     acrPassword: $(acrpassword)
+          #     targetPort: 5000
+
+          # - task: AzureContainerApps@1
+          #   inputs:
+          #     imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
+          #     azureSubscription: ${{variables.service_connection}}
+          #     containerAppName: $(containerAppName_west)
+          #     resourceGroup: $(resource_group)
+          #     acrUsername: $(acrusername)
+          #     acrPassword: $(acrpassword)
+          #     targetPort: 5000
+
+  # imageToDeploy: '$(containerRegistry)/$(imageRepository):latest'
+  #  imageToDeploy: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
+  #TODO  - Try removing the Deploy Stage and see if the image pushed is automatically pulled by Web app ..
+  # step 1 - makes some UI text change
+  # step 2 - remove deploy stage
