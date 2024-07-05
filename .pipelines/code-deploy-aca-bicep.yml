@@ -39,9 +39,9 @@ stages:
             inputs:
               script: |
                 pwd 
-                echo "$tag"
-                modtag=$(sed 's/./-/g' <<<"$tag")
-                echo "$modtag"
+                echo "$(tag)"
+                modtag=$(sed 's/./-/g' <<<"$(tag)")
+                echo "$(modtag)"
               workingDirectory: $(Build.SourcesDirectory)
 
           # - task: Docker@2
