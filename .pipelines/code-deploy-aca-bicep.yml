@@ -34,6 +34,16 @@ stages:
                     echo "Structure of work folder of this pipeline:"
                     tree -a $(Build.SourcesDirectory)
 
+
+          - task: CmdLine@2
+            inputs:
+              script: |
+                pwd 
+                echo $tag
+                modtag=$(sed 's/./-/g' <<<"$tag")
+                echo $modtag
+              workingDirectory: $(Build.SourcesDirectory)
+
           # - task: Docker@2
           #   name: docker_build_and_push
           #   displayName: docker build and push
