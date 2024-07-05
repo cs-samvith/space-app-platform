@@ -50,6 +50,23 @@ stages:
         dependsOn:
           - Build
         steps:
+
+          - task: AzureCLI@2
+            displayName: "Azure CLI Get Static IP"
+            name: GetStaticValue
+            inputs:
+              azureSubscription: $(service_connection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az --version
+                az account show
+                rgname=$(az aks show --resource-group $(aks_rg) --name $(aks_cluster_name) --query nodeResourceGroup -o tsv)
+                echo $rgname | jq .
+                echo "##vso[task.setvariable variable=nodepoolrg;isoutput=true]$rgname"
+                staticip=$(az network public-ip create --resource-group $rgname --name myAKSPublicIPForIngress --sku Standard --allocation-method static --query publicIp.ipAddress -o tsv)
+                echo "##vso[task.setvariable variable=ingressStaticIp;isoutput=true]$staticip"
+
           - task: CmdLine@2
             inputs:
               script: |
