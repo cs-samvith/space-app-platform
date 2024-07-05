@@ -71,9 +71,10 @@ stages:
             inputs:
               script: |
                 pwd 
-                modtag=$(sed 's/./-/g' <<<"$tag")
-                echo $modtag
-                sed -i 's/PLACEHOLDER/$(modtag)/g' .infrastructure/parameters/dev/container-apps.json
+                # modtag=$(sed 's/./-/g' <<<"$tag")
+                # $(sed 's/,/-/g' <<<"$string")
+                # echo $modtag
+                sed -i 's/PLACEHOLDER/$(sed 's/./-/g' <<<"$tag")/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
