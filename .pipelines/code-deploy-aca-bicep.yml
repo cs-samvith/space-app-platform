@@ -21,7 +21,7 @@ variables:
   containerAppName_east: space-platform-app-east
   # containerAppName_west: space-dev-container-apps-west
   resource_group: space-dev-platform
-  modttag: $[concat(replace(variables['Build.BuildNumber'], '.', '-'),'-aca')]
+  modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
 
 stages:
   - stage: BuildAndDeploy
