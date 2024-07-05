@@ -34,7 +34,16 @@ stages:
                     echo "Structure of work folder of this pipeline:"
                     tree -a $(Build.SourcesDirectory)
 
-
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo $MYSECRET
+                pwd 
+                echo $tag
+                modtag=$(echo $tag | sed -e 's/\./-/g')
+                echo $modtag
+                
           - task: CmdLine@2
             inputs:
               script: |
