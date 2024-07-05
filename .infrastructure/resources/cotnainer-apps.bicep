@@ -63,6 +63,7 @@ resource containerApps 'Microsoft.App/containerapps@2023-11-02-preview' = [
         maxInactiveRevisions: 100
       }
       template: {
+        revisionSuffix: app.revisionName
         containers: [
           {
             image: 'spacedevacr.azurecr.io/space-dev-platform:latest'

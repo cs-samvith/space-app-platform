@@ -71,7 +71,7 @@ stages:
             inputs:
               script: |
                 pwd 
-                sed -i 's/PLACEHOLDER/new-text/g' .infrastructure/parameters/dev/container-apps.json
+                sed -i 's/PLACEHOLDER/$(tag)/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
