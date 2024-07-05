@@ -40,9 +40,11 @@ stages:
               script: |
                 echo 'Hello'
                 pwd 
-                echo $tag
+                echo "$(tag)"
                 modtag=$(echo $tag | sed -e 's/\./-/g')
                 echo $modtag
+                a="tem"
+                echo $a
 
           - task: CmdLine@2
             inputs:
