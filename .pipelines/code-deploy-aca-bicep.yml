@@ -71,7 +71,7 @@ stages:
             inputs:
               script: |
                 pwd 
-                modtag=echo "$tag" | tr . -
+                modtag=$(sed 's/./-/g' <<<"$tag")
                 echo $modtag
                 sed -i 's/PLACEHOLDER/$(modtag)/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
