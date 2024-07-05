@@ -38,12 +38,12 @@ stages:
             inputs:
               targetType: 'inline'
               script: |
-                echo $MYSECRET
+                echo 'Hello'
                 pwd 
                 echo $tag
                 modtag=$(echo $tag | sed -e 's/\./-/g')
                 echo $modtag
-                
+
           - task: CmdLine@2
             inputs:
               script: |
