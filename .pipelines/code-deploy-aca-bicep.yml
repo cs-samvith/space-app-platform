@@ -41,7 +41,10 @@ stages:
                 pwd 
                 echo "$(tag)"
                 modtag=$(echo $tag | sed -e 's/\./-/g')
+                pwd 
                 echo "$(modtag)"
+                pwd
+                echo $modtag
               workingDirectory: $(Build.SourcesDirectory)
 
           # - task: Docker@2
