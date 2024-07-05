@@ -101,7 +101,7 @@ stages:
                 echo "$(tag)"
                 modtag=$(echo $tag | sed -e 's/\./-/g')
                 echo "$(modtag)"
-                sed -i 's/PLACEHOLDER/$(modtag)/g' .infrastructure/parameters/dev/container-apps.json
+                sed -i 's/PLACEHOLDER/$(tag)/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
