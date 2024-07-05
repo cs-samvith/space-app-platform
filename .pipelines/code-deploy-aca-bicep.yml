@@ -71,7 +71,9 @@ stages:
             inputs:
               script: |
                 pwd 
-                sed -i 's/PLACEHOLDER/$(tag)/g' .infrastructure/parameters/dev/container-apps.json
+                modtag=echo "$tag" | tr . -
+                echo $modtag
+                sed -i 's/PLACEHOLDER/$(modtag)/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
