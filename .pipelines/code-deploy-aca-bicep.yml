@@ -41,7 +41,7 @@ stages:
                 pwd 
                 echo "$(tag)"
                 modtag=$(echo $tag | sed -e 's/\./-/g')
-                echo $modtag
+                echo "$(modtag)"
               workingDirectory: $(Build.SourcesDirectory)
 
           # - task: Docker@2
@@ -81,10 +81,10 @@ stages:
             inputs:
               script: |
                 pwd 
-                # modtag=$(sed 's/./-/g' <<<"$tag")
-                # $(sed 's/,/-/g' <<<"$string")
-                # echo $modtag
-                sed -i 's/PLACEHOLDER/$(sed 's/./-/g' <<<"$tag")/g' .infrastructure/parameters/dev/container-apps.json
+                echo "$(tag)"
+                modtag=$(echo $tag | sed -e 's/\./-/g')
+                echo "$(modtag)"
+                sed -i 's/PLACEHOLDER/$(modtag)/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
