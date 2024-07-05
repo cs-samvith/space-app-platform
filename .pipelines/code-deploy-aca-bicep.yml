@@ -21,6 +21,7 @@ variables:
   containerAppName_east: space-platform-app-east
   # containerAppName_west: space-dev-container-apps-west
   resource_group: space-dev-platform
+  modttag: $[conca(replace(variables['Build.BuildNumber'], '.', '-'),'-aca')]
 
 stages:
   - stage: BuildAndDeploy
@@ -101,7 +102,7 @@ stages:
                 echo "$(tag)"
                 modtag=$(echo $tag | sed -e 's/\./-/g')
                 echo "$(modtag)"
-                sed -i 's/PLACEHOLDER/$(tag)/g' .infrastructure/parameters/dev/container-apps.json
+                sed -i 's/PLACEHOLDER/$(modttag)/g' .infrastructure/parameters/dev/container-apps.json
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
