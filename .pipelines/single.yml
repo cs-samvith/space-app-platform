@@ -1,10 +1,11 @@
 properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-platform/providers/Microsoft.App/managedEnvironments/space-platform-env"
-  # configuration:
-  #   ingress:
-  #     external: true
-  #     allowInsecure: false
-  #     targetPort: 80
+  configuration:
+    activeRevisionsMode: "Multiple"
+    # ingress:
+    #   external: true
+    #   allowInsecure: false
+    #   targetPort: 80
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
