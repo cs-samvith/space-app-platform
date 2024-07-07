@@ -14,13 +14,13 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  imageRepository: "space-dev-platform"
+  imageRepository: "single"
   containerRegistry: spacedevacr.azurecr.io
-  tag: "$(Build.BuildNumber)-aca"
+  # tag: "$(Build.BuildNumber)-aca"
   service_connection: ARM_SERVICE_CONNECTION
-  containerAppName_east: space-platform-app-east
-  # containerAppName_west: space-dev-container-apps-west
+  containerAppName: space-platform-app
   resource_group: space-dev-platform
+  modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
 
 stages:
   - stage: BuildAndDeploy
@@ -41,20 +41,25 @@ stages:
               containerRegistry: $(containerRegistry)
               repository: $(imageRepository)
               command: "buildAndPush"
-              Dockerfile: "src/Dockerfile"
+              Dockerfile: "apps/single/src/Dockerfile"
               tags: |
                 latest
-                $(tag)
+                $(modttag)-aca
 
       - job: Deploy
         dependsOn:
           - Build
         steps:
+          # - task: AzureContainerApps@1
+          #   displayName: Build and deploy Container App
+          #   inputs:
+          #     yamlConfigPath: simple-image-container-app.yaml
           - task: AzureContainerApps@1
             inputs:
-              imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
+              yamlConfigPath: single.yml
+              imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
               azureSubscription: ${{variables.service_connection}}
-              containerAppName: $(containerAppName_east)
+              containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)

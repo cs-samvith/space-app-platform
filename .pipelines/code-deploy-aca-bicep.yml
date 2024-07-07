@@ -5,8 +5,8 @@ trigger:
       - main
   paths:
     include:
-      - /src/*
-      - /.pipelines/code-deploy-aca.yml
+      - /apps/single/src/*  
+      - /.pipelines/code-deploy-aca-bicep.yml
 
 pr: none
 
@@ -14,12 +14,11 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  imageRepository: "space-dev-platform"
+  imageRepository: "single"
   containerRegistry: spacedevacr.azurecr.io
   tag: "$(Build.BuildNumber)-aca"
   service_connection: ARM_SERVICE_CONNECTION
   containerAppName_east: space-platform-app-east
-  # containerAppName_west: space-dev-container-apps-west
   resource_group: space-dev-platform
   modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
 
@@ -35,65 +34,38 @@ stages:
                     echo "Structure of work folder of this pipeline:"
                     tree -a $(Build.SourcesDirectory)
 
-          - task: Bash@3
+          - task: Docker@2
+            name: docker_build_and_push
+            displayName: docker build and push
             inputs:
-              targetType: 'inline'
-              script: |
-                echo 'Hello'
-                pwd 
-                echo "$(tag)"
-                modtag=$(echo "$(tag)" | sed -e 's/\./-/g')
-                echo "$(modtag)"
-                a="tem"
-                echo $a
-
-          - task: CmdLine@2
-            inputs:
-              script: |
-                pwd 
-                echo "$(tag)"
-                echo $tag
-                modtag=$(echo $tag | sed -e 's/\./-/g')
-                pwd 
-                echo "$(modtag)"
-                pwd
-                echo $modtag
-                a="tem"
-                echo $a
-              workingDirectory: $(Build.SourcesDirectory)
-
-          # - task: Docker@2
-          #   name: docker_build_and_push
-          #   displayName: docker build and push
-          #   inputs:
-          #     containerRegistry: $(containerRegistry)
-          #     repository: $(imageRepository)
-          #     command: "buildAndPush"
-          #     Dockerfile: "src/Dockerfile"
-          #     tags: |
-          #       latest
-          #       $(tag)
+              containerRegistry: $(containerRegistry)
+              repository: $(imageRepository)
+              command: "buildAndPush"
+              Dockerfile: "apps/single/src/Dockerfile"
+              tags: |
+                latest
+                $(tag)
 
       - job: Deploy
         dependsOn:
           - Build
         steps:
 
-          - task: AzureCLI@2
-            displayName: "Azure CLI Get Static IP"
-            name: GetStaticValue
-            inputs:
-              azureSubscription: $(service_connection)
-              scriptType: bash
-              scriptLocation: inlineScript
-              inlineScript: |
-                az --version
-                az account show
-                rgname=$(az aks show --resource-group $(aks_rg) --name $(aks_cluster_name) --query nodeResourceGroup -o tsv)
-                echo $rgname | jq .
-                echo "##vso[task.setvariable variable=nodepoolrg;isoutput=true]$rgname"
-                staticip=$(az network public-ip create --resource-group $rgname --name myAKSPublicIPForIngress --sku Standard --allocation-method static --query publicIp.ipAddress -o tsv)
-                echo "##vso[task.setvariable variable=ingressStaticIp;isoutput=true]$staticip"
+          # - task: AzureCLI@2
+          #   displayName: "Azure CLI Get Static IP"
+          #   name: GetStaticValue
+          #   inputs:
+          #     azureSubscription: $(service_connection)
+          #     scriptType: bash
+          #     scriptLocation: inlineScript
+          #     inlineScript: |
+          #       az --version
+          #       az account show
+          #       rgname=$(az aks show --resource-group $(aks_rg) --name $(aks_cluster_name) --query nodeResourceGroup -o tsv)
+          #       echo $rgname | jq .
+          #       echo "##vso[task.setvariable variable=nodepoolrg;isoutput=true]$rgname"
+          #       staticip=$(az network public-ip create --resource-group $rgname --name myAKSPublicIPForIngress --sku Standard --allocation-method static --query publicIp.ipAddress -o tsv)
+          #       echo "##vso[task.setvariable variable=ingressStaticIp;isoutput=true]$staticip"
 
           - task: CmdLine@2
             inputs:
@@ -106,13 +78,13 @@ stages:
               workingDirectory: $(Build.SourcesDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
         
-          - task: CmdLine@2
-            inputs:
-              script: |
-                pwd 
-                cat .infrastructure/parameters/dev/container-apps.json
-              workingDirectory: $(Build.SourcesDirectory)
-              #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
+          # - task: CmdLine@2
+            # inputs:
+            #   script: |
+            #     pwd 
+            #     cat .infrastructure/parameters/dev/container-apps.json
+            #   workingDirectory: $(Build.SourcesDirectory)
+            #   #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
 
           - template: "templates/bicep_create.yml"
             parameters:

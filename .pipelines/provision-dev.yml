@@ -18,7 +18,7 @@ parameters:
       - workspace
       - key-vault
       - container-app-environment
-      - cotnainer-apps
+      # - cotnainer-apps
 
   - name: all
     type: object
@@ -27,7 +27,7 @@ parameters:
       - workspace
       - key-vault
       - container-app-environment
-      - cotnainer-apps
+      # - cotnainer-apps
 
 variables:
   - template: variables/variables.yml

@@ -1,7 +1,7 @@
 {
     "envs": [
         {
-            "name": "space-platform-env-east",
+            "name": "space-platform-env",
             "region": "eastus"
         }
     ]
