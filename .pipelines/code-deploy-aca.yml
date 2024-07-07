@@ -64,11 +64,12 @@ stages:
               workingDirectory: $(Build.SourcesDirectory)
 
           - task: AzureContainerApps@1
+            name: single-app
             inputs:
               yamlConfigPath: '$(System.DefaultWorkingDirectory)/.pipelines/single.yml'
               # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
               azureSubscription: ${{variables.service_connection}}
-              containerAppName: $(containerAppName)
+              # containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
               acrUsername: $(acrusername)
               acrPassword: $(acrpassword)
