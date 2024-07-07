@@ -9,8 +9,7 @@ properties:
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
-      - image: CONTAINERREGISTRY/IMAGENAME:TAG
-        name: singleappmain
-
-      # - image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-      #   name: mysampleimagecontainer
+      # - image: CONTAINERREGISTRY/IMAGENAME:TAG
+      #   name: singleappmain
+      - image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
+        name: mysampleimagecontainer
