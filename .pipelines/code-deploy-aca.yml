@@ -56,7 +56,7 @@ stages:
           #     yamlConfigPath: simple-image-container-app.yaml
           - task: AzureContainerApps@1
             inputs:
-              yamlConfigPath: single.yml
+              yamlConfigPath: ./single.yml
               imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
