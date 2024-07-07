@@ -6,6 +6,10 @@ properties:
   #     allowInsecure: false
   #     targetPort: 80
   template:
+    revisionSuffix: REVISIONSUFFIX
     containers:
-      - image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-        name: mysampleimagecontainer
+      - image: CONTAINERREGISTRY/IMAGENAME:TAG
+        name: singleappmain
+
+      # - image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
+      #   name: mysampleimagecontainer

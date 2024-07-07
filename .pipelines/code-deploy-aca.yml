@@ -50,14 +50,23 @@ stages:
         dependsOn:
           - Build
         steps:
-          # - task: AzureContainerApps@1
-          #   displayName: Build and deploy Container App
-          #   inputs:
-          #     yamlConfigPath: simple-image-container-app.yaml
+          - task: CmdLine@2
+            inputs:
+              script: |
+                pwd 
+                echo "$(tag)"
+                modtag=$(echo $tag | sed -e 's/\./-/g')
+                echo "$(modtag)"
+                sed -i 's/REVISIONSUFFIX/$(modttag)-aca/g' .pipelines/single.yml
+                sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
+                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
+                sed -i 's/TAG/$(modttag)-aca/g' .pipelines/single.yml
+              workingDirectory: $(Build.SourcesDirectory)
+
           - task: AzureContainerApps@1
             inputs:
               yamlConfigPath: '$(System.DefaultWorkingDirectory)/.pipelines/single.yml'
-              imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
+              # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
