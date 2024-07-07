@@ -18,7 +18,7 @@ variables:
   containerRegistry: spacedevacr.azurecr.io
   # tag: "$(Build.BuildNumber)-aca"
   service_connection: ARM_SERVICE_CONNECTION
-  containerAppName: space-platform-app
+  containerAppName: space-platform-env
   resource_group: space-dev-platform
   modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
 
