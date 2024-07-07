@@ -1,6 +1,13 @@
 properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-platform/providers/Microsoft.App/managedEnvironments/space-platform-env"
   configuration:
+    secrets:
+      - name: acrPass
+        value: ACRPASSWORD
+    registries:
+      - server: CONTAINERREGISTRY
+        userName: spacedevacr
+        passwordSecretRef: acrPass
     activeRevisionsMode: "Multiple"
     # ingress:
     #   external: true
@@ -9,10 +16,10 @@ properties:
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
-      # - image: CONTAINERREGISTRY/IMAGENAME:TAG
-      #   name: singleappmain
+      - image: CONTAINERREGISTRY/IMAGENAME:TAG
+        name: singleappmain
       # - image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
       #   name: mysampleimagecontainer
 
-      - image: spacedevacr.azurecr.io/single:latest
-        name: mysampleimagecontainer
+      # - image: spacedevacr.azurecr.io/single:latest
+      #   name: mysampleimagecontainer

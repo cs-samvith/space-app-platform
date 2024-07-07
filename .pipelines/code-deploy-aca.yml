@@ -61,7 +61,16 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
                 sed -i 's/TAG/$(modttag)-aca/g' .pipelines/single.yml
-              workingDirectory: $(Build.SourcesDirectory)
+                sed -i 's/ACRPASSWORD/$(acrpassword)/g' .pipelines/single.yml
+              workingDirectory: $(System.DefaultWorkingDirectory)
+
+          - task: CmdLine@2
+            inputs:
+              script: |
+                pwd 
+                cat .pipelines/single.yml
+              workingDirectory: $(System.DefaultWorkingDirectory)
+              #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
 
           - task: AzureContainerApps@1
             # name: singleapp
