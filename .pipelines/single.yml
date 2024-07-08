@@ -15,9 +15,11 @@ properties:
       allowInsecure: false
       targetPort: 5000
       traffic:
-      - weight: 100
-        revisionName: single-app--REVISIONSUFFIX
-        label: production
+      # - weight: 100
+      #   revisionName: single-app--REVISIONSUFFIX
+      #   label: production
+      - latestRevision: true
+        weight: 100
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
