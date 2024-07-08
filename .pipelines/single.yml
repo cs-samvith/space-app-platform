@@ -6,7 +6,7 @@ properties:
         value: ACRPASSWORD
     registries:
       - server: CONTAINERREGISTRY
-        userName: spacedevacr
+        username: spacedevacr
         passwordSecretRef: acrpass
     activeRevisionsMode: "Multiple"
     # ingress:
