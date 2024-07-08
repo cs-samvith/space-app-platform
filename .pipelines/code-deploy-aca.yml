@@ -20,8 +20,8 @@ variables:
     value: spacedevacr.azurecr.io
   - name: service_connection
     value: ARM_SERVICE_CONNECTION
-  # - name: containerAppName
-    # value: single-app
+  - name: containerAppName
+    value: single-app
   - name: resource_group
     value: space-dev-platform
   - name: tag
