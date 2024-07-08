@@ -20,8 +20,8 @@ variables:
     value: spacedevacr.azurecr.io
   - name: service_connection
     value: ARM_SERVICE_CONNECTION
-  - name: containerAppName
-    value: single-app
+  # - name: containerAppName
+    # value: single-app
   - name: resource_group
     value: space-dev-platform
   - name: tag
@@ -74,11 +74,11 @@ stages:
             # name: singleapp
             inputs:
               yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/single.yml"
-              # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)-aca"
-              # acrName: "spacedevacr"
               azureSubscription: ${{variables.service_connection}}
-              containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
+              # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)-aca"
+              # containerAppName: $(containerAppName)
+              # acrName: "spacedevacr"
               # acrUsername: $(ACR_USER_NAME)
               # acrPassword: $(ACR_PASSWORD)
-              targetPort: 5000
+              # targetPort: 5000
