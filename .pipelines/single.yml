@@ -13,7 +13,11 @@ properties:
     ingress:
       external: true
       allowInsecure: false
-      targetPort: 80
+      targetPort: 5000
+      traffic:
+      - weight: 100
+        revisionName: single-app-REVISIONSUFFIX
+        label: production
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
