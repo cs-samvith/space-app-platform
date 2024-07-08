@@ -25,6 +25,11 @@ properties:
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
         name: singleappmain
+        env:
+        - name: DEMO_GREETING
+          value: "Hello from the environment"
+        - name: DEMO_FAREWELL
+          value: "Such a sweet sorrow"
     scale:
         minReplicas: 1
         maxReplicas: 10
