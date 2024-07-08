@@ -16,7 +16,7 @@ properties:
       targetPort: 5000
       traffic:
       - weight: 100
-        revisionName: single-app-REVISIONSUFFIX
+        revisionName: single-app--REVISIONSUFFIX
         label: production
   template:
     revisionSuffix: REVISIONSUFFIX

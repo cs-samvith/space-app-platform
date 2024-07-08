@@ -55,7 +55,7 @@ stages:
             inputs:
               script: |
                 pwd 
-                sed -i 's/REVISIONSUFFIX/$(tag)aca/g' .pipelines/single.yml
+                sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/single.yml
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/single.yml
