@@ -14,14 +14,24 @@ pool:
   vmImage: ubuntu-latest
 
 variables:
-  imageRepository: "single"
-  containerRegistry: spacedevacr.azurecr.io
-  # tag: "$(Build.BuildNumber)-aca"
-  service_connection: ARM_SERVICE_CONNECTION
-  containerAppName: single-apps
-  resource_group: space-dev-platform
-  # modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
-  modttag: '20240708-9-aca'
+  - name: imageRepository
+    value: "single"
+  - name: containerRegistry
+    value: spacedevacr.azurecr.io
+  - name: service_connection
+    value: ARM_SERVICE_CONNECTION
+  - name: containerAppName
+    value: single-apps
+  - name: resource_group
+    value: space-dev-platform
+  # - name: tag
+  #   value: "$(Build.BuildNumber)-aca"
+  # - name: modttag
+  #   value: $[replace(variables['Build.BuildNumber'], '.', '-')]
+  - name: modttag
+    value: "20240708-9"
+
+  - group: acr
 
 stages:
   - stage: BuildAndDeploy
@@ -31,9 +41,9 @@ stages:
           - task: CmdLine@2
             displayName: List and View
             inputs:
-                script: |
-                    echo "Structure of work folder of this pipeline:"
-                    tree -a $(Build.SourcesDirectory)
+              script: |
+                echo "Structure of work folder of this pipeline:"
+                tree -a $(Build.SourcesDirectory)
 
           # - task: Docker@2
           #   name: docker_build_and_push
@@ -76,9 +86,9 @@ stages:
           - task: AzureContainerApps@1
             # name: singleapp
             inputs:
-              yamlConfigPath: '$(System.DefaultWorkingDirectory)/.pipelines/single.yml'
+              yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/single.yml"
               # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
-              acrName: 'spacedevacr'
+              acrName: "spacedevacr"
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
