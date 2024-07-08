@@ -76,6 +76,7 @@ stages:
               yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/single.yml"
               azureSubscription: ${{variables.service_connection}}
               resourceGroup: $(resource_group)
+              containerAppName: $(containerAppName)
               # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)-aca"
               # containerAppName: $(containerAppName)
               # acrName: "spacedevacr"
