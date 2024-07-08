@@ -54,14 +54,14 @@ stages:
             inputs:
               script: |
                 pwd 
-                echo "$(tag)"
-                modtag=$(echo $tag | sed -e 's/\./-/g')
-                echo "$(modtag)"
+                # echo "$(tag)"
+                # modtag=$(echo $tag | sed -e 's/\./-/g')
+                # echo "$(modtag)"
                 sed -i 's/REVISIONSUFFIX/$(modttag)-aca/g' .pipelines/single.yml
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
                 sed -i 's/TAG/$(modttag)-aca/g' .pipelines/single.yml
-                sed -i 's/ACRPASSWORD/$(acrpassword)/g' .pipelines/single.yml
+                # sed -i 's/ACRPASSWORD/$(acrpassword)/g' .pipelines/single.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
 
           - task: CmdLine@2
@@ -80,8 +80,8 @@ stages:
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
-              # acrUsername: $(acrusername)
-              # acrPassword: $(acrpassword)
+              acrUsername: $(acrusername)
+              acrPassword: $(acrpassword)
               targetPort: 5000
 
           # - task: AzureContainerApps@1
