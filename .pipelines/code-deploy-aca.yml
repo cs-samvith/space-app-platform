@@ -24,10 +24,10 @@ variables:
     value: single-app
   - name: resource_group
     value: space-dev-platform
-  - name: tag
-    value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   # - name: tag
-  #   value: "20240708-9"
+  #   value: $[replace(variables['Build.BuildNumber'], '.', '-')]
+  - name: tag
+    value: "20240708-20"
   - group: acr
 
 stages:
@@ -35,17 +35,23 @@ stages:
     jobs:
       - job: Build
         steps:
-          - task: Docker@2
-            name: docker_build_and_push
-            displayName: docker build and push
+          - task: CmdLine@2
+            displayName: List and View
             inputs:
-              containerRegistry: $(containerRegistry)
-              repository: $(imageRepository)
-              command: "buildAndPush"
-              Dockerfile: "apps/single/src/Dockerfile"
-              tags: |
-                latest
-                $(tag)-aca
+                script: |
+                    echo "Structure of work folder of this pipeline:"
+                    tree -a $(Build.SourcesDirectory)
+          # - task: Docker@2
+          #   name: docker_build_and_push
+          #   displayName: docker build and push
+          #   inputs:
+          #     containerRegistry: $(containerRegistry)
+          #     repository: $(imageRepository)
+          #     command: "buildAndPush"
+          #     Dockerfile: "apps/single/src/Dockerfile"
+          #     tags: |
+          #       latest
+          #       $(tag)-aca
 
       - job: Deploy
         dependsOn:
