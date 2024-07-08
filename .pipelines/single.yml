@@ -1,13 +1,13 @@
 properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-platform/providers/Microsoft.App/managedEnvironments/space-platform-env"
   configuration:
-    # secrets:
-    #   - name: acrpass
-    #     value: ACRPASSWORD
-    # registries:
-    #   - server: CONTAINERREGISTRY
-    #     username: spacedevacr
-    #     passwordSecretRef: acrpass
+    secrets:
+      - name: acrpass
+        value: ACRPASSWORD
+    registries:
+      - server: CONTAINERREGISTRY
+        username: spacedevacr
+        passwordSecretRef: acrpass
     activeRevisionsMode: "Multiple"
     # ingress:
     #   external: true

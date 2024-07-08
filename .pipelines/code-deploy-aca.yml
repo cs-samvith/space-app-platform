@@ -61,7 +61,7 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
                 sed -i 's/TAG/$(modttag)-aca/g' .pipelines/single.yml
-                # sed -i 's/ACRPASSWORD/$(acrpassword)/g' .pipelines/single.yml
+                sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/single.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
 
           - task: CmdLine@2
