@@ -5,7 +5,7 @@ trigger:
       - main
   paths:
     include:
-      - /src/*
+      - /apps/single/src/*
       - /.pipelines/code-deploy-aca.yml
 
 pr: none
@@ -21,16 +21,13 @@ variables:
   - name: service_connection
     value: ARM_SERVICE_CONNECTION
   - name: containerAppName
-    value: single-apps
+    value: single-app
   - name: resource_group
     value: space-dev-platform
+  - name: tag
+    value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   # - name: tag
-  #   value: "$(Build.BuildNumber)-aca"
-  # - name: modttag
-  #   value: $[replace(variables['Build.BuildNumber'], '.', '-')]
-  - name: modttag
-    value: "20240708-9"
-
+  #   value: "20240708-9"
   - group: acr
 
 stages:
@@ -38,24 +35,17 @@ stages:
     jobs:
       - job: Build
         steps:
-          - task: CmdLine@2
-            displayName: List and View
+          - task: Docker@2
+            name: docker_build_and_push
+            displayName: docker build and push
             inputs:
-              script: |
-                echo "Structure of work folder of this pipeline:"
-                tree -a $(Build.SourcesDirectory)
-
-          # - task: Docker@2
-          #   name: docker_build_and_push
-          #   displayName: docker build and push
-          #   inputs:
-          #     containerRegistry: $(containerRegistry)
-          #     repository: $(imageRepository)
-          #     command: "buildAndPush"
-          #     Dockerfile: "apps/single/src/Dockerfile"
-          #     tags: |
-          #       latest
-          #       $(modttag)-aca
+              containerRegistry: $(containerRegistry)
+              repository: $(imageRepository)
+              command: "buildAndPush"
+              Dockerfile: "apps/single/src/Dockerfile"
+              tags: |
+                latest
+                $(tag)-aca
 
       - job: Deploy
         dependsOn:
@@ -65,13 +55,10 @@ stages:
             inputs:
               script: |
                 pwd 
-                # echo "$(tag)"
-                # modtag=$(echo $tag | sed -e 's/\./-/g')
-                # echo "$(modtag)"
-                sed -i 's/REVISIONSUFFIX/$(modttag)-aca/g' .pipelines/single.yml
+                sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/single.yml
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
-                sed -i 's/TAG/$(modttag)-aca/g' .pipelines/single.yml
+                sed -i 's/TAG/$(tag)-aca/g' .pipelines/single.yml
                 sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/single.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
 
@@ -87,7 +74,7 @@ stages:
             # name: singleapp
             inputs:
               yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/single.yml"
-              # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
+              # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)-aca"
               # acrName: "spacedevacr"
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
@@ -95,19 +82,3 @@ stages:
               # acrUsername: $(ACR_USER_NAME)
               # acrPassword: $(ACR_PASSWORD)
               targetPort: 5000
-
-          # - task: AzureContainerApps@1
-          #   inputs:
-          #     imageToDeploy: "$(containerRegistry)/$(imageRepository):$(tag)"
-          #     azureSubscription: ${{variables.service_connection}}
-          #     containerAppName: $(containerAppName_west)
-          #     resourceGroup: $(resource_group)
-          #     acrUsername: $(acrusername)
-          #     acrPassword: $(acrpassword)
-          #     targetPort: 5000
-
-  # imageToDeploy: '$(containerRegistry)/$(imageRepository):latest'
-  #  imageToDeploy: '$(containerRegistry)/$(imageRepository):$(Build.BuildId)'
-  #TODO  - Try removing the Deploy Stage and see if the image pushed is automatically pulled by Web app ..
-  # step 1 - makes some UI text change
-  # step 2 - remove deploy stage

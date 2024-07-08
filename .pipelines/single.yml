@@ -18,8 +18,3 @@ properties:
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
         name: singleappmain
-      # - image: mcr.microsoft.com/azuredocs/containerapps-helloworld:latest
-      #   name: mysampleimagecontainer
-
-      # - image: spacedevacr.azurecr.io/single:latest
-      #   name: mysampleimagecontainer
