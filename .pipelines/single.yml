@@ -30,6 +30,8 @@ properties:
           value: "Hello from the environment"
         - name: DEMO_FAREWELL
           value: "Such a sweet sorrow"
+        - name: TESTENV
+          value: "This is a test env"
     scale:
         minReplicas: 1
         maxReplicas: 10

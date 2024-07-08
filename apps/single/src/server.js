@@ -20,7 +20,10 @@ const PORT = process.env.PORT || 5000;
 // });
 
 app.get("/api", (req, res) => {
-  res.json({ message: os.hostname() + " --> Contianer Name" });
+  res.json({
+    message: os.hostname(),
+    env: { test: process.env.TESTENV },
+  });
 });
 
 //add middleware
@@ -52,8 +55,6 @@ if (process.env.NODE_ENV === "development") {
 // start express server on port 5000
 // app.listen(process.env.PORT || 5000, () => {
 //   console.log("server started");
-
-
 
 app.listen(PORT || 5000, () => {
   console.log(`Server listening on ${PORT}`);

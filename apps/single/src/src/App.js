@@ -65,14 +65,15 @@ function App() {
   React.useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
-      .then((data) => setData(data.message));
+      .then((data) => setData(data));
   }, []);
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading..." : data}</p>
+        <p>{!data ? "Container Name..." : data.message}</p>
+        <p>{!data ? "Env variable..." : data.env.test}</p>
         <p> version - v1.0 </p>
       </header>
     </div>
