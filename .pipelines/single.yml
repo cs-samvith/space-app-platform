@@ -23,3 +23,6 @@ properties:
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
         name: singleappmain
+    scale:
+      - minReplicas: 1
+        maxReplicas: 10
