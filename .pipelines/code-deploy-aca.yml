@@ -27,7 +27,7 @@ variables:
   # - name: tag
   #   value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   - name: tag
-    value: "20240708-20"
+    value: "20240708-21"
   - group: acr
 
 stages:
