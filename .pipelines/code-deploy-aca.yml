@@ -80,8 +80,8 @@ stages:
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
-              acrUsername: $(acrusername)
-              acrPassword: $(acrpassword)
+              # acrUsername: $(acrusername)
+              # acrPassword: $(acrpassword)
               targetPort: 5000
 
           # - task: AzureContainerApps@1
