@@ -77,6 +77,7 @@ stages:
             inputs:
               yamlConfigPath: '$(System.DefaultWorkingDirectory)/.pipelines/single.yml'
               # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
+              acrName: $(containerRegistry)
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
