@@ -20,7 +20,8 @@ variables:
   service_connection: ARM_SERVICE_CONNECTION
   containerAppName: single-apps
   resource_group: space-dev-platform
-  modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
+  # modttag: $[replace(variables['Build.BuildNumber'], '.', '-')]
+  modttag: '20240708-9-aca'
 
 stages:
   - stage: BuildAndDeploy
@@ -34,17 +35,17 @@ stages:
                     echo "Structure of work folder of this pipeline:"
                     tree -a $(Build.SourcesDirectory)
 
-          - task: Docker@2
-            name: docker_build_and_push
-            displayName: docker build and push
-            inputs:
-              containerRegistry: $(containerRegistry)
-              repository: $(imageRepository)
-              command: "buildAndPush"
-              Dockerfile: "apps/single/src/Dockerfile"
-              tags: |
-                latest
-                $(modttag)-aca
+          # - task: Docker@2
+          #   name: docker_build_and_push
+          #   displayName: docker build and push
+          #   inputs:
+          #     containerRegistry: $(containerRegistry)
+          #     repository: $(imageRepository)
+          #     command: "buildAndPush"
+          #     Dockerfile: "apps/single/src/Dockerfile"
+          #     tags: |
+          #       latest
+          #       $(modttag)-aca
 
       - job: Deploy
         dependsOn:
@@ -77,7 +78,7 @@ stages:
             inputs:
               yamlConfigPath: '$(System.DefaultWorkingDirectory)/.pipelines/single.yml'
               # imageToDeploy: "$(containerRegistry)/$(imageRepository):$(modttag)-aca"
-              acrName: $(containerRegistry)
+              acrName: 'spacedevacr'
               azureSubscription: ${{variables.service_connection}}
               containerAppName: $(containerAppName)
               resourceGroup: $(resource_group)
