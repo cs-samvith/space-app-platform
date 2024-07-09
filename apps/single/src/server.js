@@ -26,6 +26,27 @@ app.get("/api", (req, res) => {
   });
 });
 
+app.get("/healthz/liveness", (req, res) => {
+  let isSystemStable = false;
+
+  // check for database availability
+  // check filesystem structure
+  //  etc.
+
+  // set isSystemStable to true if all checks pass
+  setTimeout(() => {
+    console.log("..................running liveness/readiness.....");
+  }, 2000);
+
+  isSystemStable = true;
+
+  if (isSystemStable) {
+    res.status(200); // Success
+  } else {
+    res.status(503); // Service unavailable
+  }
+});
+
 //add middleware
 let root = require("path").join(__dirname, "build");
 if (process.env.NODE_ENV === "development") {

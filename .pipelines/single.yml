@@ -32,6 +32,16 @@ properties:
           value: "Such a sweet sorrow"
         - name: TESTENV
           value: "This is a test env"
+        probes:
+        - type: Liveness
+          httpGet:
+            path: "/healthz/liveness"
+            port: 5000
+            httpHeaders:
+            - name: Custom-Header
+              value: Awesome
+          initialDelaySeconds: 3
+          periodSeconds: 3
     scale:
         minReplicas: 1
         maxReplicas: 10
