@@ -32,13 +32,14 @@ app.get("/healthz/liveness", (req, res) => {
   // check for database availability
   // check filesystem structure
   //  etc.
-
   // set isSystemStable to true if all checks pass
-  setTimeout(() => {
-    console.log("..................running liveness/readiness.....");
-  }, 2000);
+  // setTimeout(() => {
+  //   console.log("..................running liveness/readiness.....");
+  // }, 2000);
 
   isSystemStable = true;
+  
+  console.log("..................running liveness/readiness....");
 
   if (isSystemStable) {
     res.status(200); // Success
