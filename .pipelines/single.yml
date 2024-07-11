@@ -15,30 +15,37 @@ properties:
       allowInsecure: false
       targetPort: 5000
       traffic:
-      # - weight: 100
-      #   revisionName: single-app--REVISIONSUFFIX
-      #   label: production
-      - latestRevision: true
-        weight: 100
+        # - weight: 100
+        #   revisionName: single-app--REVISIONSUFFIX
+        #   label: production
+        - latestRevision: true
+          weight: 100
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
         name: singleappmain
         env:
-        - name: DEMO_GREETING
-          value: "Hello from the environment"
-        - name: DEMO_FAREWELL
-          value: "Such a sweet sorrow"
-        - name: TESTENV
-          value: "This is a test env"
+          - name: DEMO_GREETING
+            value: "Hello from the environment"
+          - name: DEMO_FAREWELL
+            value: "Such a sweet sorrow"
+          - name: TESTENV
+            value: "This is a test env"
         probes:
-        - type: Readiness
-          httpGet:
-            path: /healthz/liveness
-            port: 5000
-          initialDelaySeconds: 1
-          periodSeconds: 3
+          - type: Liveness
+            httpGet:
+              path: /healthz/liveness
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 3
+            
+          - type: Readiness
+            httpGet:
+              path: /healthz/readiness
+              port: 5000
+            initialDelaySeconds: 4
+            periodSeconds: 3
     scale:
-        minReplicas: 1
-        maxReplicas: 10
+      minReplicas: 1
+      maxReplicas: 10

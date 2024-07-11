@@ -26,17 +26,38 @@ app.get("/api", (req, res) => {
   });
 });
 
+app.get("/healthz/readiness", (req, res) => {
+  let isSystemStable = false;
+  isSystemStable = true;
+  console.log("..................running readiness....");
+  if (isSystemStable) {
+    res
+      .json({
+        status: "ready",
+      })
+      .status(200);
+  } else {
+    res.status(503); // Service unavailable
+  }
+});
+
 app.get("/healthz/liveness", (req, res) => {
   let isSystemStable = false;
+  const d = new Date();
+  let minutes = Math.round(d.getMinutes() % 4);
 
-  isSystemStable = true;
-  
-  console.log("..................running liveness/readiness....");
-
+  if (minutes === 0) {
+    isSystemStable = false;
+  } else {
+    isSystemStable = true;
+  }
+  console.log("..................running liveness....");
   if (isSystemStable) {
-    res.json({
-      status: 'healthy'
-    }).status(200);
+    res
+      .json({
+        status: "not live",
+      })
+      .status(200);
   } else {
     res.status(503); // Service unavailable
   }
