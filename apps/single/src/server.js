@@ -29,7 +29,10 @@ app.get("/api", (req, res) => {
 app.get("/healthz/readiness", (req, res) => {
   let isSystemStable = false;
   isSystemStable = true;
-  console.log("..................running readiness....");
+  const date = new Date();
+  const formattedDate = date.toLocaleString("en-US", { timeZoneName: "short" });
+
+  console.log("..................running readiness ==> " + formattedDate);
   if (isSystemStable) {
     res
       .json({
@@ -51,7 +54,11 @@ app.get("/healthz/liveness", (req, res) => {
   } else {
     isSystemStable = true;
   }
-  console.log("..................running liveness....");
+  const date = new Date();
+  const formattedDate = date.toLocaleString("en-US", { timeZoneName: "short" });
+
+  console.log("..................running liveness ==> " + formattedDate);
+
   if (isSystemStable) {
     res
       .json({
