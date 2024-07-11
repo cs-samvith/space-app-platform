@@ -29,20 +29,14 @@ app.get("/api", (req, res) => {
 app.get("/healthz/liveness", (req, res) => {
   let isSystemStable = false;
 
-  // check for database availability
-  // check filesystem structure
-  //  etc.
-  // set isSystemStable to true if all checks pass
-  // setTimeout(() => {
-  //   console.log("..................running liveness/readiness.....");
-  // }, 2000);
-
   isSystemStable = true;
   
   console.log("..................running liveness/readiness....");
 
   if (isSystemStable) {
-    res.status(200); // Success
+    res.json({
+      status: 'healthy'
+    }).status(200);
   } else {
     res.status(503); // Service unavailable
   }

@@ -35,12 +35,9 @@ properties:
         probes:
         - type: Readiness
           httpGet:
-            path: "/healthz/liveness"
+            path: /healthz/liveness
             port: 5000
-            httpHeaders:
-            - name: Custom-Header
-              value: Awesome
-          initialDelaySeconds: 3
+          initialDelaySeconds: 1
           periodSeconds: 3
     scale:
         minReplicas: 1
