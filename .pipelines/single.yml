@@ -33,7 +33,7 @@ properties:
         - name: TESTENV
           value: "This is a test env"
         probes:
-        - type: Liveness
+        - type: Readiness
           httpGet:
             path: "/healthz/liveness"
             port: 5000
