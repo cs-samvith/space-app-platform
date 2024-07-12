@@ -38,14 +38,14 @@ properties:
               path: /healthz/liveness
               port: 5000
             initialDelaySeconds: 30
-            periodSeconds: 3
-            
+            periodSeconds: 30
+
           - type: Readiness
             httpGet:
               path: /healthz/readiness
               port: 5000
-            initialDelaySeconds: 4
-            periodSeconds: 3
+            initialDelaySeconds: 30
+            periodSeconds: 30
     scale:
       minReplicas: 1
       maxReplicas: 10
