@@ -16,6 +16,7 @@ parameters:
       - all
       - managed-identity
       - workspace
+      - app-insights
       - key-vault
       - container-app-environment
       # - cotnainer-apps
@@ -25,6 +26,7 @@ parameters:
     default:
       - managed-identity
       - workspace
+      - app-insights
       - key-vault
       - container-app-environment
       # - cotnainer-apps

@@ -1,0 +1,51 @@
+name: single-app
+properties:
+  environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-platform/providers/Microsoft.App/managedEnvironments/space-platform-env"
+  configuration:
+    secrets:
+      - name: acrpass
+        value: ACRPASSWORD
+    registries:
+      - server: CONTAINERREGISTRY
+        username: spacedevacr
+        passwordSecretRef: acrpass
+    activeRevisionsMode: "Multiple"
+    ingress:
+      external: true
+      allowInsecure: false
+      targetPort: 5000
+      traffic:
+        # - weight: 100
+        #   revisionName: single-app--REVISIONSUFFIX
+        #   label: production
+        - latestRevision: true
+          weight: 100
+  template:
+    revisionSuffix: REVISIONSUFFIX
+    containers:
+      - image: CONTAINERREGISTRY/IMAGENAME:TAG
+        name: singleappmain
+        env:
+          - name: DEMO_GREETING
+            value: "Hello from the environment"
+          - name: DEMO_FAREWELL
+            value: "Such a sweet sorrow"
+          - name: TESTENV
+            value: "This is a test env"
+        probes:
+          - type: Liveness
+            httpGet:
+              path: /healthz/liveness
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+
+          - type: Readiness
+            httpGet:
+              path: /healthz/readiness
+              port: 5000
+            initialDelaySeconds: 30
+            periodSeconds: 30
+    scale:
+      minReplicas: 1
+      maxReplicas: 10
