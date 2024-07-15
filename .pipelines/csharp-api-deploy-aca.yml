@@ -5,7 +5,7 @@ trigger:
       - main
   paths:
     include:
-      - /apps/csharp-api/src/*
+      - /apps/csharp-api/*
       - /.pipelines/csharp-api-deploy-aca.yml
 
 pr: none
@@ -48,7 +48,7 @@ stages:
               containerRegistry: $(containerRegistry)
               repository: $(imageRepository)
               command: "buildAndPush"
-              Dockerfile: "apps/single/src/Dockerfile"
+              Dockerfile: "apps/csharp-api/Dockerfile"
               tags: |
                 latest
                 $(tag)-aca
