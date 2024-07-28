@@ -24,7 +24,7 @@ properties:
     revisionSuffix: REVISIONSUFFIX
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
-        name: singleappmain
+        name: csharpapimain
         env:
           - name: DEMO_GREETING
             value: "Hello from the environment"
