@@ -1,4 +1,9 @@
 name: csharp-api
+identity:
+  userAssignedIdentities:
+    "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-platform-dev-msi":
+      {}
+  type: UserAssigned
 properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-platform/providers/Microsoft.App/managedEnvironments/space-platform-env"
   configuration:
