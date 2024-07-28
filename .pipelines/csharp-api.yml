@@ -37,20 +37,20 @@ properties:
             value: "Such a sweet sorrow"
           - name: TESTENV
             value: "This is a test env"
-        probes:
-          - type: Liveness
-            httpGet:
-              path: /api/health
-              port: 5000
-            initialDelaySeconds: 30
-            periodSeconds: 30
+        # probes:
+        #   - type: Liveness
+        #     httpGet:
+        #       path: /api/health
+        #       port: 5000
+        #     initialDelaySeconds: 30
+        #     periodSeconds: 30
 
-          - type: Readiness
-            httpGet:
-              path: /api/health
-              port: 5000
-            initialDelaySeconds: 30
-            periodSeconds: 30
+        #   - type: Readiness
+        #     httpGet:
+        #       path: /api/health
+        #       port: 5000
+        #     initialDelaySeconds: 30
+        #     periodSeconds: 30
     scale:
       minReplicas: 1
       maxReplicas: 10
