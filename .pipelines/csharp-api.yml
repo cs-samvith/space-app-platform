@@ -18,27 +18,21 @@ properties:
     ingress:
       external: true
       allowInsecure: true
-      # targetPort: 5000
-      # traffic:
-      #   # - weight: 100
-      #   #   revisionName: single-app--REVISIONSUFFIX
-      #   #   label: production
-      #   - latestRevision: true
-      #     weight: 100
+      targetPort: 8080
+      traffic:
+        # - weight: 100
+        #   revisionName: single-app--REVISIONSUFFIX
+        #   label: production
+        - latestRevision: true
+          weight: 100
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
         name: csharpapimain
         env:
-          - name: DEMO_GREETING
-            value: "Hello from the environment"
-          - name: DEMO_FAREWELL
-            value: "Such a sweet sorrow"
-          - name: TESTENV
-            value: "This is a test env"
-          # - name: ASPNETCORE_ENVIRONMENT
-          #   value: 'Development'
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Development"
         # probes:
         #   - type: Liveness
         #     httpGet:
