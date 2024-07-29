@@ -33,6 +33,8 @@ logger.LogWarning("LogWarning->Logger is working...");
 logger.LogTrace("LogTrace->Logger is working...");
 logger.LogInformation("LogInformation->Logger is working...");
 
+
+
 builder.Services.AddHttpClient();
 
 //var connstring = builder.Configuration.GetConnectionString("MySqlConn");
@@ -48,6 +50,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.ConfigureHealthChecks(connstring);
+
+logger.LogInformation("connstring ==> " + connstring);
 
 
 var app = builder.Build();

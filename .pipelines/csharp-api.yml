@@ -37,6 +37,8 @@ properties:
             value: "Such a sweet sorrow"
           - name: TESTENV
             value: "This is a test env"
+          # - name: ASPNETCORE_ENVIRONMENT
+          #   value: 'Development'
         # probes:
         #   - type: Liveness
         #     httpGet:
