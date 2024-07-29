@@ -15,7 +15,7 @@ namespace csharp.api.Health
                             {"Version", Assembly.GetExecutingAssembly().GetName().Version.ToString() }
                     }))
                     .AddMySql(connstring, healthQuery: "SELECT 1 FROM testdb.customers", name: "SQL servere", failureStatus: HealthStatus.Unhealthy, tags: new[] { "testdb", "Database" })
-                    .AddCheck<RemoteHealthCheck>("Remote endpoints Health Check", failureStatus: HealthStatus.Unhealthy)
+                    //.AddCheck<RemoteHealthCheck>("Remote endpoints Health Check", failureStatus: HealthStatus.Unhealthy)
                     .AddCheck<MemoryHealthCheck>($"Feedback Service Memory Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "Feedback Service" });
 
             //.AddUrlGroup(new Uri("https://localhost:44333/api/v1/heartbeats/ping"), name: "base URL", failureStatus: HealthStatus.Unhealthy); 

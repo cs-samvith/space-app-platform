@@ -17,14 +17,14 @@ properties:
     activeRevisionsMode: "Multiple"
     ingress:
       external: true
-      allowInsecure: false
-      targetPort: 5000
-      traffic:
-        # - weight: 100
-        #   revisionName: single-app--REVISIONSUFFIX
-        #   label: production
-        - latestRevision: true
-          weight: 100
+      allowInsecure: true
+      # targetPort: 5000
+      # traffic:
+      #   # - weight: 100
+      #   #   revisionName: single-app--REVISIONSUFFIX
+      #   #   label: production
+      #   - latestRevision: true
+      #     weight: 100
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
