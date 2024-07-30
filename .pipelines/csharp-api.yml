@@ -32,7 +32,7 @@ properties:
         name: csharpapimain
         resources:
           cpu: 0.2
-          memory: 100Mi
+          memory: 0.12Gi
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
