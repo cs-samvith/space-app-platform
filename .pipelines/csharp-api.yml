@@ -33,20 +33,20 @@ properties:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
-        # probes:
-        #   - type: Liveness
-        #     httpGet:
-        #       path: /api/health
-        #       port: 5000
-        #     initialDelaySeconds: 30
-        #     periodSeconds: 30
+        probes:
+          - type: Liveness
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
 
-        #   - type: Readiness
-        #     httpGet:
-        #       path: /api/health
-        #       port: 5000
-        #     initialDelaySeconds: 30
-        #     periodSeconds: 30
+          - type: Readiness
+            httpGet:
+              path: /api/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 30
     scale:
       minReplicas: 1
       maxReplicas: 10
