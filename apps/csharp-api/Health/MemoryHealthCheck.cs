@@ -33,8 +33,7 @@ namespace csharp.api.Health
 
             return Task.FromResult(new HealthCheckResult(
                 status,
-                description: "Reports degraded status if allocated bytes " +
-                    $">= {options.Threshold} bytes.",
+                description: $"Reports degraded status if allocated bytes is greater than or equal to   {options.Threshold} bytes",
                 exception: null,
                 data: data));
         }

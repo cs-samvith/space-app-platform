@@ -30,6 +30,9 @@ properties:
     containers:
       - image: CONTAINERREGISTRY/IMAGENAME:TAG
         name: csharpapimain
+        resources:
+          cpu: 0.2
+          memory: 100Mi
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
