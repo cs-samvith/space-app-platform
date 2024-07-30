@@ -39,14 +39,14 @@ properties:
               path: /api/health
               port: 8080
             initialDelaySeconds: 30
-            periodSeconds: 30
+            periodSeconds: 15
 
           - type: Readiness
             httpGet:
               path: /api/health
               port: 8080
             initialDelaySeconds: 30
-            periodSeconds: 30
+            periodSeconds: 20
     scale:
       minReplicas: 1
       maxReplicas: 10
