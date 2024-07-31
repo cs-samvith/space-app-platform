@@ -47,7 +47,7 @@ namespace csharp.api.Controllers
             await Task.Delay(1000);
 
             var random = new Random();
-            return random.Next(1000, 2000);
+            return random.Next(100000, 200000);
         }
 
         private static IEnumerable<Customer> LongRunningProcess1(int count)
