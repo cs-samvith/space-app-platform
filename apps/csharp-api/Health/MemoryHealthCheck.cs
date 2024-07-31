@@ -36,7 +36,7 @@ namespace csharp.api.Health
 
         };
             //var status = allocated < options.Threshold ? HealthStatus.Healthy : HealthStatus.Unhealthy;
-            var status = allocated < options.Threshold ? HealthStatus.Healthy : HealthStatus.Unhealthy;
+            var status = allocated < ( GC.GetGCMemoryInfo().TotalAvailableMemoryBytes /10) ? HealthStatus.Healthy : HealthStatus.Unhealthy;
 
             return Task.FromResult(new HealthCheckResult(
                 status,
