@@ -14,9 +14,9 @@ namespace csharp.api.Health
                     {
                             {"Version", Assembly.GetExecutingAssembly().GetName().Version.ToString() }
                     }))
-                    .AddMySql(connstring, healthQuery: "SELECT 1 FROM testdb.customers", name: "SQL servere", failureStatus: HealthStatus.Unhealthy, tags: new[] { "testdb", "Database" })
+                    .AddMySql(connstring, healthQuery: "SELECT 1 FROM testdb.customers", name: "SQL servere", failureStatus: HealthStatus.Unhealthy, tags: new[] { "testdb", "Database","readiness" })
                     //.AddCheck<RemoteHealthCheck>("Remote endpoints Health Check", failureStatus: HealthStatus.Unhealthy)
-                    .AddCheck<MemoryHealthCheck>($"Feedback Service Memory Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "Feedback Service" });
+                    .AddCheck<MemoryHealthCheck>($"Csharp Api Memory Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "Feedback Service", "liveness"});
 
             //.AddUrlGroup(new Uri("https://localhost:44333/api/v1/heartbeats/ping"), name: "base URL", failureStatus: HealthStatus.Unhealthy); 
 
@@ -36,10 +36,21 @@ namespace csharp.api.Health
 
         public static void ApplyHealthChecks(this WebApplication app)
         {
-            app.UseHealthChecks("/api/health", new HealthCheckOptions
+            app.UseHealthChecks("/readiness", new HealthCheckOptions
             {
-                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                
             });
+
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                Predicate = (h) => h.Tags.Contains("liveness")
+            });
+
+            //endpoints.MapHealthChecks("/health", new HealthCheckOptions { ResponseWriter = healthResponseWriter });
+            //endpoints.MapHealthChecks("/liveness", new HealthCheckOptions { ResponseWriter = healthResponseWriter, Predicate = (h) => h.Tags.Contains("liveness") });
+            //endpoints.MapHealthChecks("/health-nodeps", new HealthCheckOptions { ResponseWriter = healthResponseWriter, Predicate = (h) => !h.Tags.Contains("external dependency") });
         }
     }
 }

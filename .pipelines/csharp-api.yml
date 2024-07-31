@@ -42,14 +42,14 @@ properties:
         probes:
           - type: Liveness
             httpGet:
-              path: /api/health
+              path: /liveness
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 15
 
           - type: Readiness
             httpGet:
-              path: /api/health
+              path: /readiness
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 20

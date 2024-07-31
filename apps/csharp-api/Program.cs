@@ -36,6 +36,7 @@ logger.LogInformation("LogInformation->Logger is working...");
 
 
 builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache();
 
 //var connstring = builder.Configuration.GetConnectionString("MySqlConn");
 
