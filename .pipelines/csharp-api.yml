@@ -33,6 +33,9 @@ properties:
         resources:
           cpu: 0.25
           memory: 0.5Gi
+        limit:
+          cpu: 0.25
+          memory: 0.5Gi
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
