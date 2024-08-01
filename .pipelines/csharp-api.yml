@@ -45,7 +45,7 @@ properties:
               path: /liveness
               port: 8080
             initialDelaySeconds: 30
-            periodSeconds: 15
+            periodSeconds: 10
 
           - type: Readiness
             httpGet:
