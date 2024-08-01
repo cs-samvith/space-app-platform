@@ -14,24 +14,10 @@ namespace csharp.api.Health
                     {
                             {"Version", Assembly.GetExecutingAssembly().GetName().Version.ToString() }
                     }))
-                    .AddMySql(connstring, healthQuery: "SELECT 1 FROM testdb.customers", name: "SQL servere", failureStatus: HealthStatus.Unhealthy, tags: new[] { "testdb", "Database","readiness" })
-                    //.AddCheck<RemoteHealthCheck>("Remote endpoints Health Check", failureStatus: HealthStatus.Unhealthy)
-                    .AddCheck<MemoryHealthCheck>($"Csharp Api Memory Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "Feedback Service", "liveness"});
-
-            //.AddUrlGroup(new Uri("https://localhost:44333/api/v1/heartbeats/ping"), name: "base URL", failureStatus: HealthStatus.Unhealthy); 
-
-            ////services.AddHealthChecksUI();
-
-            //services.AddHealthChecksUI(opt =>
-            //{
-            //    opt.SetEvaluationTimeInSeconds(10); //time in seconds between check    
-            //    opt.MaximumHistoryEntriesPerEndpoint(60); //maximum history of checks    
-            //    opt.SetApiMaxActiveRequests(1); //api requests concurrency    
-            //    opt.AddHealthCheckEndpoint("feedback api", "/api/health"); //map health check api    
-
-            //})
-            //    .AddInMemoryStorage();
-            
+                    .AddMySql(connstring, healthQuery: "SELECT 1 FROM testdb.customers", name: "MySql Server", failureStatus: HealthStatus.Unhealthy, tags: new[] { "testdb", "Database","readiness" })
+                    //.AddCheck<RemoteHealthCheck>("Remote endpoints Health Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "readiness" })
+                    .AddCheck<MemoryHealthCheck>($"Api Memory Check", failureStatus: HealthStatus.Unhealthy, tags: new[] { "Api", "liveness"});
+                    //.AddUrlGroup(new Uri("https://localhost:44333/api/v1/heartbeats/ping"), name: "base URL", failureStatus: HealthStatus.Unhealthy); 
         }
 
         public static void ApplyHealthChecks(this WebApplication app)
@@ -47,10 +33,6 @@ namespace csharp.api.Health
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
                 Predicate = (h) => h.Tags.Contains("liveness")
             });
-
-            //endpoints.MapHealthChecks("/health", new HealthCheckOptions { ResponseWriter = healthResponseWriter });
-            //endpoints.MapHealthChecks("/liveness", new HealthCheckOptions { ResponseWriter = healthResponseWriter, Predicate = (h) => h.Tags.Contains("liveness") });
-            //endpoints.MapHealthChecks("/health-nodeps", new HealthCheckOptions { ResponseWriter = healthResponseWriter, Predicate = (h) => !h.Tags.Contains("external dependency") });
         }
     }
 }

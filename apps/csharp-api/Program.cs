@@ -24,16 +24,10 @@ builder.Logging.AddApplicationInsights(
 
 builder.Services.AddApplicationInsightsTelemetry();
 
-builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>("trace", LogLevel.Trace);
+builder.Logging.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Information);
 
 IServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
 ILogger<Program> logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-
-logger.LogWarning("LogWarning->Logger is working...");
-logger.LogTrace("LogTrace->Logger is working...");
-logger.LogInformation("LogInformation->Logger is working...");
-
-
 
 builder.Services.AddHttpClient();
 builder.Services.AddMemoryCache();
@@ -52,7 +46,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.ConfigureHealthChecks(connstring);
 
-logger.LogInformation("connstring ==> " + connstring);
+logger.LogInformation("****Initializing***** ==> " + connstring);
 
 
 var app = builder.Build();

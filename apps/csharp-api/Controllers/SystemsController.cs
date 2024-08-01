@@ -1,7 +1,5 @@
-using csharp.api.Data;
 using csharp.api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace csharp.api.Controllers
 {
@@ -19,6 +17,7 @@ namespace csharp.api.Controllers
         [HttpGet(Name = "GetSystemInfo")]
         public Task<SystemInfo> GetAsync()
         {
+            _logger.LogInformation("Get SystemInfo Called");
             var sysInfo = new SystemInfo();
             sysInfo.ContainerName = System.Environment.MachineName;
             return Task.FromResult(sysInfo);

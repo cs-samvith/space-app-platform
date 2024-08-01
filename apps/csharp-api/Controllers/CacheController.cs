@@ -1,7 +1,5 @@
-using csharp.api.Data;
 using csharp.api.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace csharp.api.Controllers
@@ -22,13 +20,11 @@ namespace csharp.api.Controllers
         [HttpGet("{cacheKey}")]
         public async Task<IActionResult> Get(string cacheKey)
         {
+            _logger.LogInformation("Set/Get From Cache Called");
             if (_memoryCache.TryGetValue(cacheKey, out var item))
             {
                 return Ok(new { item = item });
             }
-
-            item = await LongRunningProcess();
-
 
             var itemtoadd = LongRunningProcess1(20000);
 
@@ -39,15 +35,8 @@ namespace csharp.api.Controllers
             };
 
             _memoryCache.Set(cacheKey, itemtoadd, options);
-            return Ok(new { item = item });
-        }
 
-        private static async Task<int> LongRunningProcess()
-        {
-            await Task.Delay(1000);
-
-            var random = new Random();
-            return random.Next(100000, 200000);
+            return Ok(new { item = itemtoadd });
         }
 
         private static IEnumerable<Customer> LongRunningProcess1(int count)
