@@ -10,6 +10,10 @@ properties:
     secrets:
       - name: acrpass
         value: ACRPASSWORD
+      - name: test1
+        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY/0ffea136bd1b49b7b02e73c480ef9fc5'
+        identity: 'User'
+
     registries:
       - server: CONTAINERREGISTRY
         username: spacedevacr
@@ -39,6 +43,8 @@ properties:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
+        - name: test1
+          secretRef: test1 
         probes:
           - type: Liveness
             httpGet:
