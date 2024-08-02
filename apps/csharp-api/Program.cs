@@ -47,6 +47,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.ConfigureHealthChecks(connstring);
 
 logger.LogInformation("****Initializing***** ==> " + connstring);
+logger.LogInformation("****Initializing->TestSecret1***** ==> " + Environment.GetEnvironmentVariable("test1"));
+logger.LogInformation("****Initializing->TestSecret2***** ==> " + Environment.GetEnvironmentVariable("test2"));
 
 
 var app = builder.Build();
