@@ -10,9 +10,9 @@ properties:
     secrets:
       - name: acrpass
         value: ACRPASSWORD
-      # # - name: test1
-      # #   keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY/0ffea136bd1b49b7b02e73c480ef9fc5'
-      # #   identity: 'User'
+      - name: test1
+        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY/0ffea136bd1b49b7b02e73c480ef9fc5'
+        identity: 'subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-platform-dev-msi'
       - name: test2
         value: test2
     registries:
@@ -44,8 +44,8 @@ properties:
         env:
         - name: ASPNETCORE_ENVIRONMENT
           value: "Development"
-        # - name: test1
-        #   secretRef: test1 
+        - name: test1
+          secretRef: test1 
         - name: test2
           secretRef: test2
         probes:
