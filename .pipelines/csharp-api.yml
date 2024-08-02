@@ -13,7 +13,8 @@ properties:
       - name: test1
         keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY/0ffea136bd1b49b7b02e73c480ef9fc5'
         identity: 'User'
-
+      - name: test2
+        value: test2
     registries:
       - server: CONTAINERREGISTRY
         username: spacedevacr
@@ -45,6 +46,8 @@ properties:
           value: "Development"
         - name: test1
           secretRef: test1 
+        - name: test2
+          secretRef: test2
         probes:
           - type: Liveness
             httpGet:
