@@ -1,10 +1,10 @@
-param cotnainerAppsConfig array
+param containerAppsConfig array
 param envConfig object
 param managedIdentityConfig object
 param keyVaultConfig object
 
 resource managedEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-preview' existing = [
-  for app in cotnainerAppsConfig: {
+  for app in containerAppsConfig: {
     name: app.env
     scope: resourceGroup(envConfig.resourceGroup)
   }
@@ -16,7 +16,7 @@ resource userManagedIdentityResource 'Microsoft.ManagedIdentity/userAssignedIden
 }
 
 resource containerApps 'Microsoft.App/containerapps@2023-11-02-preview' = [
-  for (app, index) in cotnainerAppsConfig: {
+  for (app, index) in containerAppsConfig: {
     name: app.name
     location: app.location
     identity: {

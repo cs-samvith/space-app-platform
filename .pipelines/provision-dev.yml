@@ -19,7 +19,8 @@ parameters:
       - app-insights
       - key-vault
       - container-app-environment
-      # - cotnainer-apps
+      - container-registry-role-assignment
+      # - container-apps
 
   - name: all
     type: object
@@ -29,7 +30,8 @@ parameters:
       - app-insights
       - key-vault
       - container-app-environment
-      # - cotnainer-apps
+      - container-registry-role-assignment
+      # - container-apps
 
 variables:
   - template: variables/variables.yml

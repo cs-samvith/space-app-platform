@@ -1,3 +1,4 @@
+# https://learn.microsoft.com/en-us/rest/api/containerapps/jobs/get?view=rest-containerapps-2024-03-01&tabs=HTTP#secret
 name: csharp-api
 identity:
   userAssignedIdentities:
@@ -16,9 +17,11 @@ properties:
       - name: test2
         value: test2
     registries:
+      # - server: CONTAINERREGISTRY
+      #   username: spacedevacr
+      #   passwordSecretRef: acrpass
       - server: CONTAINERREGISTRY
-        username: spacedevacr
-        passwordSecretRef: acrpass
+        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-platform-dev-msi'
     activeRevisionsMode: "Multiple"
     ingress:
       external: true

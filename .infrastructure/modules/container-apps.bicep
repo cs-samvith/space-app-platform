@@ -2,10 +2,10 @@ import * as resources from 'resources-config.bicep'
 
 param environment string
 
-module containerAppEnvs '../resources/cotnainer-apps.bicep' = {
-  name: 'cotnainer-apps'
+module containerAppEnvs '../resources/container-apps.bicep' = {
+  name: 'container-apps'
   params: {
-    cotnainerAppsConfig: resources.parameters.containerApps[environment].apps
+    containerAppsConfig: resources.parameters.containerApps[environment].apps
     envConfig: resources.parameters.env[environment]
     keyVaultConfig: resources.parameters.keyVault[environment].keyVault
     managedIdentityConfig: resources.parameters.managedIdentity[environment]

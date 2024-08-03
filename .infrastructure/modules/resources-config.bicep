@@ -21,4 +21,7 @@ var parameters = {
   managedIdentity: {
     dev: loadJsonContent('../parameters/dev/managed-identity.json')
   }
+  containerRegistry: {
+    dev: loadJsonContent('../parameters/dev/container-registry.json')
+  }
 }
