@@ -9,8 +9,8 @@ properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-platform/providers/Microsoft.App/managedEnvironments/space-platform-env"
   configuration:
     secrets:
-      - name: acrpass
-        value: ACRPASSWORD
+        # - name: acrpass
+        #   value: ACRPASSWORD
       - name: test1
         keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY'
         identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-platform-dev-msi'

@@ -65,9 +65,9 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/csharp-api.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/csharp-api.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/csharp-api.yml
-                sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/csharp-api.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
-
+              
+                # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/csharp-api.yml
           - task: CmdLine@2
             inputs:
               script: |
