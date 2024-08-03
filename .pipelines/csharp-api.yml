@@ -11,8 +11,8 @@ properties:
       - name: acrpass
         value: ACRPASSWORD
       - name: test1
-        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY/0ffea136bd1b49b7b02e73c480ef9fc5'
-        identity: 'space-platform-dev-msi'
+        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY'
+        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-platform-dev-msi'
       - name: test2
         value: test2
     registries:

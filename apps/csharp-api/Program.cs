@@ -42,6 +42,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connstring, ServerVersion.AutoDetect(connstring));
     //https://www.youtube.com/watch?v=zVv9YWePvlw
     //https://medium.com/@chandrashekharsingh25/build-a-restful-web-api-with-net-8-44fc93b36618
+    //https://azure.github.io/java-aks-aca-dapr-workshop/modules/11-aca-challenge/04-deploy-to-aca/
 });
 
 builder.Services.ConfigureHealthChecks(connstring);
