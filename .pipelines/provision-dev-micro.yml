@@ -15,6 +15,7 @@ parameters:
     values:
       - all
       - managed-identity
+      - virtual-network
       - workspace
       - app-insights
       - key-vault
@@ -26,6 +27,7 @@ parameters:
     type: object
     default:
       - managed-identity
+      - virtual-network
       - workspace
       - app-insights
       - key-vault
