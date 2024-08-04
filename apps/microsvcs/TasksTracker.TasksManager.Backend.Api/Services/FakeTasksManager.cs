@@ -15,7 +15,7 @@ namespace TasksTracker.TasksManager.Backend.Api.Services
                 {
                     TaskId = Guid.NewGuid(),
                     TaskName = $"Task number: {i}",
-                    TaskCreatedBy = "sam",
+                    TaskCreatedBy = "sam@cs.com",
                     TaskCreatedOn = DateTime.UtcNow.AddMinutes(i),
                     TaskDueDate = DateTime.UtcNow.AddDays(i),
                     TaskAssignedTo = $"assignee{rnd.Next(50)}@mail.com",
