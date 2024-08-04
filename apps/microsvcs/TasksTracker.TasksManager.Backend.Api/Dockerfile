@@ -7,11 +7,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["TasksTracker.TasksManager.Backend.Api.csproj", "TasksTracker.TasksManager.Backend.Api/"]
-RUN dotnet restore "TasksTracker.TasksManager.Backend.Api/TasksTracker.TasksManager.Backend.Api.csproj"
+COPY ["TasksTracker.TasksManager.Backend.Api.csproj", "."]
+RUN dotnet restore "./TasksTracker.TasksManager.Backend.Api.csproj"
 COPY . .
-WORKDIR "/src/TasksTracker.TasksManager.Backend.Api"
-RUN dotnet build "TasksTracker.TasksManager.Backend.Api.csproj" -c Release -o /app/build
+WORKDIR "/src/."
+RUN dotnet build "./TasksTracker.TasksManager.Backend.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "TasksTracker.TasksManager.Backend.Api.csproj" -c Release -o /app/publish
