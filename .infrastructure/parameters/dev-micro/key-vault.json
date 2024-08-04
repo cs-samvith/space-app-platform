@@ -1,0 +1,6 @@
+{
+    "keyVault": {
+        "name": "space-micro-dev-vault",
+        "sku": "Standard"
+    }
+}

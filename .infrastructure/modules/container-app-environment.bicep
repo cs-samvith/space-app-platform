@@ -8,6 +8,8 @@ module containerAppEnvs '../resources/container-app-environment.bicep' = {
     cotnainerAppsConfig: resources.parameters.containerAppsEnv[environment].envs
     workspaceConfig: resources.parameters.appInsights[environment].workspace
     envConfig: resources.parameters.env[environment]
+    appInsightsConfig: resources.parameters.appInsights[environment].appInsight
+    subnetName: resources.parameters.env[environment].name == 'dev-micro' ? 'space-micro-vnet-east/infra' : ''
   }
   dependsOn: []
 }

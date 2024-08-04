@@ -1,0 +1,8 @@
+{
+    "envs": [
+        {
+            "name": "space-micro-env",
+            "region": "eastus"
+        }
+    ]
+}

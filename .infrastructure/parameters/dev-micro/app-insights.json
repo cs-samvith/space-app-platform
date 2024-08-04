@@ -1,0 +1,8 @@
+{
+    "appInsight": {
+        "name": "space-micro-dev-insights"
+    },
+    "workspace": {
+        "name": "space-micro-dev-analytics"
+    }
+}

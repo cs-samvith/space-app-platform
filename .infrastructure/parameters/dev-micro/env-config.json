@@ -1,0 +1,7 @@
+{
+    "name": "dev-micro",
+    "centralLocation": "centralus",
+    "eastLocation": "eastus",
+    "westLocation": "westus",
+    "resourceGroup": "space-dev-micro"
+}

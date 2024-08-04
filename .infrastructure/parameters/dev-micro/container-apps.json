@@ -1,0 +1,10 @@
+{
+    "apps": [
+        {
+            "name": "space-micro-app-east",
+            "env": "space-micro-env-east",
+            "location": "eastus",
+            "revisionName": "PLACEHOLDER"
+        }
+    ]
+}

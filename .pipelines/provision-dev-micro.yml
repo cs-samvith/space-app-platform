@@ -1,0 +1,72 @@
+trigger: none
+
+pr: none
+
+name: provision-dev
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+  - name: resource
+    displayName: resource
+    type: string
+    default: all
+    values:
+      - all
+      - managed-identity
+      - workspace
+      - app-insights
+      - key-vault
+      - container-app-environment
+      - container-registry-role-assignment
+      # - container-apps
+
+  - name: all
+    type: object
+    default:
+      - managed-identity
+      - workspace
+      - app-insights
+      - key-vault
+      - container-app-environment
+      - container-registry-role-assignment
+      # - container-apps
+
+variables:
+  - template: variables/variables.yml
+
+  - name: configuration
+    value: "dev-micro"
+
+  - name: resourceGroup
+    value: "space-dev-micro"
+
+  - name: serviceConnection
+    value: "ARM_SERVICE_CONNECTION"
+
+jobs:
+  - job: provision_selected
+    displayName: "${{ variables.configuration }}-provision-individual"
+    condition: ${{ ne(parameters.resource, 'all') }}
+    steps:
+      - template: "templates/bicep_create.yml"
+        parameters:
+          deployment_name: provision-${{ parameters.resource }}
+          service_connection: ${{ variables.serviceConnection }}
+          display_name: ${{ parameters.resource }}-$(currentDate)
+          resource_group: ${{ variables.resourceGroup }}
+          template: .infrastructure/modules/${{ parameters.resource }}.bicep
+          environment: ${{ variables.configuration }}
+          
+  - job: provision_all
+    displayName: "${{ variables.configuration }}-provision-all"
+    condition: ${{ eq(parameters.resource, 'all') }}
+    steps:
+      - template: "templates/bicep_create_all.yml"
+        parameters:
+          service_connection: ${{ variables.serviceConnection }}
+          resource_group: ${{ variables.resourceGroup }}
+          items: ${{ parameters.all }}
+          environment: ${{ variables.configuration }}
+          currentDate: $(currentDate)
