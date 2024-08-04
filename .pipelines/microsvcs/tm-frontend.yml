@@ -1,0 +1,60 @@
+# https://learn.microsoft.com/en-us/rest/api/containerapps/jobs/get?view=rest-containerapps-2024-03-01&tabs=HTTP#secret
+name: tm-frontend
+identity:
+  userAssignedIdentities:
+    "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi":
+      {}
+  type: UserAssigned
+properties:
+  environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.App/managedEnvironments/space-micro-env"
+  configuration:
+    secrets:
+    registries:
+      - server: CONTAINERREGISTRY
+        identity: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
+    activeRevisionsMode: "Single"
+    ingress:
+      external: true
+      allowInsecure: true
+      targetPort: 80
+      traffic:
+        # - weight: 100
+        #   revisionName: single-app--REVISIONSUFFIX
+        #   label: production
+        - latestRevision: true
+          weight: 100
+  template:
+    revisionSuffix: REVISIONSUFFIX
+    containers:
+      - image: CONTAINERREGISTRY/IMAGENAME:TAG
+        name: tmfrontend
+        resources:
+          cpu: 0.25
+          memory: 0.5Gi
+        limit:
+          cpu: 0.25
+          memory: 0.5Gi
+        env:
+        # - name: ASPNETCORE_ENVIRONMENT
+        #   value: "Development"
+        # - name: test1
+        #   secretRef: test1
+        # - name: test2
+        #   secretRef: test2
+        # probes:
+        #   - type: Liveness
+        #     httpGet:
+        #       path: /liveness
+        #       port: 8080
+        #     initialDelaySeconds: 30
+        #     periodSeconds: 10
+
+        #   - type: Readiness
+        #     httpGet:
+        #       path: /readiness
+        #       port: 8080
+        #     initialDelaySeconds: 30
+        #     periodSeconds: 20
+    scale:
+      minReplicas: 1
+      maxReplicas: 1
