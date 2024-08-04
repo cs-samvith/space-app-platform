@@ -2,7 +2,7 @@ trigger: none
 
 pr: none
 
-name: provision-dev
+name: provision-devmicro
 
 pool:
   vmImage: ubuntu-latest
@@ -39,7 +39,7 @@ variables:
   - template: variables/variables.yml
 
   - name: configuration
-    value: "dev-micro"
+    value: "devmicro"
 
   - name: resourceGroup
     value: "space-dev-micro"
