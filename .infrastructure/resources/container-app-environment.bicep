@@ -37,7 +37,7 @@ resource managedEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-previ
       daprConfiguration: {}
       daprAIInstrumentationKey: appInsightsResource.properties.InstrumentationKey
       customDomainConfiguration: {}
-      vnetConfiguration: subnet != null
+      vnetConfiguration: subnetName != ''
         ? {
             infrastructureSubnetId: subnet.id
           }
