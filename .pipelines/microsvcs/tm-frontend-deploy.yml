@@ -31,6 +31,9 @@ variables:
   #   value: "20240708-22"
   - group: acr
 
+  - name: backend 
+    value: tm-backend-api
+
 stages:
   - stage: BuildAndDeploy
     jobs:
@@ -58,6 +61,19 @@ stages:
         dependsOn:
           - Build
         steps:
+          - task: AzureCLI@2
+            displayName: "Azure CLI Get fqdn"
+            name: Fqdn
+            inputs:
+              azureSubscription: $(service_connection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az --version
+                az account show
+                qdn=$(az containerapp ingress show --name $(backend) --resource-group $(resource_group) --query fqdn --output tsv)
+                echo $qdn | jq .
+                echo "##vso[task.setvariable variable=value;isoutput=true]https://$qdn"
           - task: CmdLine@2
             inputs:
               script: |
@@ -66,6 +82,7 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/microsvcs/tm-frontend.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/microsvcs/tm-frontend.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/microsvcs/tm-frontend.yml
+                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(Fqdn.value)/g' .pipelines/microsvcs/tm-frontend.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
               
                 # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/microsvcs/tm-frontend.yml

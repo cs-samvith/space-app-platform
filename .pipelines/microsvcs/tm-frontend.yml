@@ -35,12 +35,8 @@ properties:
           cpu: 0.25
           memory: 0.5Gi
         env:
-        # - name: ASPNETCORE_ENVIRONMENT
-        #   value: "Development"
-        # - name: test1
-        #   secretRef: test1
-        # - name: test2
-        #   secretRef: test2
+        - name: BackendApiConfig__BaseUrlExternalHttp
+          value: BackendApiConfig__BaseUrlExternalHttp_VALUE
         # probes:
         #   - type: Liveness
         #     httpGet:
