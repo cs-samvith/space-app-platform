@@ -22,11 +22,11 @@ properties:
       #   passwordSecretRef: acrpass
       - server: CONTAINERREGISTRY
         identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
-    activeRevisionsMode: "Multiple"
+    activeRevisionsMode: "Single"
     ingress:
       external: true
       allowInsecure: true
-      targetPort: 5000
+      targetPort: 80
       traffic:
         # - weight: 100
         #   revisionName: single-app--REVISIONSUFFIX
@@ -67,4 +67,4 @@ properties:
         #     periodSeconds: 20
     scale:
       minReplicas: 1
-      maxReplicas: 10
+      maxReplicas: 1
