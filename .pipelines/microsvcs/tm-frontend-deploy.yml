@@ -72,8 +72,9 @@ stages:
                 az --version
                 az account show
                 qdn=$(az containerapp ingress show --name $(backend) --resource-group $(resource_group) --query fqdn --output tsv)
-                echo $qdn | jq .
-                echo "##vso[task.setvariable variable=value;isoutput=true]https://$qdn"
+                # echo $qdn | jq .
+                echo 'testtstst'
+                echo "##vso[task.setvariable variable=value;isoutput=true]$qdn"
           - task: CmdLine@2
             inputs:
               script: |
