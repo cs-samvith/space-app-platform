@@ -36,7 +36,7 @@ properties:
           memory: 0.5Gi
         env:
         - name: BackendApiConfig__BaseUrlExternalHttp
-          value: BackendApiConfig__BaseUrlExternalHttp_VALUE
+          value: https://BackendApiConfig__BaseUrlExternalHttp_VALUE
         # probes:
         #   - type: Liveness
         #     httpGet:
