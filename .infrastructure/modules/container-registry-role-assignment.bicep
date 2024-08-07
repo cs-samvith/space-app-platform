@@ -4,8 +4,8 @@ param environment string
 
 
 resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' existing = {
-  name: resources.parameters.managedIdentity[environment]
-  scope: resourceGroup(resources.parameters.env[environment])
+  name: resources.parameters.managedIdentity[environment].name
+  scope: resourceGroup(resources.parameters.env[environment].resourceGroup)
 }
 
 module containerRegRoleAssignment '../resources/container-registry-role-assignment.bicep' = {
