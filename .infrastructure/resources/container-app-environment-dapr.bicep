@@ -3,7 +3,7 @@ param cotnainerAppsEnvConfig array
 
 resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-preview' existing = [
   for app in cotnainerAppsEnvConfig: {
-    name: app.env
+    name: app.name
     // scope: resourceGroup(envConfig.resourceGroup)
   }
 ]
