@@ -22,6 +22,9 @@ namespace TasksTracker.TasksManager.Backend.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<TaskModel>> Get(string createdBy)
         {
+            _logger.LogInformation("LogInformation");
+            _logger.LogTrace("LogTrace");
+            _logger.LogDebug("LogDebug");
             return await _tasksManager.GetTasksByCreator(createdBy);
         }
 

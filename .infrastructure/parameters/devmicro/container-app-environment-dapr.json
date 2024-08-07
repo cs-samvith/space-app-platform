@@ -1,0 +1,20 @@
+{
+    "envs": [
+        {
+            "name": "space-micro-env",
+            "region": "eastus",
+            "Dapr": {
+                "stateStore": {
+                    "cosmos": {
+                        "url": "https://work-db.documents.azure.com:443/",
+                        "database": "tasksmanagerdb",
+                        "collection": "taskscollection"
+                    },
+                    "scopes": [
+                        "tm-backend-api"
+                    ]
+                }
+            }
+        }
+    ]
+}

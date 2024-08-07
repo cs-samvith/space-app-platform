@@ -35,7 +35,7 @@ namespace TasksTracker.TasksManager.Backend.Api.Services
 
             _logger.LogInformation("Save a new task with name: '{0}' to state store", taskModel.TaskName);
             await _daprClient.SaveStateAsync<TaskModel>(STORE_NAME, taskModel.TaskId.ToString(), taskModel);
-            await PublishTaskSavedEvent(taskModel);
+            //await PublishTaskSavedEvent(taskModel);
             return taskModel.TaskId;
         }
 
@@ -92,10 +92,10 @@ namespace TasksTracker.TasksManager.Backend.Api.Services
                 taskModel.TaskAssignedTo = assignedTo;
                 taskModel.TaskDueDate = dueDate;
                 await _daprClient.SaveStateAsync<TaskModel>(STORE_NAME, taskModel.TaskId.ToString(), taskModel);
-                if (!taskModel.TaskAssignedTo.Equals(currentAssignee, StringComparison.OrdinalIgnoreCase))
-                {
-                    await PublishTaskSavedEvent(taskModel);
-                }
+                //if (!taskModel.TaskAssignedTo.Equals(currentAssignee, StringComparison.OrdinalIgnoreCase))
+                //{
+                //    await PublishTaskSavedEvent(taskModel);
+                //}
                 return true;
             }
             return false;

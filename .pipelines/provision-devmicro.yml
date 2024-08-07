@@ -21,6 +21,7 @@ parameters:
       - key-vault
       - container-app-environment
       - container-registry-role-assignment
+      - container-app-environment-dapr
       # - container-apps
 
   - name: all
@@ -33,6 +34,7 @@ parameters:
       - key-vault
       - container-app-environment
       - container-registry-role-assignment
+      - container-app-environment-dapr
       # - container-apps
 
 variables:

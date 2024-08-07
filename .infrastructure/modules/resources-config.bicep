@@ -16,6 +16,9 @@ var parameters = {
     dev: loadJsonContent('../parameters/dev/container-app-environment.json')
     devmicro: loadJsonContent('../parameters/devmicro/container-app-environment.json')
   }
+  containerAppsEnvDapr: {
+    devmicro: loadJsonContent('../parameters/devmicro/container-app-environment-dapr.json')
+  }
   containerApps: {
     dev: loadJsonContent('../parameters/dev/container-apps.json')
     devmicro: loadJsonContent('../parameters/devmicro/container-apps.json')
