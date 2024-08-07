@@ -1,6 +1,7 @@
-param managedIdentityConfig object
+// param managedIdentityConfig object
 param containerRegistryConfig object
-param envConfig object
+//param envConfig object
+param principalId string
 
 // https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#acrpull
 var roleId = '7f951dda-4ed3-4680-a7ca-43fe172d538d'
@@ -10,17 +11,17 @@ resource registry 'Microsoft.ContainerRegistry/registries@2021-06-01-preview' ex
   scope: resourceGroup(containerRegistryConfig.resourceGroup)
 }
 
-resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' existing = {
-  name: managedIdentityConfig.name
-  scope: resourceGroup(envConfig.resourceGroup)
-}
+// resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' existing = {
+//   name: managedIdentityConfig.name
+//   //scope: resourceGroup(envConfig.resourceGroup)
+// }
 
 // Create role assignment
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(registry.id, roleId,  identity.properties.principalId)
+  name: guid(registry.id, roleId,  principalId)
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId)
-    principalId: identity.properties.principalId
+    principalId: principalId
     principalType: 'ServicePrincipal'
   }
 }
