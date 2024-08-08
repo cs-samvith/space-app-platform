@@ -16,7 +16,13 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
     properties: {
       componentType: 'state.azure.cosmosdb'
       version: 'v1'
-      secrets: []
+      secrets: [
+        {
+          name: 'cosmosmasterkey'
+          keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net/secrets/cosmos-masterkey'
+          identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+        }
+      ]
       metadata: [
         {
           name: 'url'
@@ -29,6 +35,10 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
         {
           name: 'collection'
           value: app.Dapr.stateStore.cosmos.collection
+        }
+        {
+          name: 'masterkey'
+          secretRef: 'cosmosmasterkey'
         }
       ]
       scopes: app.Dapr.stateStore.scopes
