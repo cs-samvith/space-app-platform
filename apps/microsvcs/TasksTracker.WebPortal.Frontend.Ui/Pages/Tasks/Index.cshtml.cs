@@ -31,7 +31,7 @@ namespace TasksTracker.WebPortal.Frontend.Ui.Pages.Tasks
                 //TasksList = await httpClient.GetFromJsonAsync<List<TaskModel>>($"api/tasks?createdBy={TasksCreatedBy}");
                 //return Page();
                 Console.WriteLine("*************");
-                TasksList = await _daprClient.InvokeMethodAsync<List<TaskModel>>(HttpMethod.Get, "tasksmanager-backend-api", $"api/tasks?createdBy={TasksCreatedBy}");
+                TasksList = await _daprClient.InvokeMethodAsync<List<TaskModel>>(HttpMethod.Get, "tm-backend-api", $"api/tasks?createdBy={TasksCreatedBy}");
                 return Page();
 
      
@@ -50,7 +50,7 @@ namespace TasksTracker.WebPortal.Frontend.Ui.Pages.Tasks
             //return RedirectToPage();
 
             // Dapr SideCar Invocation
-            await _daprClient.InvokeMethodAsync(HttpMethod.Delete, "tasksmanager-backend-api", $"api/tasks/{id}");
+            await _daprClient.InvokeMethodAsync(HttpMethod.Delete, "tm-backend-api", $"api/tasks/{id}");
 
             return RedirectToPage();
         }
@@ -64,7 +64,7 @@ namespace TasksTracker.WebPortal.Frontend.Ui.Pages.Tasks
 
 
             // Dapr SideCar Invocation
-            await _daprClient.InvokeMethodAsync(HttpMethod.Put, "tasksmanager-backend-api", $"api/tasks/{id}/markcomplete");
+            await _daprClient.InvokeMethodAsync(HttpMethod.Put, "tm-backend-api", $"api/tasks/{id}/markcomplete");
 
             return RedirectToPage();
         }

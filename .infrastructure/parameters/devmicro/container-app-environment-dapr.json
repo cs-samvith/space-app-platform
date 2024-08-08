@@ -6,7 +6,7 @@
             "Dapr": {
                 "stateStore": {
                     "cosmos": {
-                        "url": "https://workdb.documents.azure.com:443/",
+                        "url": "https://work-db.documents.azure.com:443/",
                         "database": "tasksmanagerdb",
                         "collection": "taskscollection"
                     },

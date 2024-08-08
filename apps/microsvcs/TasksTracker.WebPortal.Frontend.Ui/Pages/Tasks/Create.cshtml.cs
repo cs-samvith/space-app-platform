@@ -47,7 +47,7 @@ namespace TasksTracker.WebPortal.Frontend.Ui.Pages.Tasks
                     //var result = await httpClient.PostAsJsonAsync("api/tasks/", TaskAdd);
 
                     // Dapr SideCar Invocation
-                    await _daprClient.InvokeMethodAsync(HttpMethod.Post, "tasksmanager-backend-api", $"api/tasks", TaskAdd);
+                    await _daprClient.InvokeMethodAsync(HttpMethod.Post, "tm-backend-api", $"api/tasks", TaskAdd);
                 }
             }
 

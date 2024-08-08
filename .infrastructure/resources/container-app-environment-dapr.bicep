@@ -16,15 +16,15 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
     properties: {
       componentType: 'state.azure.cosmosdb'
       version: 'v1'
-      secretStoreComponent: 'statestore'
-      secrets: [
-        {
-          name: 'cosmosmasterkey'
-          value: 'cosmos-masterkey'
-          keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net/secrets/cosmos-masterkey'
-          identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
-        }
-      ]
+      // secretStoreComponent: 'secretstore'
+      // secrets: [
+      //   {
+      //     name: 'cosmosmasterkey'
+      //     value: 'cosmos-masterkey'
+      //     keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net/secrets/cosmos-masterkey'
+      //     identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+      //   }
+      // ]
       metadata: [
         {
           name: 'url'
@@ -39,11 +39,47 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
           value: app.Dapr.stateStore.cosmos.collection
         }
         {
-          name: 'masterkey'
-          secretRef: 'cosmosmasterkey'
+          name: 'azureClientId'
+          value: 'd5ddad76-e30d-4cdb-aa1d-94d93defe36e'
         }
+        // {
+        //   name: 'masterkey'
+        //   secretRef: 'cosmos-masterkey'
+        // }
       ]
       scopes: app.Dapr.stateStore.scopes
     }
   }
 ]
+
+
+//keyvault secret store Component
+resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = {
+    name: 'space-micro-env/secretstore'
+    properties: {
+      componentType: 'secretstores.azure.keyvault'
+      version: 'v1'
+     
+      // secrets: [
+      //   {
+      //     name: 'cosmosmasterkey'
+      //     value: 'cosmos-masterkey'
+      //     keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net/secrets/cosmos-masterkey'
+      //     identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+      //   }
+      // ]
+      metadata: [
+        {
+          name: 'vaultName'
+          value: 'space-micro-dev-vault'
+        }
+        {
+          name: 'azureClientId'
+          value: 'd5ddad76-e30d-4cdb-aa1d-94d93defe36e'
+        }
+
+      ]
+      scopes: ['tm-backend-api']
+    }
+  }
+

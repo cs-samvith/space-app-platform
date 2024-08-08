@@ -39,7 +39,7 @@ namespace TasksTracker.WebPortal.Frontend.Ui.Pages.Tasks
             //var Task = await httpClient.GetFromJsonAsync<TaskModel>($"api/tasks/{id}");
 
             // Dapr SideCar Invocation
-            var Task = await _daprClient.InvokeMethodAsync<TaskModel>(HttpMethod.Get, "tasksmanager-backend-api", $"api/tasks/{id}");
+            var Task = await _daprClient.InvokeMethodAsync<TaskModel>(HttpMethod.Get, "tm-backend-api", $"api/tasks/{id}");
 
 
             if (Task == null)
@@ -72,7 +72,7 @@ namespace TasksTracker.WebPortal.Frontend.Ui.Pages.Tasks
                 //var result = await httpClient.PutAsJsonAsync($"api/tasks/{TaskUpdate.TaskId}", TaskUpdate);
 
                 // Dapr SideCar Invocation
-                await _daprClient.InvokeMethodAsync<TaskUpdateModel>(HttpMethod.Put, "tasksmanager-backend-api", $"api/tasks/{TaskUpdate.TaskId}", TaskUpdate);
+                await _daprClient.InvokeMethodAsync<TaskUpdateModel>(HttpMethod.Put, "tm-backend-api", $"api/tasks/{TaskUpdate.TaskId}", TaskUpdate);
 
             }
 

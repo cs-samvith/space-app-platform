@@ -23,6 +23,14 @@ properties:
         #   label: production
         - latestRevision: true
           weight: 100
+    dapr:
+      enabled: true
+      appPort: 80
+      appProtocol: http
+      httpReadBufferSize: 30
+      httpMaxRequestSize: 10
+      logLevel: debug
+      enableApiLogging: true
   template:
     revisionSuffix: REVISIONSUFFIX
     containers:
