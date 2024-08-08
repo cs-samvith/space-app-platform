@@ -16,6 +16,7 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
     properties: {
       componentType: 'state.azure.cosmosdb'
       version: 'v1'
+      secretStoreComponent: 'statestore'
       secrets: [
         {
           name: 'cosmosmasterkey'
