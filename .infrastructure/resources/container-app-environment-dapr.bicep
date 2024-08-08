@@ -9,7 +9,7 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-
 ]
 
 //Cosmos DB State Store Component
-resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2022-06-01-preview' = [
+resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
     name: 'statestore'
     parent: containerAppEnvironments[index]
