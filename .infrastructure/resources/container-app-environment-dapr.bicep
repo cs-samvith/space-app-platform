@@ -20,7 +20,7 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
         {
           name: 'cosmosmasterkey'
           value: 'cosmos-masterkey'
-          keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net'
+          keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net/secrets/cosmos-masterkey'
           identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
         }
       ]
