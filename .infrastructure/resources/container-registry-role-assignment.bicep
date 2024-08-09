@@ -1,6 +1,5 @@
 // param managedIdentityConfig object
 param containerRegistryConfig object
-//param envConfig object
 param principalId string
 
 // https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles#acrpull
@@ -18,7 +17,7 @@ resource registry 'Microsoft.ContainerRegistry/registries@2021-06-01-preview' ex
 
 // Create role assignment
 resource roleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(registry.id, roleId,  principalId)
+  name: guid(registry.id, roleId, principalId)
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', roleId)
     principalId: principalId

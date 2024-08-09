@@ -21,26 +21,3 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
     DisableIpMasking: true
   }
 }
-
-// resource appInsightsDiagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-05-01-preview' = {
-//   scope: appInsights
-//   name: 'export-to-splunk'
-//   properties: {
-//     eventHubAuthorizationRuleId: resourceId(subscription().subscriptionId, diagnosticConfig.event_hub_resource_group, 'Microsoft.EventHub/namespaces/authorizationRules', diagnosticConfig.event_hub_namespace, 'RootManageSharedAccessKey')
-//     eventHubName: diagnosticConfig.event_hub_name
-//     logAnalyticsDestinationType: null
-//     logs: [
-//       {
-//         categoryGroup: 'allLogs'
-//         enabled: true
-//       }
-//     ]
-//     metrics: [
-//       {
-//         category: 'AllMetrics'
-//         enabled: true
-//       }
-//     ]
-//   }
-//   dependsOn: []
-// }

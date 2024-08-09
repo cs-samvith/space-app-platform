@@ -7,7 +7,6 @@ module virtualNetworks '../resources/virtual-network.bicep' = [
     name: 'virtual-network-${vnet.name}'
     params: {
       vnetConfig: vnet
-      envConfig: resources.parameters.env[environment]
     }
     dependsOn: []
   }

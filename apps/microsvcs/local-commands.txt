@@ -1,0 +1,6 @@
+dapr run --app-id tasksmanager-backend-api --app-port 7088 --dapr-http-port 3500 --app-ssl -- dotnet run
+dapr run --app-id tasksmanager-frontend-webapp --app-port 7208 --dapr-http-port 3501 --app-ssl -- dotnet run 
+
+
+dapr run --app-id tasksmanager-backend-api --app-port 7088 --dapr-http-port 3500 --app-ssl --resources-path "../components" -- dotnet run
+

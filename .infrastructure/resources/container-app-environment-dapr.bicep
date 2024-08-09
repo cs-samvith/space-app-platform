@@ -1,12 +1,16 @@
 param cotnainerAppsEnvConfig array
-// param envConfig object
+param managedIdentityConfig object
+param keyVaultConfig object
 
 resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-preview' existing = [
   for app in cotnainerAppsEnvConfig: {
     name: app.name
-    // scope: resourceGroup(envConfig.resourceGroup)
   }
 ]
+
+resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-preview' existing = {
+  name: managedIdentityConfig.name
+}
 
 //Cosmos DB State Store Component
 resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
@@ -40,7 +44,7 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
         }
         {
           name: 'azureClientId'
-          value: 'd5ddad76-e30d-4cdb-aa1d-94d93defe36e'
+          value: identity.properties.clientId
         }
         // {
         //   name: 'masterkey'
@@ -52,34 +56,25 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
   }
 ]
 
-
-//keyvault secret store Component
-resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = {
-    name: 'space-micro-env/secretstore'
+//KeyVault Secret Store Component
+resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
+  for (app, index) in cotnainerAppsEnvConfig: {
+    name: 'secretstore'
+    parent: containerAppEnvironments[index]
     properties: {
       componentType: 'secretstores.azure.keyvault'
       version: 'v1'
-     
-      // secrets: [
-      //   {
-      //     name: 'cosmosmasterkey'
-      //     value: 'cosmos-masterkey'
-      //     keyVaultUrl: 'https://space-micro-dev-vault.vault.azure.net/secrets/cosmos-masterkey'
-      //     identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
-      //   }
-      // ]
       metadata: [
         {
           name: 'vaultName'
-          value: 'space-micro-dev-vault'
+          value: keyVaultConfig.name
         }
         {
           name: 'azureClientId'
-          value: 'd5ddad76-e30d-4cdb-aa1d-94d93defe36e'
+          value: identity.properties.clientId
         }
-
       ]
       scopes: ['tm-backend-api']
     }
   }
-
+]
