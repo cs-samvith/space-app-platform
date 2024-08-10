@@ -22,17 +22,17 @@ resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-prev
   name: 'tasksavedtopic'
   parent: serviceBus
   properties: {
-    autoDeleteOnIdle: 'P10675199DT2H48M5.4775807S'
-    defaultMessageTimeToLive: 'P10675199DT2H48M5.4775807S'
-    duplicateDetectionHistoryTimeWindow: 'PT10M'
-    enableBatchedOperations: true
-    enableExpress: false
-    enablePartitioning: false
-    maxMessageSizeInKilobytes: 1024
-    maxSizeInMegabytes: 1024
-    requiresDuplicateDetection: false
-    status: 'Active'
-    supportOrdering: false
+    // autoDeleteOnIdle: 'P10675199DT2H48M5.4775807S'
+    // defaultMessageTimeToLive: 'P10675199DT2H48M5.4775807S'
+    // duplicateDetectionHistoryTimeWindow: 'PT10M'
+    // enableBatchedOperations: true
+    // enableExpress: false
+    // enablePartitioning: false
+    // maxMessageSizeInKilobytes: 1024
+    // maxSizeInMegabytes: 1024
+    // requiresDuplicateDetection: false
+    // status: 'Active'
+    // supportOrdering: false
   }
 }
 
