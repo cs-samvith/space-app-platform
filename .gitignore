@@ -21,3 +21,5 @@ apps/csharp-api/.vs/csharp-api/DesignTimeBuild/.dtbcache.v2
 /apps/microsvcs/TasksTracker.WebPortal.Frontend.Ui/.vs
 /apps/microsvcs/TasksTracker.WebPortal.Frontend.Ui/bin
 /apps/microsvcs/TasksTracker.WebPortal.Frontend.Ui/obj
+/apps/microsvcs/TasksTracker.Processor.Backend.Svc/bin
+/apps/microsvcs/TasksTracker.Processor.Backend.Svc/obj

@@ -19,8 +19,10 @@ parameters:
       - workspace
       - app-insights
       - key-vault
+      - service-bus
       - container-app-environment
       - container-registry-role-assignment
+      - service-bus-role-assignment
       - container-app-environment-dapr
       # - container-apps
 
@@ -32,8 +34,10 @@ parameters:
       - workspace
       - app-insights
       - key-vault
+      - service-bus
       - container-app-environment
       - container-registry-role-assignment
+      - service-bus-role-assignment
       - container-app-environment-dapr
       # - container-apps
 

@@ -2,8 +2,8 @@
     "redisXplorer.config": {
         "profiles": [
             {
-                "name": "dapr.redis",
-                "host": "0.0.0.0",
+                "name": "localhost",
+                "host": "localhost",
                 "accessKey": "",
                 "filter": "*",
                 "port": "6379"

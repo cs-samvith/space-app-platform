@@ -32,10 +32,11 @@ namespace TasksTracker.TasksManager.Backend.Api.Services
                 TaskDueDate = dueDate,
                 TaskAssignedTo = assignedTo,
             };
-
+            Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaa");
             _logger.LogInformation("Save a new task with name: '{0}' to state store", taskModel.TaskName);
             await _daprClient.SaveStateAsync<TaskModel>(STORE_NAME, taskModel.TaskId.ToString(), taskModel);
-            //await PublishTaskSavedEvent(taskModel);
+            Console.WriteLine("ssssssssssssssssssss");
+            await PublishTaskSavedEvent(taskModel);
             return taskModel.TaskId;
         }
 
@@ -92,10 +93,10 @@ namespace TasksTracker.TasksManager.Backend.Api.Services
                 taskModel.TaskAssignedTo = assignedTo;
                 taskModel.TaskDueDate = dueDate;
                 await _daprClient.SaveStateAsync<TaskModel>(STORE_NAME, taskModel.TaskId.ToString(), taskModel);
-                //if (!taskModel.TaskAssignedTo.Equals(currentAssignee, StringComparison.OrdinalIgnoreCase))
-                //{
-                //    await PublishTaskSavedEvent(taskModel);
-                //}
+                if (!taskModel.TaskAssignedTo.Equals(currentAssignee, StringComparison.OrdinalIgnoreCase))
+                {
+                    await PublishTaskSavedEvent(taskModel);
+                }
                 return true;
             }
             return false;
@@ -105,6 +106,7 @@ namespace TasksTracker.TasksManager.Backend.Api.Services
         {
             _logger.LogInformation("Publish Task Saved event for task with Id: '{0}' and Name: '{1}' for Assignee: '{2}'",
             taskModel.TaskId, taskModel.TaskName, taskModel.TaskAssignedTo);
+            Console.WriteLine("ppppppppppppppppppppppppp");
             await _daprClient.PublishEventAsync("dapr-pubsub-servicebus", "tasksavedtopic", taskModel);
         }
         

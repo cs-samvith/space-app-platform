@@ -35,4 +35,7 @@ var parameters = {
     dev: loadJsonContent('../parameters/dev/container-registry.json')
     devmicro: loadJsonContent('../parameters/devmicro/container-registry.json')
   }
+  serviceBus: {
+    devmicro: loadJsonContent('../parameters/devmicro/service-bus.json')
+  }
 }

@@ -1,6 +1,7 @@
 param cotnainerAppsEnvConfig array
 param managedIdentityConfig object
 param keyVaultConfig object
+param serviceBusConfig object
 
 resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-preview' existing = [
   for app in cotnainerAppsEnvConfig: {
@@ -52,6 +53,29 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
         // }
       ]
       scopes: app.Dapr.stateStore.scopes
+    }
+  }
+]
+
+//ServiceBus Pub/Sub Component
+resource pubsubComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
+  for (app, index) in cotnainerAppsEnvConfig: {
+    name: 'dapr-pubsub-servicebus'
+    parent: containerAppEnvironments[index]
+    properties: {
+      componentType: 'pubsub.azure.servicebus.topics'
+      version: 'v1'
+      metadata: [
+        {
+          name: 'namespaceName'
+          value: '${serviceBusConfig.name}.servicebus.windows.net'
+        }
+        {
+          name: 'consumerID'
+          value: 'sbts-tasks-processor'
+        }
+      ]
+      scopes: ['tm-backend-api', 'tm-backend-processor']
     }
   }
 ]
