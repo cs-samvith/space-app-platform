@@ -74,6 +74,10 @@ resource pubsubComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-
           name: 'consumerID'
           value: 'sbts-tasks-processor'
         }
+        {
+          name: 'azureClientId'
+          value: identity.properties.clientId
+        }
       ]
       scopes: ['tm-backend-api', 'tm-backend-processor']
     }
