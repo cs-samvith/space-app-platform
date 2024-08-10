@@ -8,6 +8,7 @@ module containerAppDaprEnvs '../resources/container-app-environment-dapr.bicep' 
     cotnainerAppsEnvConfig: resources.parameters.containerAppsEnvDapr[environment].envs
     managedIdentityConfig: resources.parameters.managedIdentity[environment]
     keyVaultConfig: resources.parameters.keyVault[environment].keyVault
+    serviceBusConfig: resources.parameters.serviceBus[environment]
   }
   dependsOn: []
 }
