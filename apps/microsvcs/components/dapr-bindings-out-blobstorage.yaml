@@ -1,0 +1,16 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: externaltasksblobstore
+spec:
+  type: bindings.azure.blobstorage
+  version: v1
+  metadata:
+    - name: storageAccount
+      value: "spacedevmicrostorage"
+    - name: storageAccessKey
+      value: "<AccountKey>"
+    - name: container
+      value: "externaltaskscontainer"
+    - name: decodeBase64
+      value: false

@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
     - name: connectionString # Used for local dev testing.
-      value: "<sb-key>"
+      value: "<ConnString>"
     - name: consumerID
       value: "sbts-tasks-processor"
 scopes:

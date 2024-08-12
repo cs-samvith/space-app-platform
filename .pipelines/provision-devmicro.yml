@@ -18,8 +18,9 @@ parameters:
       - virtual-network
       - workspace
       - app-insights
-      - key-vault
+      - storage-account
       - service-bus
+      - key-vault
       - container-app-environment
       - container-registry-role-assignment
       - service-bus-role-assignment
@@ -33,8 +34,9 @@ parameters:
       - virtual-network
       - workspace
       - app-insights
-      - key-vault
+      - storage-account
       - service-bus
+      - key-vault
       - container-app-environment
       - container-registry-role-assignment
       - service-bus-role-assignment

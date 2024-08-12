@@ -9,9 +9,8 @@ resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-p
 
 module containerRegRoleAssignment '../resources/service-bus-role-assignment.bicep' = {
   name: 'service-bus-role-assignment'
-  scope: resourceGroup(resources.parameters.containerRegistry[environment].resourceGroup)
   params: {
-    serviceBusConfig: resources.parameters.containerRegistry[environment]
+    serviceBusConfig: resources.parameters.serviceBus[environment]
     //managedIdentityConfig: resources.parameters.managedIdentity[environment]
     //envConfig: resources.parameters.env[environment]
     principalId: identity.properties.principalId

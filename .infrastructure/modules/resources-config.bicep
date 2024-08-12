@@ -38,4 +38,7 @@ var parameters = {
   serviceBus: {
     devmicro: loadJsonContent('../parameters/devmicro/service-bus.json')
   }
+  storageAccount: {
+    devmicro: loadJsonContent('../parameters/devmicro/storage-account.json')
+  }
 }

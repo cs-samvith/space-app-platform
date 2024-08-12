@@ -9,9 +9,15 @@ resource serviceBus 'Microsoft.ServiceBus/namespaces@2022-10-01-preview' existin
   name: serviceBusConfig.name
 }
 
+resource serviceBusTopic 'Microsoft.ServiceBus/namespaces/topics@2022-10-01-preview' existing ={
+  name: 'tasksavedtopic'
+  parent: serviceBus
+}
+
 // Create senderrole assignment
 resource senderRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
-  name: guid(serviceBus.id, senderRoleId, principalId)
+  name: guid(serviceBusTopic.id, senderRoleId, principalId)
+  scope: serviceBusTopic
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', senderRoleId)
     principalId: principalId
@@ -22,6 +28,7 @@ resource senderRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-0
 // Create receiverrrole assignment
 resource receiverRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
   name: guid(serviceBus.id, receiverRoleId, principalId)
+  scope: serviceBusTopic
   properties: {
     roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', receiverRoleId)
     principalId: principalId

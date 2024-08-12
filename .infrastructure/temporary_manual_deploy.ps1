@@ -1,6 +1,6 @@
 # az account set --subscription "36a60b19-8b19-4171-a0d6-b5686ec92329"
 
-$template = "container-app-environment-dapr"
+$template = "key-vault"
 $env = "devmicro"
 $resourceGroup = "space-dev-micro"
 

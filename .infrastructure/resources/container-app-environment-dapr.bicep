@@ -87,7 +87,7 @@ resource pubsubComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-
 //KeyVault Secret Store Component
 resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
-    name: 'secretstore'
+    name: 'secretstoreakv'
     parent: containerAppEnvironments[index]
     properties: {
       componentType: 'secretstores.azure.keyvault'
@@ -103,6 +103,82 @@ resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@
         }
       ]
       scopes: ['tm-backend-api']
+    }
+  }
+]
+
+//Storage Queue Component
+resource storageQueueComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
+  for (app, index) in cotnainerAppsEnvConfig: {
+    name: 'externaltasksmanager'
+    parent: containerAppEnvironments[index]
+    properties: {
+      componentType: 'bindings.azure.storagequeues'
+      version: 'v1'
+      secretStoreComponent: 'secretstoreakv'
+      metadata: [
+        {
+          name: 'storageAccount'
+          value: keyVaultConfig.name
+        }
+        {
+          name: 'storageAccessKey'
+          secretRef: 'external-azure-storage-key'
+        }
+        {
+          name: 'queue'
+          value: 'external-tasks-queue'
+        }
+        {
+          name: 'decodeBase64'
+          value: 'true'
+        }
+        {
+          name: 'route'
+          value: '/externaltasksprocessor/process'
+        }
+        {
+          name: 'azureClientId'
+          value: identity.properties.clientId
+        }
+      ]
+      scopes: ['tm-backend-processor']
+    }
+  }
+]
+
+//Storage Blob Component
+resource storageBlobComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
+  for (app, index) in cotnainerAppsEnvConfig: {
+    name: 'externaltasksblobstore'
+    parent: containerAppEnvironments[index]
+    properties: {
+      componentType: 'bindings.azure.blobstorage'
+      version: 'v1'
+      secretStoreComponent: 'secretstoreakv'
+      metadata: [
+        {
+          name: 'storageAccount'
+          value: keyVaultConfig.name
+        }
+        {
+          name: 'storageAccessKey'
+          secretRef: 'external-azure-storage-key'
+        }
+        {
+          name: 'container'
+          value: 'externaltaskscontainer'
+        }
+        {
+          name: 'decodeBase64'
+          value: 'false'
+        }
+        {
+          name: 'azureClientId'
+          value: identity.properties.clientId
+        }
+      ]
+      scopes: ['tm-backend-processor']
     }
   }
 ]
