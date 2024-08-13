@@ -182,3 +182,22 @@ resource storageBlobComponent 'Microsoft.App/managedEnvironments/daprComponents@
     }
   }
 ]
+
+//Cron Job Component
+resource cronJobComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
+  for (app, index) in cotnainerAppsEnvConfig: {
+    name: 'scheduledtasksmanager'
+    parent: containerAppEnvironments[index]
+    properties: {
+      componentType: 'bindings.cron'
+      version: 'v1'
+      metadata: [
+        {
+          name: 'schedule'
+          value: '0 15 * * * *'
+        }
+      ]
+      scopes: ['tm-backend-processor']
+    }
+  }
+]

@@ -1,10 +1,12 @@
 dapr run --app-id tasksmanager-backend-api --app-port 7088 --dapr-http-port 3500 --app-ssl -- dotnet run
-dapr run --app-id tasksmanager-frontend-webapp --app-port 7208 --dapr-http-port 3501 --app-ssl -- dotnet run 
+
+dapr run --app-id tm-frontend-webapp --app-port 7208 --dapr-http-port 3501 --app-ssl -- dotnet run 
 
 
 dapr run --app-id tm-backend-api --app-port 7088 --dapr-http-port 3500 --app-ssl --resources-path "../components" -- dotnet run
 
 dapr run --app-id tm-backend-processor --app-port 7263 --dapr-http-port 3502 --app-ssl --resources-path "../components" -- dotnet run
 
+dapr run --app-id tm-frontend-ui --app-port 7088 --dapr-http-port 3500 --app-ssl --resources-path "../components" -- dotnet run
 
 az cosmosdb sql role assignment create --resource-group sandbox-for-jared --account-name  work-db --scope "/" --principal-id b7ad16d3-e85c-4c1f-9210-b5cea89c4078 --role-definition-id 00000000-0000-0000-0000-000000000002
