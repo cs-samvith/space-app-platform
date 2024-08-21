@@ -7,7 +7,7 @@ trigger:
     include:
       - /apps/tm-microservices/TM.Backend.Api/*
       - /.pipelines/tm-microservices/tm-backend-api.yml
-      - /.pipelines/tm-microservices/tm-backend-api-deploy.yml    
+      - /.pipelines/tm-microservices/tm-backend-api-deploy.yml
 
 pr: none
 
@@ -66,8 +66,9 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/tm-microservices/tm-backend-api.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-backend-api.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-backend-api.yml
-              workingDirectory: $(System.DefaultWorkingDirectory)
-              
+              workingDirectory:
+                $(System.DefaultWorkingDirectory)
+
                 # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/tm-microservices/tm-backend-api.yml
           - task: CmdLine@2
             inputs:
