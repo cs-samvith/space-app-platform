@@ -26,7 +26,7 @@ properties:
     ingress:
       external: true
       allowInsecure: true
-      targetPort: 80
+      targetPort: 5000
       traffic:
         # - weight: 100
         #   revisionName: single-app--REVISIONSUFFIX

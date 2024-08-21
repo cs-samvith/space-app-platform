@@ -10,8 +10,8 @@ ARG configuration=Release
 WORKDIR /src
 COPY ["./TM.Backend.Api.csproj", ""]
 
-ADD https://kmxprodzscalercerts.blob.core.windows.net/zscalercerts/zscaler_root_ca.crt /usr/local/share/ca-certificates/zscaler.crt
-RUN cat /usr/local/share/ca-certificates/zscaler.crt >> /etc/ssl/certs/ca-certificates.crt
+# ADD https://kmxprodzscalercerts.blob.core.windows.net/zscalercerts/zscaler_root_ca.crt /usr/local/share/ca-certificates/zscaler.crt
+# RUN cat /usr/local/share/ca-certificates/zscaler.crt >> /etc/ssl/certs/ca-certificates.crt
 
 RUN dotnet restore "./TM.Backend.Api.csproj"
 COPY . .
