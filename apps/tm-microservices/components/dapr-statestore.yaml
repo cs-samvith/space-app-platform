@@ -1,0 +1,20 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestore
+spec:
+  type: state.azure.cosmosdb
+  version: v1
+  metadata:
+    - name: url
+      value: https://work-db.documents.azure.com:443/
+    - name: masterKey
+      value: "<CosmosKey>"
+    - name: database
+      value: tasksmanagerdb
+    - name: collection
+      value: taskscollection
+    - name: keyPrefix
+      value: TaskId-TaskAssignedTo
+scopes:
+  - tm-backend-api

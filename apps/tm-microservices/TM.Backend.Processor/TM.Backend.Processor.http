@@ -1,0 +1,6 @@
+@TM.Backend.Processor_HostAddress = http://localhost:5287
+
+GET {{TM.Backend.Processor_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

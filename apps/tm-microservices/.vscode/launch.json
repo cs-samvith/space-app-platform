@@ -1,0 +1,145 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Launch (web app)",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build-backend-api",
+          "program": "${workspaceFolder}/TM.Frontend.Ui/bin/Debug/net8.0/TM.Frontend.Ui.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/TM.Frontend.Ui",
+          "stopAtEntry": false,
+          "serverReadyAction": {
+              "action": "openExternally",
+              "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+          },
+          "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+          }
+      },
+      {
+          "name": "Launch (backend api)",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build-webapp-ui",
+          "program": "${workspaceFolder}/TM.Backend.Api/bin/Debug/net8.0/TM.Backend.Api.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/TM.Backend.Api",
+          "stopAtEntry": false,
+          "serverReadyAction": {
+              "action": "openExternally",
+              "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+          },
+          "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+          }
+      },
+      {
+          "name": "Launch (background processor)",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "build-processor-svc",
+          "program": "${workspaceFolder}/TM.Backend.Processor/bin/Debug/net8.0/TM.Backend.Processor.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/TM.Backend.Processor",
+          "stopAtEntry": false,
+          "serverReadyAction": {
+              "action": "openExternally",
+              "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+          },
+          "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+          }
+      },
+      {
+          "name": ".NET Core Attach",
+          "type": "coreclr",
+          "request": "attach"
+      },
+      {
+          "name": "Launch (backend api) with Dapr",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "backend-api-dapr-debug",
+          "program": "${workspaceFolder}/TM.Backend.Api/bin/Debug/net8.0/TM.Backend.Api.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/TM.Backend.Api",
+          "stopAtEntry": false,
+          "serverReadyAction": {
+              "action": "openExternally",
+              "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+          },
+          "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+          },
+          "postDebugTask": "daprd-down-backend-api"
+      },
+      {
+          "name": "Launch (web app) with Dapr",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "webapp-ui-dapr-debug",
+          "program": "${workspaceFolder}/TM.Frontend.Ui/bin/Debug/net8.0/TM.Frontend.Ui.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/TM.Frontend.Ui",
+          "stopAtEntry": false,
+          "serverReadyAction": {
+              "action": "openExternally",
+              "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+          },
+          "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+          },
+          "postDebugTask": "webapp-ui-daprd-down"
+      },
+      {
+          "name": "Launch (background processor) with Dapr",
+          "type": "coreclr",
+          "request": "launch",
+          "preLaunchTask": "processor-svc-dapr-debug",
+          "program": "${workspaceFolder}/TM.Backend.Processor/bin/Debug/net8.0/TM.Backend.Processor.dll",
+          "args": [],
+          "cwd": "${workspaceFolder}/TM.Backend.Processor",
+          "stopAtEntry": false,
+          "serverReadyAction": {
+              "action": "openExternally",
+              "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+          },
+          "env": {
+              "ASPNETCORE_ENVIRONMENT": "Development"
+          },
+          "sourceFileMap": {
+              "/Views": "${workspaceFolder}/Views"
+          },
+          "postDebugTask": "processor-svc-daprd-down"
+      }
+  ],
+  "compounds": [
+      {
+          "name": "RunAll",
+          "configurations": ["Launch (web app)", "Launch (backend api)", "Launch (background processor)",],
+          "stopAll": true
+      },
+      {
+          "name": "RunAll with Dapr",
+          "configurations": [ "Launch (backend api) with Dapr", "Launch (web app) with Dapr", "Launch (background processor) with Dapr", ],
+          "stopAll": true
+      }
+  ]
+}
