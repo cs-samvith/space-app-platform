@@ -16,7 +16,7 @@ pool:
 
 variables:
   - name: imageRepository
-    value: "tm-frontend"
+    value: "tm-frontend-ui"
   - name: containerRegistry
     value: spacedevacr.azurecr.io
   - name: service_connection
