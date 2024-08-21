@@ -22,7 +22,7 @@ variables:
   - name: service_connection
     value: ARM_SERVICE_CONNECTION
   - name: containerAppName
-    value: tm-frontend
+    value: tm-frontend-ui
   - name: resource_group
     value: space-dev-micro
   - name: tag

@@ -35,7 +35,7 @@ properties:
     #       weight: 100
     dapr:
       enabled: true
-      appPort: 80
+      appPort: 5000
       appProtocol: http
       httpReadBufferSize: 30
       httpMaxRequestSize: 10

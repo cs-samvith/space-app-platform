@@ -1,5 +1,5 @@
 # https://learn.microsoft.com/en-us/rest/api/containerapps/jobs/get?view=rest-containerapps-2024-03-01&tabs=HTTP#secret
-name: tm-frontend
+name: tm-frontend-ui
 identity:
   userAssignedIdentities:
     "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi":
@@ -25,7 +25,7 @@ properties:
           weight: 100
     dapr:
       enabled: true
-      appPort: 80
+      appPort: 5000
       appProtocol: http
       httpReadBufferSize: 30
       httpMaxRequestSize: 10
