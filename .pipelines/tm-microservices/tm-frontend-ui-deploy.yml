@@ -6,8 +6,8 @@ trigger:
   paths:
     include:
       - /apps/tm-microservices/TM.Frontend.Ui/*
-      - /.pipelines/tm-microservices/tm-frontend.yml
-      - /.pipelines/tm-microservices/tm-frontend-deploy.yml    
+      - /.pipelines/tm-microservices/tm-frontend-ui.yml
+      - /.pipelines/tm-microservices/tm-frontend-ui-deploy.yml    
 
 pr: none
 
@@ -79,26 +79,26 @@ stages:
             inputs:
               script: |
                 pwd 
-                sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/tm-microservices/tm-frontend.yml
-                sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/tm-microservices/tm-frontend.yml
-                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-frontend.yml
-                sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-frontend.yml
-                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(Fqdn.value)/g' .pipelines/tm-microservices/tm-frontend.yml
+                sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(Fqdn.value)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
               
-                # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/tm-microservices/tm-frontend.yml
+                # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
           - task: CmdLine@2
             inputs:
               script: |
                 pwd 
-                cat .pipelines/tm-microservices/tm-frontend.yml
+                cat .pipelines/tm-microservices/tm-frontend-ui.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
 
           - task: AzureContainerApps@1
             # name: singleapp
             inputs:
-              yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/tm-microservices/tm-frontend.yml"
+              yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/tm-microservices/tm-frontend-ui.yml"
               azureSubscription: ${{variables.service_connection}}
               resourceGroup: $(resource_group)
               containerAppName: $(containerAppName)
