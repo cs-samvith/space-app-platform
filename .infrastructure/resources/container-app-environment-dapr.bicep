@@ -102,7 +102,7 @@ resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@
           value: identity.properties.clientId
         }
       ]
-      scopes: ['tm-backend-api']
+      scopes: ['tm-backend-api', 'tm-backend-processor']
     }
   }
 ]
