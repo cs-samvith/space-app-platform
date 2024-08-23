@@ -21,7 +21,7 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
     properties: {
       componentType: 'state.azure.cosmosdb'
       version: 'v1'
-      // secretStoreComponent: 'secretstore'
+      secretStoreComponent: 'secretstoreakv'
       // secrets: [
       //   {
       //     name: 'cosmosmasterkey'
@@ -47,10 +47,10 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
           name: 'azureClientId'
           value: identity.properties.clientId
         }
-        // {
-        //   name: 'masterkey'
-        //   secretRef: 'cosmos-masterkey'
-        // }
+        {
+          name: 'masterkey'
+          secretRef: 'cosmos-masterkey'
+        }
       ]
       scopes: app.Dapr.stateStore.scopes
     }
