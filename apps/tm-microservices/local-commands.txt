@@ -6,3 +6,20 @@ dapr run --app-id tm-frontend-ui --app-port 7087 --dapr-http-port 3501 --app-ssl
 
 dapr run --app-id tm-backend-processor --app-port 7077 --dapr-http-port 3502 --app-ssl --resources-path "../components"  -- dotnet run --launch-profile https
 
+
+Permissions 
+
+-- List all role assignment for the User Identity   -- b7ad16d3-e85c-4c1f-9210-b5cea89c4078 is the principal id
+
+ az role assignment list --assignee b7ad16d3-e85c-4c1f-9210-b5cea89c4078 --all
+
+
+ Assign Permissions  - Input And Output binding
+
+1. Assign manage identity the role "Storage Queue Data Reader"
+
+    19e7f393-937e-4f77-808e-94535e297925   - Storage Queue Data Reader 
+    b7ad16d3-e85c-4c1f-9210-b5cea89c4078   - is the principal id of space-micro-dev-msi
+ 
+    az role assignment create --role 19e7f393-937e-4f77-808e-94535e297925 --assignee b7ad16d3-e85c-4c1f-9210-b5cea89c4078 
+    --scope "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.Storage/storageAccounts/spacedevmicrostorage"

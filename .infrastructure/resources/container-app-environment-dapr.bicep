@@ -1,7 +1,8 @@
 param cotnainerAppsEnvConfig array
 param managedIdentityConfig object
-param keyVaultConfig object
-param serviceBusConfig object
+// param keyVaultConfig object
+// param serviceBusConfig object
+// param storageAccountConfig object
 
 resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2023-11-02-preview' existing = [
   for app in cotnainerAppsEnvConfig: {
@@ -16,12 +17,12 @@ resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2022-01-31-p
 //Cosmos DB State Store Component
 resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
-    name: 'statestore'
+    name: app.Dapr.stateStore.cosmos.name
     parent: containerAppEnvironments[index]
     properties: {
       componentType: 'state.azure.cosmosdb'
       version: 'v1'
-      secretStoreComponent: 'secretstoreakv'
+      secretStoreComponent: app.Dapr.stateStore.cosmos.secretStoreComponent
       // secrets: [
       //   {
       //     name: 'cosmosmasterkey'
@@ -49,10 +50,10 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
         }
         {
           name: 'masterkey'
-          secretRef: 'cosmos-masterkey'
+          secretRef: app.Dapr.stateStore.cosmos.secretRef
         }
       ]
-      scopes: app.Dapr.stateStore.scopes
+      scopes: app.Dapr.stateStore.cosmos.scopes
     }
   }
 ]
@@ -60,7 +61,7 @@ resource statestoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2
 //ServiceBus Pub/Sub Component
 resource pubsubComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
-    name: 'dapr-pubsub-servicebus'
+    name: app.Dapr.pubSub.serviceBus.name
     parent: containerAppEnvironments[index]
     properties: {
       componentType: 'pubsub.azure.servicebus.topics'
@@ -68,18 +69,18 @@ resource pubsubComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-
       metadata: [
         {
           name: 'namespaceName'
-          value: '${serviceBusConfig.name}.servicebus.windows.net'
+          value: '${app.Dapr.pubSub.serviceBus.serviceBusName}.servicebus.windows.net'
         }
         {
           name: 'consumerID'
-          value: 'sbts-tasks-processor'
+          value: app.Dapr.pubSub.serviceBus.consumerId
         }
         {
           name: 'azureClientId'
           value: identity.properties.clientId
         }
       ]
-      scopes: ['tm-backend-api', 'tm-backend-processor']
+      scopes: app.Dapr.pubSub.serviceBus.scopes
     }
   }
 ]
@@ -87,7 +88,7 @@ resource pubsubComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-
 //KeyVault Secret Store Component
 resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
-    name: 'secretstoreakv'
+    name: app.Dapr.secretStore.keyvault.name
     parent: containerAppEnvironments[index]
     properties: {
       componentType: 'secretstores.azure.keyvault'
@@ -95,14 +96,14 @@ resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@
       metadata: [
         {
           name: 'vaultName'
-          value: keyVaultConfig.name
+          value: app.Dapr.secretStore.keyvault.keyvaultName
         }
         {
           name: 'azureClientId'
           value: identity.properties.clientId
         }
       ]
-      scopes: ['tm-backend-api', 'tm-backend-processor']
+      scopes: app.Dapr.secretStore.keyvault.scopes
     }
   }
 ]
@@ -110,24 +111,24 @@ resource secretstoreComponent 'Microsoft.App/managedEnvironments/daprComponents@
 //Storage Queue Component
 resource storageQueueComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
-    name: 'externaltasksmanager'
+    name: app.Dapr.stateStore.storageAccount.queue.name
     parent: containerAppEnvironments[index]
     properties: {
       componentType: 'bindings.azure.storagequeues'
       version: 'v1'
-      secretStoreComponent: 'secretstoreakv'
+      secretStoreComponent: app.Dapr.stateStore.storageAccount.queue.secretStoreComponent
       metadata: [
         {
           name: 'storageAccount'
-          value: keyVaultConfig.name
+          value: app.Dapr.stateStore.storageAccount.queue.storageAccountName
         }
         {
           name: 'storageAccessKey'
-          secretRef: 'external-azure-storage-key'
+          secretRef: app.Dapr.stateStore.storageAccount.queue.secretRef
         }
         {
           name: 'queue'
-          value: 'external-tasks-queue'
+          value: app.Dapr.stateStore.storageAccount.queue.storageAccountQueue
         }
         {
           name: 'decodeBase64'
@@ -135,14 +136,14 @@ resource storageQueueComponent 'Microsoft.App/managedEnvironments/daprComponents
         }
         {
           name: 'route'
-          value: '/externaltasksprocessor/process'
+          value: app.Dapr.stateStore.storageAccount.queue.route
         }
         {
           name: 'azureClientId'
           value: identity.properties.clientId
         }
       ]
-      scopes: ['tm-backend-processor']
+      scopes: app.Dapr.stateStore.storageAccount.queue.scopes
     }
   }
 ]
@@ -150,7 +151,7 @@ resource storageQueueComponent 'Microsoft.App/managedEnvironments/daprComponents
 //Storage Blob Component
 resource storageBlobComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [
   for (app, index) in cotnainerAppsEnvConfig: {
-    name: 'externaltasksblobstore'
+    name: app.Dapr.stateStore.storageAccount.blob.name
     parent: containerAppEnvironments[index]
     properties: {
       componentType: 'bindings.azure.blobstorage'
@@ -158,16 +159,16 @@ resource storageBlobComponent 'Microsoft.App/managedEnvironments/daprComponents@
       secretStoreComponent: 'secretstoreakv'
       metadata: [
         {
-          name: 'storageAccount'
-          value: keyVaultConfig.name
+          name: 'accountName'
+          value: app.Dapr.stateStore.storageAccount.blob.storageAccountName
         }
         {
-          name: 'storageAccessKey'
-          secretRef: 'external-azure-storage-key'
+          name: 'accountKey'
+          secretRef: app.Dapr.stateStore.storageAccount.blob.secretRef
         }
         {
-          name: 'container'
-          value: 'externaltaskscontainer'
+          name: 'containerName'
+          value: app.Dapr.stateStore.storageAccount.blob.container
         }
         {
           name: 'decodeBase64'
@@ -178,10 +179,23 @@ resource storageBlobComponent 'Microsoft.App/managedEnvironments/daprComponents@
           value: identity.properties.clientId
         }
       ]
-      scopes: ['tm-backend-processor']
+      scopes: app.Dapr.stateStore.storageAccount.blob.scopes
     }
   }
 ]
+
+// {
+//   name: 'storageAccount'
+//   value: keyVaultConfig.name
+// }
+// {
+//   name: 'storageAccessKey'
+//   secretRef: 'external-azure-storage-key'
+// }
+// {
+//   name: 'container'
+//   value: 'externaltaskscontainer'
+// }
 
 //Cron Job Component
 resource cronJobComponent 'Microsoft.App/managedEnvironments/daprComponents@2024-03-01' = [

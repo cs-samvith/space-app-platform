@@ -1,4 +1,14 @@
 {
     "name": "spacedevmicrostorage",
-    "sku": "Standard_LRS"
+    "sku": "Standard_LRS",
+    "blobs": [
+        {
+            "name": "externaltaskscontainer"
+        }
+    ],
+    "queues": [
+        {
+            "name": "external-tasks-queue"
+        }
+    ]
 }

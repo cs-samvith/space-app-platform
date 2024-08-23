@@ -4,15 +4,62 @@
             "name": "space-micro-env",
             "region": "eastus",
             "Dapr": {
+                "secretStore": {
+                    "keyvault": {
+                        "name": "secretstoreakv",
+                        "keyvaultName": "space-micro-dev-vault",
+                        "scopes": [
+                            "tm-backend-api",
+                            "tm-backend-processor"
+                        ]
+                    }
+                },
+                "pubSub": {
+                    "serviceBus": {
+                        "name": "dapr-pubsub-servicebus",
+                        "serviceBusName": "spacemicrodevsb",
+                        "consumerId": "sbts-tasks-processor",
+                        "scopes": [
+                            "tm-backend-api",
+                            "tm-backend-processor"
+                        ]
+                    }
+                },
                 "stateStore": {
                     "cosmos": {
+                        "name": "statestore",
                         "url": "https://work-db.documents.azure.com:443/",
                         "database": "tasksmanagerdb",
-                        "collection": "taskscollection"
+                        "collection": "taskscollection",
+                        "secretRef": "cosmos-masterkey",
+                        "secretStoreComponent": "secretstoreakv",
+                        "scopes": [
+                            "tm-backend-api"
+                        ]
                     },
-                    "scopes": [
-                        "tm-backend-api"
-                    ]
+                    "storageAccount": {
+                        "blob": {
+                            "name": "externaltasksblobstore",
+                            "storageAccountName": "spacedevmicrostorage",
+                            "secretRef": "external-azure-storage-key",
+                            "container": "externaltaskscontainer",
+                            "secretStoreComponent": "secretstoreakv",
+                            "scopes": [
+                                "tm-backend-processor"
+                            ]
+                        },
+                        "queue": {
+                            "name": "externaltasksmanager",
+                            "storageAccountName": "spacedevmicrostorage",
+                            "secretRef": "external-azure-storage-key",
+                            "storageAccountQueue": "external-tasks-queue",
+                            "secretStoreComponent": "secretstoreakv",
+                            "route": "/externaltasksprocessor/process",
+                            "scopes": [
+                                "tm-backend-processor"
+                            ]
+                        }
+                    }
                 }
             }
         }

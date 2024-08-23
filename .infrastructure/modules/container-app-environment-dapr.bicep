@@ -7,8 +7,9 @@ module containerAppDaprEnvs '../resources/container-app-environment-dapr.bicep' 
   params: {
     cotnainerAppsEnvConfig: resources.parameters.containerAppsEnvDapr[environment].envs
     managedIdentityConfig: resources.parameters.managedIdentity[environment]
-    keyVaultConfig: resources.parameters.keyVault[environment].keyVault
-    serviceBusConfig: resources.parameters.serviceBus[environment]
+    // keyVaultConfig: resources.parameters.keyVault[environment].keyVault
+    // serviceBusConfig: resources.parameters.serviceBus[environment]
+    // storageAccountConfig: resources.parameters.storageAccount[environment]
   }
   dependsOn: []
 }
