@@ -21,5 +21,12 @@ Permissions
     19e7f393-937e-4f77-808e-94535e297925   - Storage Queue Data Reader 
     b7ad16d3-e85c-4c1f-9210-b5cea89c4078   - is the principal id of space-micro-dev-msi
  
-    az role assignment create --role 19e7f393-937e-4f77-808e-94535e297925 --assignee b7ad16d3-e85c-4c1f-9210-b5cea89c4078 
-    --scope "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.Storage/storageAccounts/spacedevmicrostorage"
+    az role assignment create --role 19e7f393-937e-4f77-808e-94535e297925 --assignee b7ad16d3-e85c-4c1f-9210-b5cea89c4078 --scope "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.Storage/storageAccounts/spacedevmicrostorage"
+
+
+2. Assign manage identity the role "Storage Blob Data Contributor"
+
+    ba92f5b4-2d11-453d-a403-e96b0029c9fe   - Storage Blob Data Contributor
+    b7ad16d3-e85c-4c1f-9210-b5cea89c4078   - is the principal id of space-micro-dev-msi
+ 
+    az role assignment create --role ba92f5b4-2d11-453d-a403-e96b0029c9fe --assignee b7ad16d3-e85c-4c1f-9210-b5cea89c4078  --scope "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.Storage/storageAccounts/spacedevmicrostorage"

@@ -21,13 +21,13 @@ namespace TM.Backend.Processor.Controllers
         {
             var runAt = DateTime.UtcNow;
 
-            _logger.LogInformation($"ScheduledTasksManager::Timer Services triggered at: {runAt}");
+            _logger.LogInformation($"======> ScheduledTasksManager TIMER TRIGGER <======= :Timer Services triggered at: {runAt}");
 
             var overdueTasksList = new List<TaskModel>();
 
             var tasksList = await _daprClient.InvokeMethodAsync<List<TaskModel>>(HttpMethod.Get, "tm-backend-api", $"api/overduetasks");
 
-            _logger.LogInformation($"ScheduledTasksManager::completed query state store for tasks, retrieved tasks count: {tasksList?.Count()}");
+            _logger.LogInformation($"======> ScheduledTasksManager CALL BACKEND API TO GET OVERDUE TASK <=======::completed query state store for tasks, retrieved tasks count: {tasksList?.Count()}");
 
             tasksList?.ForEach(taskModel =>
             {
@@ -39,7 +39,7 @@ namespace TM.Backend.Processor.Controllers
 
             if (overdueTasksList.Count > 0)
             {
-                _logger.LogInformation($"ScheduledTasksManager::marking {overdueTasksList.Count()} as overdue tasks");
+                _logger.LogInformation($"======> ScheduledTasksManager CALL BACKEND API TO MARK OVERDUE TASK <=======::marking {overdueTasksList.Count()} as overdue tasks");
 
                 await _daprClient.InvokeMethodAsync(HttpMethod.Post, "tm-backend-api", $"api/overduetasks/markoverdue", overdueTasksList);
             }
