@@ -38,7 +38,7 @@ namespace TM.Backend.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] TaskAddModel taskAddModel)
         {
-            _logger.LogInformation("======> TasksController --> Create Task <=======", taskModel.TaskName);
+            _logger.LogInformation("======> TasksController --> Create Task <=======", taskAddModel.TaskName);
 
             var taskId = await _tasksManager.CreateNewTask(
                 taskAddModel.TaskName,
