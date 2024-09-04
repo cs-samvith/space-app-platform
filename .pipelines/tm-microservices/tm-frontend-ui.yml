@@ -47,8 +47,8 @@ properties:
         env:
           - name: BackendApiConfig__BaseUrlExternalHttp
             value: https://BackendApiConfig__BaseUrlExternalHttp_VALUE
-          - name: ApplicationInsights__InstrumentationKey
-            secretRef: appinsights-key
+          # - name: ApplicationInsights__InstrumentationKey
+          #   secretRef: appinsights-key
         # probes:
         #   - type: Liveness
         #     httpGet:
