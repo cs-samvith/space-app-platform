@@ -81,7 +81,7 @@ properties:
         #     periodSeconds: 20
     scale:
       minReplicas: 1
-      maxReplicas: 1
+      maxReplicas: 5
       rules:
         - custom:
             auth:
