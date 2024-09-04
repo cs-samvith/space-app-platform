@@ -25,6 +25,8 @@ variables:
     value: tm-frontend-ui
   - name: resource_group
     value: space-dev-micro
+  - name: app_insights_name
+    value: space-micro-dev-insights
   - name: tag
     value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   # - name: tag
