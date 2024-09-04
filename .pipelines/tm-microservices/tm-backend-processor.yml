@@ -9,19 +9,21 @@ properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.App/managedEnvironments/space-micro-env"
   configuration:
     secrets:
-        # - name: acrpass
-        #   value: ACRPASSWORD
+      # - name: acrpass
+      #   value: ACRPASSWORD
       # - name: test1
       #   keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY'
       #   identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
       # - name: test2
       #   value: test2
+      - name: appinsights-key
+        value: APPINSIGHTS_INSTRUMENTATIONKEY
     registries:
       # - server: CONTAINERREGISTRY
       #   username: spacedevacr
       #   passwordSecretRef: acrpass
       - server: CONTAINERREGISTRY
-        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+        identity: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
     activeRevisionsMode: "Single"
     # ingress:
     #   external: true
@@ -53,10 +55,12 @@ properties:
           cpu: 0.25
           memory: 0.5Gi
         env:
+          - name: ApplicationInsights__InstrumentationKey
+            secretRef: appinsights-key
         # - name: ASPNETCORE_ENVIRONMENT
         #   value: "Development"
         # - name: test1
-        #   secretRef: test1 
+        #   secretRef: test1
         # - name: test2
         #   secretRef: test2
         # probes:

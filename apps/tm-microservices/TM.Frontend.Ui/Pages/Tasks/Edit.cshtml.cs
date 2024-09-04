@@ -38,6 +38,8 @@ namespace TM.Frontend.Ui.Pages.Tasks
             //var httpClient = _httpClientFactory.CreateClient("BackEndApiExternal");
             //var Task = await httpClient.GetFromJsonAsync<TaskModel>($"api/tasks/{id}");
 
+            Console.WriteLine($"*************Get-->tm-backend-api-->{id}");
+
             // Dapr SideCar Invocation
             var Task = await _daprClient.InvokeMethodAsync<TaskModel>(HttpMethod.Get, "tm-backend-api", $"api/tasks/{id}");
 
@@ -70,6 +72,8 @@ namespace TM.Frontend.Ui.Pages.Tasks
                 //// direct svc to svc http request
                 //var httpClient = _httpClientFactory.CreateClient("BackEndApiExternal");
                 //var result = await httpClient.PutAsJsonAsync($"api/tasks/{TaskUpdate.TaskId}", TaskUpdate);
+
+                Console.WriteLine($"*************Get-->tm-backend-api-->TaskUpdate.TaskId {TaskUpdate.TaskId}");
 
                 // Dapr SideCar Invocation
                 await _daprClient.InvokeMethodAsync<TaskUpdateModel>(HttpMethod.Put, "tm-backend-api", $"api/tasks/{TaskUpdate.TaskId}", TaskUpdate);

@@ -25,6 +25,8 @@ variables:
     value: tm-backend-api
   - name: resource_group
     value: space-dev-micro
+  - name: app_insights_name
+    value: space-micro-dev-insights
   - name: tag
     value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   # - name: tag
@@ -58,6 +60,20 @@ stages:
         dependsOn:
           - Build
         steps:
+          - task: AzureCLI@2
+            displayName: "Azure CLI Get fqdn"
+            name: ValuesFromAzure
+            inputs:
+              azureSubscription: $(service_connection)
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az --version
+                az account show
+                appInsightInstKey=$(az monitor app-insights component show -a $(app_insights_name) -g $(resource_group) --query instrumentationKey --output tsv)
+                echo 'got app insight instrumentation key'
+                echo "##vso[task.setvariable variable=appInsightsInstrumentationKey;isoutput=true]$appInsightInstKey"
+
           - task: CmdLine@2
             inputs:
               script: |
@@ -66,10 +82,9 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/tm-microservices/tm-backend-api.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-backend-api.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-backend-api.yml
-              workingDirectory:
-                $(System.DefaultWorkingDirectory)
+                sed -i 's/APPINSIGHTS_INSTRUMENTATIONKEY/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-backend-api.yml
+              workingDirectory: $(System.DefaultWorkingDirectory)
 
-                # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/tm-microservices/tm-backend-api.yml
           - task: CmdLine@2
             inputs:
               script: |

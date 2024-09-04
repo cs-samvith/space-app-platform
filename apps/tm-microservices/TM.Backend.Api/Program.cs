@@ -1,6 +1,13 @@
+using Microsoft.ApplicationInsights.Extensibility;
+using TM.Backend.Api;
 using TM.Backend.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.Configure<TelemetryConfiguration>((o) => {
+    o.TelemetryInitializers.Add(new AppInsightsTelemetryInitializer());
+});
 
 // Add services to the container.
 builder.Services.AddDaprClient();

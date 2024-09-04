@@ -7,7 +7,7 @@ trigger:
     include:
       - /apps/tm-microservices/TM.Frontend.Ui/*
       - /.pipelines/tm-microservices/tm-frontend-ui.yml
-      - /.pipelines/tm-microservices/tm-frontend-ui-deploy.yml    
+      - /.pipelines/tm-microservices/tm-frontend-ui-deploy.yml
 
 pr: none
 
@@ -31,7 +31,7 @@ variables:
   #   value: "20240708-22"
   - group: acr
 
-  - name: backend 
+  - name: backend
     value: tm-backend-api
 
 stages:
@@ -63,7 +63,7 @@ stages:
         steps:
           - task: AzureCLI@2
             displayName: "Azure CLI Get fqdn"
-            name: Fqdn
+            name: ValuesFromAzure
             inputs:
               azureSubscription: $(service_connection)
               scriptType: bash
@@ -72,9 +72,11 @@ stages:
                 az --version
                 az account show
                 qdn=$(az containerapp ingress show --name $(backend) --resource-group $(resource_group) --query fqdn --output tsv)
-                # echo $qdn | jq .
-                echo 'testtstst'
-                echo "##vso[task.setvariable variable=value;isoutput=true]$qdn"
+                echo 'got fully qualified domain'
+                echo "##vso[task.setvariable variable=fqdn;isoutput=true]$qdn"
+                appInsightInstKey=$(az monitor app-insights component show -a $(app_insights_name) -g $(resource_group) --query instrumentationKey --output tsv)
+                echo 'got app insight instrumentation key'
+                echo "##vso[task.setvariable variable=appInsightsInstrumentationKey;isoutput=true]$appInsightInstKey"
           - task: CmdLine@2
             inputs:
               script: |
@@ -83,10 +85,10 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-frontend-ui.yml
-                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(Fqdn.value)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(ValuesFromAzure.fqdn)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/APPINSIGHTS_INSTRUMENTATIONKEY/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
-              
-                # sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+
           - task: CmdLine@2
             inputs:
               script: |

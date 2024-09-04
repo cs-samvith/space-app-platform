@@ -9,6 +9,8 @@ properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.App/managedEnvironments/space-micro-env"
   configuration:
     secrets:
+      - name: appinsights-key
+        value: APPINSIGHTS_INSTRUMENTATIONKEY
     registries:
       - server: CONTAINERREGISTRY
         identity: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
@@ -43,8 +45,10 @@ properties:
           cpu: 0.25
           memory: 0.5Gi
         env:
-        - name: BackendApiConfig__BaseUrlExternalHttp
-          value: https://BackendApiConfig__BaseUrlExternalHttp_VALUE
+          - name: BackendApiConfig__BaseUrlExternalHttp
+            value: https://BackendApiConfig__BaseUrlExternalHttp_VALUE
+          - name: ApplicationInsights__InstrumentationKey
+            secretRef: appinsights-key
         # probes:
         #   - type: Liveness
         #     httpGet:
