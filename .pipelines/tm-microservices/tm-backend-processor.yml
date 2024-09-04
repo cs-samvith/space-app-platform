@@ -17,7 +17,7 @@ properties:
       # - name: test2
       #   value: test2
       - name: svcbus-connstring
-        value: SERVICE_BUS_CONNECTION_STRING
+        value: SBCONN
       - name: appinsights-key
         value: APPINSIGHTS_INSTRUMENTATIONKEY
     registries:
