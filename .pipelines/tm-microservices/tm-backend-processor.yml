@@ -16,6 +16,8 @@ properties:
       #   identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
       # - name: test2
       #   value: test2
+      - name: svcbus-connstring
+        value: SERVICE_BUS_CONNECTION_STRING
       - name: appinsights-key
         value: APPINSIGHTS_INSTRUMENTATIONKEY
     registries:
@@ -80,3 +82,16 @@ properties:
     scale:
       minReplicas: 1
       maxReplicas: 1
+      rules:
+        - custom:
+            auth:
+              - secretRef: svcbus-connstring
+                triggerParameter: connection
+            metadata:
+              connectionFromEnv: svcbus-connstring
+              messageCount: "10"
+              namespace: SERVICE_BUS_NAMESPACE
+              subscriptionName: SERVICE_BUS_SUBSCRIPTION_NAME
+              topicName: SERVICE_BUS_TOPIC
+            type: azure-servicebus
+          name: topic-msgs-length
