@@ -19,6 +19,7 @@ properties:
       - name: svcbus-connstring
         keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/servicebus-connectionstring'
         identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+        
       - name: appinsights-key
         value: APPINSIGHTS_INSTRUMENTATIONKEY
     registries:
