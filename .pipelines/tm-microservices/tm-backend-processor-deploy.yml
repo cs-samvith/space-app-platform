@@ -91,7 +91,7 @@ stages:
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/APPINSIGHTS_INSTRUMENTATIONKEY/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-backend-processor.yml
-                sed -i 's/SBCONN/TEST/g' .pipelines/tm-microservices/tm-backend-processor.yml
+                sed -i 's/SBCONN/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/SERVICE_BUS_NAMESPACE/$(service_bus_name)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/SERVICE_BUS_TOPIC/$(service_bus_topic)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/SERVICE_BUS_SUBSCRIPTION_NAME/$(service_bus_subscription)/g' .pipelines/tm-microservices/tm-backend-processor.yml
