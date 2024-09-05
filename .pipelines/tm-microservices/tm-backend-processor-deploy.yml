@@ -79,9 +79,10 @@ stages:
                 appInsightInstKey=$(az monitor app-insights component show -a $(app_insights_name) -g $(resource_group) --query instrumentationKey --output tsv)
                 echo 'got app insight instrumentation key'
                 echo "##vso[task.setvariable variable=appInsightsInstrumentationKey;isoutput=true]$appInsightInstKey"
-                sbConnectionString=$(az servicebus namespace authorization-rule keys list --name RootManageSharedAccessKey -g $(resource_group) --namespace-name $(service_bus_name) --query primaryConnectionString --output tsv)
+                # sbConnectionString=$(az servicebus namespace authorization-rule keys list --name RootManageSharedAccessKey -g $(resource_group) --namespace-name $(service_bus_name) --query primaryConnectionString --output tsv)
+                sbConnectionString1=$(az storage account keys list --resource-group space-dev-micro --account-name spacedevmicrostorage --query [0].value)
                 echo 'got service bus connection string'
-                echo "##vso[task.setvariable variable=serviceBusConnectionString;isoutput=true]$sbConnectionString"
+                echo "##vso[task.setvariable variable=serviceBusConnectionString;isoutput=true]$sbConnectionString1"
           - task: CmdLine@2
             inputs:
               script: |
@@ -91,7 +92,7 @@ stages:
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/APPINSIGHTS_INSTRUMENTATIONKEY/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-backend-processor.yml
-                sed -i 's/SBCONN/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-backend-processor.yml
+                sed -i 's/SBCONN/$(ValuesFromAzure.serviceBusConnectionString)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/SERVICE_BUS_NAMESPACE/$(service_bus_name)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/SERVICE_BUS_TOPIC/$(service_bus_topic)/g' .pipelines/tm-microservices/tm-backend-processor.yml
                 sed -i 's/SERVICE_BUS_SUBSCRIPTION_NAME/$(service_bus_subscription)/g' .pipelines/tm-microservices/tm-backend-processor.yml
