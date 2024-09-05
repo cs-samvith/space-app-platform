@@ -7,7 +7,7 @@ namespace TM.Frontend.Ui.Pages.Tasks
 {
     public class IndexModel : PageModel
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        //private readonly IHttpClientFactory _httpClientFactory;
         private readonly DaprClient _daprClient;
         public List<TaskModel>? TasksList { get; set; }
 
@@ -16,7 +16,7 @@ namespace TM.Frontend.Ui.Pages.Tasks
 
         public IndexModel(IHttpClientFactory httpClientFactory, DaprClient daprClient)
         {
-            _httpClientFactory = httpClientFactory;
+           // _httpClientFactory = httpClientFactory;
             _daprClient = daprClient;
         }
 

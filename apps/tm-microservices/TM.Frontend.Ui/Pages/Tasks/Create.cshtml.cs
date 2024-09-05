@@ -7,12 +7,12 @@ namespace TM.Frontend.Ui.Pages.Tasks
 {
     public class CreateModel : PageModel
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        //private readonly IHttpClientFactory _httpClientFactory;
         private readonly DaprClient _daprClient;
 
         public CreateModel(IHttpClientFactory httpClientFactory, DaprClient daprClient)
         {
-            _httpClientFactory = httpClientFactory;
+          //  _httpClientFactory = httpClientFactory;
             _daprClient = daprClient;
         }
         public string? TasksCreatedBy { get; set; }

@@ -7,7 +7,7 @@ namespace TM.Frontend.Ui.Pages.Tasks
 {
     public class EditModel : PageModel
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+       // private readonly IHttpClientFactory _httpClientFactory;
         private readonly DaprClient _daprClient;
 
         [BindProperty]
@@ -16,7 +16,7 @@ namespace TM.Frontend.Ui.Pages.Tasks
 
         public EditModel(IHttpClientFactory httpClientFactory, DaprClient daprClient)
         {
-            _httpClientFactory = httpClientFactory;
+            //_httpClientFactory = httpClientFactory;
             _daprClient = daprClient;
         }
 

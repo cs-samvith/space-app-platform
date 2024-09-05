@@ -87,7 +87,8 @@ stages:
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
                 sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/tm-microservices/tm-frontend-ui.yml
-                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(ValuesFromAzure.fqdn)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                # sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/$(ValuesFromAzure.fqdn)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
+                sed -i 's/BackendApiConfig__BaseUrlExternalHttp_VALUE/EMPTY/g' .pipelines/tm-microservices/tm-frontend-ui.yml
                 sed -i 's/APPINSIGHTS_INSTRUMENTATIONKEY/$(ValuesFromAzure.appInsightsInstrumentationKey)/g' .pipelines/tm-microservices/tm-frontend-ui.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
 
