@@ -1,5 +1,8 @@
+using Google.Api;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Configuration;
 using TM.Backend.Api;
+using TM.Backend.Api.Health;
 using TM.Backend.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +22,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.Configure<StateStoreOptions>(builder.Configuration.GetSection("StateStoreOptions"));
+builder.Services.Configure<SecretStoreOptions>(builder.Configuration.GetSection("SecretStoreOptions"));
+builder.Services.Configure<DistributedEventBusOptions>(builder.Configuration.GetSection("DistributedEventBusOptions"));
+
+builder.Services.AddSingleton<ICustomHealthCheck, DaprStateStoreHealthCheck>();
+builder.Services.AddSingleton<ICustomHealthCheck, DaprSecretStoreHealthCheck>();
+builder.Services.AddSingleton<ICustomHealthCheck, DaprHealthCheck>();
+builder.Services.AddSingleton<ICustomHealthCheck, DaprPubSubHealthCheck>();
+
+builder.Services.AddHealthCheck(builder.Configuration);
+
 var app = builder.Build();
+
+app.ApplyHealthChecks();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
