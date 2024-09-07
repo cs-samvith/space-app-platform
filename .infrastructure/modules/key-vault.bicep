@@ -64,6 +64,7 @@ module keyVaultSecrets '../resources/key-vault-secrets.bicep' = {
   params: {
     keyVaultConfig: resources.parameters.keyVault[environment].keyVault
     storageAccountConfig: resources.parameters.storageAccount[environment]
+    serviceBusConfig: resources.parameters.serviceBus[environment]
   }
   dependsOn: [keyVaultRBAC]
 }

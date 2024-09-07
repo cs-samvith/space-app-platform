@@ -10,3 +10,5 @@
         public string Prefix { get; set; }
     }
 }
+
+//https://medium.com/dgpays-tech/dapr-distributed-application-runtime-health-checks-d60a572123db

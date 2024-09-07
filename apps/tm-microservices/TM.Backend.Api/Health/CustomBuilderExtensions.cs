@@ -19,11 +19,11 @@ namespace TM.Backend.Api.Health
 
             });
 
-            //app.UseHealthChecks("/liveness", new HealthCheckOptions
-            //{
-            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-            //    Predicate = (h) => h.Tags.Contains("liveness")
-            //});
+            app.UseHealthChecks("/liveness", new HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+                Predicate = (h) => h.Tags.Contains("liveness")
+            });
         }
 
 
@@ -36,7 +36,14 @@ namespace TM.Backend.Api.Health
             var healthCheckServices = serviceProvider.GetServices<ICustomHealthCheck>();
             foreach (var healthcheckservice in healthCheckServices)
             {
-                healthCheckBuilder.AddCheck(healthcheckservice.Name, healthcheckservice);
+                if (healthcheckservice.Name == "dapr-pubsub-servicebus")
+                {
+                    healthCheckBuilder.AddCheck(healthcheckservice.Name, healthcheckservice, tags: new[] { "liveness" });
+                }
+                else
+                {
+                    healthCheckBuilder.AddCheck(healthcheckservice.Name, healthcheckservice);
+                }
             }
 
             if (useDaprHealthChecks)
