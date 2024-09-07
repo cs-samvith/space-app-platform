@@ -44,7 +44,7 @@ namespace TM.Backend.Api.Health
             var healthCheckServices = serviceProvider.GetServices<ICustomHealthCheck>();
             foreach (var healthcheckservice in healthCheckServices)
             {
-                if (healthcheckservice.Name == "dapr-pubsub-servicebus")
+                if (healthcheckservice.Name == "DaprPubSubHealthCheck")
                 {
                     healthCheckBuilder.AddCheck(healthcheckservice.Name, healthcheckservice, tags: new[] { "readiness" });
                 }
