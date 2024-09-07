@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static Google.Rpc.Context.AttributeContext.Types;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using csharp.api.Health;
 
 namespace TM.Backend.Api.Health
 {
@@ -16,13 +18,18 @@ namespace TM.Backend.Api.Health
             app.UseHealthChecks("/readiness", new HealthCheckOptions
             {
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-
+                Predicate = (h) => h.Tags.Contains("readiness")
             });
 
             app.UseHealthChecks("/liveness", new HealthCheckOptions
             {
                 ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
                 Predicate = (h) => h.Tags.Contains("liveness")
+            });
+
+            app.UseHealthChecks("/startup", new HealthCheckOptions
+            {
+                ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
             });
         }
 
@@ -32,11 +39,16 @@ namespace TM.Backend.Api.Health
             var healthCheckBuilder = services.AddHealthChecks();
             var serviceProvider = services.BuildServiceProvider();
 
+         
   
             var healthCheckServices = serviceProvider.GetServices<ICustomHealthCheck>();
             foreach (var healthcheckservice in healthCheckServices)
             {
                 if (healthcheckservice.Name == "dapr-pubsub-servicebus")
+                {
+                    healthCheckBuilder.AddCheck(healthcheckservice.Name, healthcheckservice, tags: new[] { "readiness" });
+                }
+                else if (healthcheckservice.Name == "memory_check")
                 {
                     healthCheckBuilder.AddCheck(healthcheckservice.Name, healthcheckservice, tags: new[] { "liveness" });
                 }
@@ -133,6 +145,7 @@ namespace TM.Backend.Api.Health
             var distributedEventBusOptions = configuration.GetSection("DistributedEventBusOptions").GetValue<string>("StoreName");
 
             services.AddTransient<ICustomHealthCheck, DaprHealthCheck>();
+            services.AddTransient<ICustomHealthCheck, MemoryHealthCheck>();
 
             if (components.Any(x => x.Name == secretStoreOptions)) services.AddTransient<ICustomHealthCheck, DaprSecretStoreHealthCheck>();
             if (components.Any(x => x.Name == stateStoreOptions)) services.AddTransient<ICustomHealthCheck, DaprStateStoreHealthCheck>();

@@ -64,6 +64,14 @@ properties:
         # - name: test2
         #   secretRef: test2
         probes:
+
+          - type: Startup
+            httpGet:
+              path: /startup
+              port: 5000
+            initialDelaySeconds: 3
+            periodSeconds: 3
+
           - type: Liveness
             httpGet:
               path: /liveness

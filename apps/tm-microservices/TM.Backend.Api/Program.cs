@@ -1,3 +1,4 @@
+using csharp.api.Health;
 using Google.Api;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +31,7 @@ builder.Services.AddSingleton<ICustomHealthCheck, DaprStateStoreHealthCheck>();
 builder.Services.AddSingleton<ICustomHealthCheck, DaprSecretStoreHealthCheck>();
 builder.Services.AddSingleton<ICustomHealthCheck, DaprHealthCheck>();
 builder.Services.AddSingleton<ICustomHealthCheck, DaprPubSubHealthCheck>();
+builder.Services.AddSingleton<ICustomHealthCheck, MemoryHealthCheck>();
 
 builder.Services.AddHealthCheck(builder.Configuration);
 
