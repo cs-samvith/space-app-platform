@@ -16,6 +16,9 @@ properties:
         identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
       - name: test2
         value: test2
+      - name: azure-mysql-connectionstring-8a95f
+        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/mysql--connectionstring'
+        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
     registries:
       # - server: CONTAINERREGISTRY
       #   username: spacedevacr
