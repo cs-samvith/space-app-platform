@@ -54,6 +54,8 @@ properties:
           secretRef: test1 
         - name: test2
           secretRef: test2
+        - name: AZURE_MYSQL_CONNECTIONSTRING
+          secretRef: azure-mysql-connectionstring-8a95f
         probes:
           - type: Liveness
             httpGet:
