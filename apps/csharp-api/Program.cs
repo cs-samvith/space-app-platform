@@ -34,8 +34,10 @@ builder.Services.AddMemoryCache();
 
 //var connstring = builder.Configuration.GetConnectionString("MySqlConn");
 
-var connstring = builder.Configuration.GetSection("mysql")
-                .GetValue<string>("connectionstring");
+//var connstring = builder.Configuration.GetSection("mysql")
+//                .GetValue<string>("connectionstring");
+
+var connstring=Environment.GetEnvironmentVariable("AZURE_MYSQL_CONNECTIONSTRING");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
