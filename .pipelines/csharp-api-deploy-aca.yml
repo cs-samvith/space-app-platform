@@ -23,7 +23,7 @@ variables:
   - name: containerAppName
     value: csharp-api
   - name: resource_group
-    value: space-dev-platform
+    value: space-dev-micro
   - name: tag
     value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   # - name: tag
