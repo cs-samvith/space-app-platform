@@ -1,6 +1,6 @@
-name: single-app
+name: react-ui
 properties:
-  environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
+  environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.App/managedEnvironments/space-micro-env"
   configuration:
     secrets:
       - name: acrpass
