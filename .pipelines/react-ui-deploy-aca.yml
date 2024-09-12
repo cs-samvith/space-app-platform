@@ -5,8 +5,8 @@ trigger:
       - main
   paths:
     include:
-      - /apps/single/src/*
-      - /.pipelines/single-deploy-aca.yml
+      - /apps/react-ui/src/*
+      - /.pipelines/react-ui-deploy-aca.yml
 
 pr: none
 
@@ -15,15 +15,15 @@ pool:
 
 variables:
   - name: imageRepository
-    value: "single"
+    value: "react-ui"
   - name: containerRegistry
     value: spacedevacr.azurecr.io
   - name: service_connection
     value: ARM_SERVICE_CONNECTION
   - name: containerAppName
-    value: single-app
+    value: react-ui
   - name: resource_group
-    value: space-dev-platform
+    value: space-dev-micro
   - name: tag
     value: $[replace(variables['Build.BuildNumber'], '.', '-')]
   # - name: tag
@@ -48,7 +48,7 @@ stages:
               containerRegistry: $(containerRegistry)
               repository: $(imageRepository)
               command: "buildAndPush"
-              Dockerfile: "apps/single/src/Dockerfile"
+              Dockerfile: "apps/react-ui/src/Dockerfile"
               tags: |
                 latest
                 $(tag)-aca
@@ -61,25 +61,25 @@ stages:
             inputs:
               script: |
                 pwd 
-                sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/single.yml
-                sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/single.yml
-                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/single.yml
-                sed -i 's/TAG/$(tag)-aca/g' .pipelines/single.yml
-                sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/single.yml
+                sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/react-ui.yml
+                sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/react-ui.yml
+                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/react-ui.yml
+                sed -i 's/TAG/$(tag)-aca/g' .pipelines/react-ui.yml
+                sed -i 's/ACRPASSWORD/$(ACR_PASSWORD)/g' .pipelines/react-ui.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
 
           - task: CmdLine@2
             inputs:
               script: |
                 pwd 
-                cat .pipelines/single.yml
+                cat .pipelines/react-ui.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
               #failOnStderr: false # boolean. Fail on Standard Error. Default: false.
 
           - task: AzureContainerApps@1
-            # name: singleapp
+            # name: react-uiapp
             inputs:
-              yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/single.yml"
+              yamlConfigPath: "$(System.DefaultWorkingDirectory)/.pipelines/react-ui.yml"
               azureSubscription: ${{variables.service_connection}}
               resourceGroup: $(resource_group)
               containerAppName: $(containerAppName)
