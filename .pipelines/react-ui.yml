@@ -31,7 +31,7 @@ properties:
           - name: DEMO_FAREWELL
             value: "Such a sweet sorrow"
           - name: TESTENV
-            value: "This is a test env-> TAG"
+            value: "This is a test env-> TAG "
         probes:
           - type: Liveness
             httpGet:
