@@ -25,3 +25,6 @@ apps/csharp-api/.vs/csharp-api/DesignTimeBuild/.dtbcache.v2
 /apps/tm-microservices/TM.Backend.Processor/obj
 /apps/tm-microservices/TM.Backend.Processor/.vs
 /apps/tm-microservices/.vs
+/apps/csharp-api-v2/.vs
+/apps/csharp-api-v2/bin
+/apps/csharp-api-v2/obj
