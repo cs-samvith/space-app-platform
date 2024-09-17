@@ -1,5 +1,5 @@
 # https://learn.microsoft.com/en-us/rest/api/containerapps/jobs/get?view=rest-containerapps-2024-03-01&tabs=HTTP#secret
-name: csharp-api
+name: csharp-api-v1v2
 identity:
   userAssignedIdentities:
     "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi":
