@@ -77,8 +77,8 @@ stages:
                 pwd 
                 sed -i 's/REVISIONSUFFIX/$(tag)-aca/g' .pipelines/csharp-api-v1v2.yml
                 sed -i 's/CONTAINERREGISTRY/$(containerRegistry)/g' .pipelines/csharp-api-v1v2.yml
-                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/csharp-api-v1v2.yml
                 sed -i 's/IMAGENAME-V2/$(imageRepositoryV2)/g' .pipelines/csharp-api-v1v2.yml
+                sed -i 's/IMAGENAME/$(imageRepository)/g' .pipelines/csharp-api-v1v2.yml
                 sed -i 's/TAG/$(tag)-aca/g' .pipelines/csharp-api-v1v2.yml
               workingDirectory: $(System.DefaultWorkingDirectory)
               
