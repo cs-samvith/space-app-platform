@@ -70,10 +70,9 @@ properties:
               port: 8080
             initialDelaySeconds: 30
             timeoutSeconds: 5
-
             periodSeconds: 5
     scale:
-      minReplicas: 1
+      minReplicas: 2
       maxReplicas: 10
 
 
