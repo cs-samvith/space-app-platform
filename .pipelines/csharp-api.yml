@@ -69,7 +69,20 @@ properties:
               path: /readiness
               port: 8080
             initialDelaySeconds: 30
-            periodSeconds: 20
+            timeoutSeconds: 5
+
+            periodSeconds: 5
     scale:
       minReplicas: 1
       maxReplicas: 10
+
+
+# Readiness 
+
+# Wait for initialDelaySeconds
+# Perform readiness check and wait timeoutSeconds for a timeout
+# If the number of continued successes is greater than successThreshold return success
+# If the number of continued failures is greater than failureThreshold return failure
+# otherwise wait periodSeconds and start a new readiness check
+
+# https://medium.com/@selvamraju007/kubernetes-configure-liveness-readiness-and-startup-probes-4e41a9863261

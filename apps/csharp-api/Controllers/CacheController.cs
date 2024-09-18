@@ -36,7 +36,7 @@ namespace csharp.api.Controllers
 
             _memoryCache.Set(cacheKey, itemtoadd, options);
 
-            return Ok(new { item = itemtoadd });
+            return Ok(new { ConatinerName = System.Environment.MachineName ,item = itemtoadd });
         }
 
         private static IEnumerable<Customer> LongRunningProcess1(int count)

@@ -11,15 +11,19 @@ namespace csharp.api.Health
         }
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = new CancellationToken())
         {
+            var data = new Dictionary<string, object>()
+            {
+                { "ConatinerName", System.Environment.MachineName},
+            };
             using (var httpClient = _httpClientFactory.CreateClient())
             {
                 var response = await httpClient.GetAsync("https://api.ipify.org");
                 if (response.IsSuccessStatusCode)
                 {
-                    return HealthCheckResult.Healthy($"Remote endpoints is healthy.");
+                    return HealthCheckResult.Healthy($"Remote endpoints is healthy.", data);
                 }
 
-                return HealthCheckResult.Unhealthy("Remote endpoint is unhealthy");
+                return HealthCheckResult.Unhealthy("Remote endpoint is unhealthy", null,data);
             }
         }
     }

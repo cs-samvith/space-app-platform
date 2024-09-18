@@ -8,16 +8,20 @@ namespace csharp.api.Health
         {
             var isHealthy = true;
 
+            var data = new Dictionary<string, object>()
+            {
+                { "ConatinerName", System.Environment.MachineName},
+            };
 
             if (isHealthy)
             {
                 return Task.FromResult(
-                    HealthCheckResult.Healthy("A healthy result."));
+                    HealthCheckResult.Healthy("A healthy result.", data));
             }
 
             return Task.FromResult(
                 new HealthCheckResult(
-                    context.Registration.FailureStatus, "An unhealthy result."));
+                    context.Registration.FailureStatus, "An unhealthy result.", null, data));
         }
     }
 }

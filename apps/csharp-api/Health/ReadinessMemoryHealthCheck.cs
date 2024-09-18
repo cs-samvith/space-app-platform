@@ -3,16 +3,16 @@ using Microsoft.Extensions.Options;
 
 namespace csharp.api.Health
 {
-    public class MemoryHealthCheck : IHealthCheck
+    public class ReadinessMemoryHealthCheck : IHealthCheck
     {
         private readonly IOptionsMonitor<MemoryCheckOptions> _options;
 
-        public MemoryHealthCheck(IOptionsMonitor<MemoryCheckOptions> options)
+        public ReadinessMemoryHealthCheck(IOptionsMonitor<MemoryCheckOptions> options)
         {
             _options = options;
         }
 
-        public string Name => "memory_check";
+        public string Name => "readiness_memory_check";
 
         public Task<HealthCheckResult> CheckHealthAsync(
             HealthCheckContext context,
@@ -23,13 +23,16 @@ namespace csharp.api.Health
             // Include GC information in the reported diagnostics.
             var allocated = GC.GetTotalMemory(forceFullCollection: false);
 
-            var threshold = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / 5;
+            var threshold = GC.GetGCMemoryInfo().TotalAvailableMemoryBytes / 10;
 
             var data = new Dictionary<string, object>()
             {
                 { "ConatinerName", System.Environment.MachineName},
                 { "AllocatedBytes", allocated },
                 { "threshold", threshold},
+                //{ "Gen0Collections", GC.CollectionCount(0) },
+                //{ "Gen1Collections", GC.CollectionCount(1) },
+                //{ "Gen2Collections", GC.CollectionCount(2) },
                 { "GetTotalMemory", GC.GetTotalMemory(forceFullCollection: false) },
                 { "GetTotalAllocatedBytes", GC.GetTotalAllocatedBytes()},
                 //{ "GC.GetGCMemoryInfo().TotalCommittedBytes", GC.GetGCMemoryInfo().TotalCommittedBytes},
@@ -46,11 +49,11 @@ namespace csharp.api.Health
                 data: data));
         }
     }
-    public class MemoryCheckOptions
-    {
-        public string Memorystatus { get; set; }
-        //public int Threshold { get; set; }
-        // Failure threshold (in bytes)
-        public long Threshold { get; set; } = 1024L * 1024L * 1024L;
-    }
+    //public class MemoryCheckOptions
+    //{
+    //    public string Memorystatus { get; set; }
+    //    //public int Threshold { get; set; }
+    //    // Failure threshold (in bytes)
+    //    public long Threshold { get; set; } = 1024L * 1024L * 1024L;
+    //}
 }
