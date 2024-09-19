@@ -1,0 +1,29 @@
+{
+	"info": {
+		"_postman_id": "151d4d94-0201-48b3-a5b8-5f02108c07b9",
+		"name": "c-sharp-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22878171",
+		"_collection_link": "https://warped-desert-965364.postman.co/workspace/New-Team-Workspace~42b55d25-91c4-4344-922c-8e7ba7072c85/collection/22878171-151d4d94-0201-48b3-a5b8-5f02108c07b9?action=share&source=collection_link&creator=22878171"
+	},
+	"item": [
+		{
+			"name": "Get-customer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://csharp-api.whitestone-9eb419c3.eastus.azurecontainerapps.io/customers"
+			},
+			"response": []
+		},
+		{
+			"name": "Get-SystemInfo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://csharp-api.whitestone-9eb419c3.eastus.azurecontainerapps.io/systems"
+			},
+			"response": []
+		}
+	]
+}

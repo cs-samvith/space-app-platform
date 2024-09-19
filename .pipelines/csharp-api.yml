@@ -9,22 +9,22 @@ properties:
   environmentId: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourceGroups/space-dev-micro/providers/Microsoft.App/managedEnvironments/space-micro-env"
   configuration:
     secrets:
-        # - name: acrpass
-        #   value: ACRPASSWORD
+      # - name: acrpass
+      #   value: ACRPASSWORD
       - name: test1
-        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY'
-        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+        keyVaultUrl: "https://space-platform-dev-vault.vault.azure.net/secrets/TEST-KEY"
+        identity: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
       - name: test2
         value: test2
       - name: azure-mysql-connectionstring-8a95f
-        keyVaultUrl: 'https://space-platform-dev-vault.vault.azure.net/secrets/mysql--connectionstring'
-        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+        keyVaultUrl: "https://space-platform-dev-vault.vault.azure.net/secrets/mysql--connectionstring"
+        identity: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
     registries:
       # - server: CONTAINERREGISTRY
       #   username: spacedevacr
       #   passwordSecretRef: acrpass
       - server: CONTAINERREGISTRY
-        identity: '/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi'
+        identity: "/subscriptions/104f27c7-ec45-4c45-bb93-a29dbd5e44ba/resourcegroups/space-dev-micro/providers/Microsoft.ManagedIdentity/userAssignedIdentities/space-micro-dev-msi"
     activeRevisionsMode: "Multiple"
     ingress:
       external: true
@@ -48,14 +48,14 @@ properties:
           cpu: 0.25
           memory: 0.5Gi
         env:
-        - name: ASPNETCORE_ENVIRONMENT
-          value: "Development"
-        - name: test1
-          secretRef: test1 
-        - name: test2
-          secretRef: test2
-        - name: AZURE_MYSQL_CONNECTIONSTRING
-          secretRef: azure-mysql-connectionstring-8a95f
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Development"
+          - name: test1
+            secretRef: test1
+          - name: test2
+            secretRef: test2
+          - name: AZURE_MYSQL_CONNECTIONSTRING
+            secretRef: azure-mysql-connectionstring-8a95f
         probes:
           - type: Liveness
             httpGet:
@@ -74,9 +74,12 @@ properties:
     scale:
       minReplicas: 2
       maxReplicas: 10
-
-
-# Readiness 
+      rules:
+        - http:
+            metadata:
+              concurrentRequests: "5"
+          name: http-req-count
+# Readiness
 
 # Wait for initialDelaySeconds
 # Perform readiness check and wait timeoutSeconds for a timeout
