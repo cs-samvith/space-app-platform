@@ -1,0 +1,32 @@
+# version: "3"
+# networks:
+#   hi-dapr:
+# services:
+#   tm-backend-api:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "5000:5000" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+#     networks:
+#       - hi-dapr
+
+#   tm-backend-api-dapr:
+#     image: "daprio/daprd:edge"
+#     command:
+#       [
+#         "./daprd",
+#         "--app-id",
+#         "tm-backend-api",
+#         "--dapr-http-port",
+#         "3500",
+#         "--app-port",
+#         "5000",
+#         "--resources-path",
+#         "/components",
+#       ]
+#     volumes:
+#       - ".././dapr-components/:/components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+#     depends_on:
+#       - tm-backend-api
+#     network_mode: "service:tm-backend-api" # Attach the nodeapp-dapr service to the nodeapp network namespace

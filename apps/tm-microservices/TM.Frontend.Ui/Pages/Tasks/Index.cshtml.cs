@@ -30,6 +30,7 @@ namespace TM.Frontend.Ui.Pages.Tasks
                 //var httpClient = _httpClientFactory.CreateClient("BackEndApiExternal");
                 //TasksList = await httpClient.GetFromJsonAsync<List<TaskModel>>($"api/tasks?createdBy={TasksCreatedBy}");
                 //return Page();
+
                 Console.WriteLine("*************");
                 TasksList = await _daprClient.InvokeMethodAsync<List<TaskModel>>(HttpMethod.Get, "tm-backend-api", $"api/tasks?createdBy={TasksCreatedBy}");
                 return Page();

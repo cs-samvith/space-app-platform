@@ -1,10 +1,10 @@
 
 
-dapr run --app-id tm-backend-api --app-port 7249 --dapr-http-port 3500 --app-ssl -- dotnet run --launch-profile https
+dapr run --app-id tm-backend-api --app-port 7249 --dapr-http-port 3500 --app-ssl --resources-path "../dapr-components" -- dotnet run --launch-profile https
 
-dapr run --app-id tm-frontend-ui --app-port 7087 --dapr-http-port 3501 --app-ssl -- dotnet run --launch-profile https
+dapr run --app-id tm-frontend-ui --app-port 7087 --dapr-http-port 3501 --app-ssl  --resources-path "../dapr-components" -- dotnet run --launch-profile https
 
-dapr run --app-id tm-backend-processor --app-port 7077 --dapr-http-port 3502 --app-ssl --resources-path "../components"  -- dotnet run --launch-profile https
+dapr run --app-id tm-backend-processor --app-port 7077 --dapr-http-port 3502 --app-ssl --resources-path "../dapr-components"  -- dotnet run --launch-profile https
 
 
 Permissions 

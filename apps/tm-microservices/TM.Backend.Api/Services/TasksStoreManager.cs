@@ -54,10 +54,15 @@ namespace TM.Backend.Api.Services
 
         public async Task<List<TaskModel>> GetTasksByCreator(string createdBy)
         {
+            _logger.LogInformation("################################### Getting task with Id: '{0}'");
+
             var query = "{" +
                     "\"filter\": {" +
                         "\"EQ\": { \"taskCreatedBy\": \"" + createdBy + "\" }" +
                     "}}";
+
+            _logger.LogInformation(query);
+            _logger.LogInformation(STORE_NAME);
 
             var queryResponse = await _daprClient.QueryStateAsync<TaskModel>(STORE_NAME, query);
 

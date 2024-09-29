@@ -34,13 +34,11 @@ namespace TM.Backend.Api.Health
         }
 
 
-        public static void AddHealthCheck(this IServiceCollection services, IConfiguration configuration,bool useDaprHealthChecks = true)
+        public static void AddHealthCheck(this IServiceCollection services, IConfiguration configuration, bool useDaprHealthChecks = true)
         {
             var healthCheckBuilder = services.AddHealthChecks();
             var serviceProvider = services.BuildServiceProvider();
 
-         
-  
             var healthCheckServices = serviceProvider.GetServices<ICustomHealthCheck>();
             foreach (var healthcheckservice in healthCheckServices)
             {
@@ -58,10 +56,17 @@ namespace TM.Backend.Api.Health
                 }
             }
 
-            if (useDaprHealthChecks)
+            try
             {
-                var daprMetadata = GetDaprMetadata(serviceProvider);
-                if (daprMetadata != null && daprMetadata.Components.Any()) RegisterHealthChecks(services, configuration, daprMetadata.Components);
+                if (useDaprHealthChecks)
+                {
+                    var daprMetadata = GetDaprMetadata(serviceProvider);
+                    if (daprMetadata != null && daprMetadata.Components.Any()) RegisterHealthChecks(services, configuration, daprMetadata.Components);
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -95,12 +100,12 @@ namespace TM.Backend.Api.Health
             //var logger = serviceProvider.GetRequiredService<ILogger>();
 
 
-            var daprMetadata = GetDaprMetadata(daprClient); 
+            var daprMetadata = GetDaprMetadata(daprClient);
 
             if (daprMetadata == null)
             {
-               // logger.LogError("GetDaprMetadata invoke error content: {content}");
-              //  logger.LogError("GetDaprMetadata invoke error detail: {detail}");
+                // logger.LogError("GetDaprMetadata invoke error content: {content}");
+                //  logger.LogError("GetDaprMetadata invoke error detail: {detail}");
                 return null;
             }
 
@@ -138,7 +143,7 @@ namespace TM.Backend.Api.Health
         //}
 
 
-        private static void RegisterHealthChecks(this IServiceCollection services,IConfiguration configuration, IReadOnlyList<DaprComponentsMetadata> components)
+        private static void RegisterHealthChecks(this IServiceCollection services, IConfiguration configuration, IReadOnlyList<DaprComponentsMetadata> components)
         {
             var secretStoreOptions = configuration.GetSection("SecretStoreOptions").GetValue<string>("StoreName");
             var stateStoreOptions = configuration.GetSection("StateStoreOptions").GetValue<string>("StoreName");

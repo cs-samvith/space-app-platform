@@ -1,0 +1,114 @@
+version: "3"
+networks:
+  hello-dapr:
+services:
+  tm-backend-api:
+    build:
+      context: ./TM.Backend.Api/
+      dockerfile: Dockerfile-local
+    ports:
+      - "5000:5000" 
+      - "5001:5001"
+    networks:
+      - hello-dapr
+    environment:
+      - ASPNETCORE_URLS=https://+:5001;http://+:5000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  tm-backend-api-dapr:
+    image: "daprio/daprd:edge"
+    command:
+      [
+        "./daprd",
+        "--app-id",
+        "tm-backend-api",
+        "--dapr-http-port",
+        "3500",
+        "--app-port",
+        "5001",
+        "--app-protocol",
+        "https",
+        "--resources-path",
+        "/components",
+      ]
+    volumes:
+      - "./dapr-components/:/components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+    depends_on:
+      - tm-backend-api
+    network_mode: "service:tm-backend-api" # Attach the nodeapp-dapr service to the nodeapp network namespace
+
+  tm-frontend-ui:
+    build:
+      context: ./TM.Frontend.Ui/
+      dockerfile: Dockerfile-local
+    ports:
+      - "6000:6000" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+      - "6001:6001"
+    networks:
+      - hello-dapr
+    environment:
+      - ASPNETCORE_URLS=https://+:6001;http://+:6000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  tm-frontend-ui-dapr:
+    image: "daprio/daprd:edge"
+    command:
+      [
+        "./daprd",
+        "--app-id",
+        "tm-frontend-ui",
+        "--dapr-http-port",
+        "3500",
+        "--app-port",
+        "6001",
+        "--app-protocol",
+        "https",
+        "--resources-path",
+        "/components",
+      ]
+    volumes:
+      - "./dapr-components/:/components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+    depends_on:
+      - tm-frontend-ui
+    network_mode: "service:tm-frontend-ui" # Attach the nodeapp-dapr service to the nodeapp network namespace
+
+  tm-backend-processor:
+    build:
+      context: ./TM.Backend.Processor/
+      dockerfile: Dockerfile-local
+    ports:
+      - "7000:7000" 
+      - "7001:7001"
+    networks:
+      - hello-dapr
+    environment:
+      - ASPNETCORE_URLS=https://+:7001;http://+:7000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+    volumes:
+      - ~/.aspnet/https:/https:ro
+  tm-backend-processor-dapr:
+    image: "daprio/daprd:edge"
+    command:
+      [
+        "./daprd",
+        "--app-id",
+        "tm-backend-processor",
+        "--dapr-http-port",
+        "3500",
+        "--app-port",
+        "7001",
+        "--app-protocol",
+        "https",
+        "--resources-path",
+        "/components",
+      ]
+    volumes:
+      - "./dapr-components/:/components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+    depends_on:
+      - tm-backend-processor
+    network_mode: "service:tm-backend-processor" # Attach the nodeapp-dapr service to the nodeapp network namespace

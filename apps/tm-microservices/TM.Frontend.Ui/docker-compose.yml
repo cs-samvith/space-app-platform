@@ -1,0 +1,29 @@
+version: "3"
+services:
+  tm-frontend-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001" # Dapr instances communicate over gRPC so we need to expose the gRPC port
+    # networks:
+    #   - hello-dapr
+  tm-frontend-ui-dapr:
+    image: "daprio/daprd:edge"
+    command:
+      [
+        "./daprd",
+        "--app-id",
+        "tm-frontend-ui",
+        "--app-port",
+        "5001",
+        "--resources-path",
+        "./components",
+      ]
+    # ports:
+    #   - "3500:3500"
+    volumes:
+      - "./Dapr/:/components" # Mount our components folder for the runtime to use. The mounted location must match the --resources-path argument.
+    depends_on:
+      - tm-frontend-ui
+    network_mode: "service:tm-frontend-ui" # Attach the nodeapp-dapr service to the nodeapp network namespace
